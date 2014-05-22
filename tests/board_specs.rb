@@ -1,4 +1,4 @@
-require 'board'
+require './board'
 
 describe Board do
 
@@ -22,8 +22,30 @@ describe Board do
 		end
 
 		it "returns false for empty board" do
+			Board.start.won?.should eq false
+		end
+
+		it "returns true for win for O" do
+			(Board.new "O--O--O").won?.should eq true
 		end
 	end
 
+  describe "#played" do
+	
+		it "returns false for empty board" do
+			Board.start.played?(0).should eq false
+		end
+	end
+
+	describe "#drawn" do
+
+		it "returns false for empty board" do
+			Board.start.drawn?.should eq false
+		end
+
+		it "return true for full board" do
+			(Board.new "XXOOOXXXO").drawn?.should eq true
+		end
+	end
 end
 
