@@ -31,6 +31,16 @@ class Board
 		@board.split('').any?{ |sq| sq == UNPLAYED_SQUARE }
 	end
 
+	def make_move(sq, player_mark)
+		newBoard = String.new(@board)
+		newBoard[sq] = player_mark
+		Board.new newBoard
+	end
+
+	def available_spaces
+		@board.split('').each_with_index.select{ |sq,i| sq == UNPLAYED_SQUARE}.map{ |p| p[1] }
+	end
+
 	def played?(square)
 		@board[square] != UNPLAYED_SQUARE
 	end
@@ -38,4 +48,5 @@ class Board
 	def squares_equal?(a)
 		a.map{ |sq| @board[sq] }.uniq.length == 1
 	end
+
 end

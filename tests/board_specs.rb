@@ -47,5 +47,27 @@ describe Board do
 			(Board.new "XXOOOXXXO").drawn?.should eq true
 		end
 	end
+
+	describe "#available_spaces" do
+
+		it "returns nine spaces for empty board" do
+			Board.start.available_spaces.should eq [0, 1, 2, 3, 4, 5, 6, 7, 8]
+		end
+
+		it "returns zero spaces for full board" do
+			(Board.new "XX000XXX0").available_spaces.should eq []
+		end
+
+		it "returns three spaces after six moves" do
+			(Board.new "XX-OO-OX-").available_spaces.should eq [2, 5, 8]
+		end
+	end
+
+	describe "#make_move" do
+
+		it "returns winning board after winning move" do
+			(Board.new "XX-OO----").make_move(2, 'X').won?.should eq true		
+		end
+	end
 end
 
