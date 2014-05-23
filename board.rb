@@ -38,7 +38,7 @@ class Board
 	end
 
 	def available_spaces
-		@board.split('').each_with_index.select{ |sq,i| sq == UNPLAYED_SQUARE}.map{ |p| p[1] }
+		(0..8).select{ |sp| @board[sp] == UNPLAYED_SQUARE }
 	end
 
 	def played?(square)
@@ -49,4 +49,11 @@ class Board
 		a.map{ |sq| @board[sq] }.uniq.length == 1
 	end
 
+	def played_spaces
+		(0..8) - available_spaces
+	end
+
+	def mark_at(sp)
+		@board[sp]
+	end
 end

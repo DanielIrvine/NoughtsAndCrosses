@@ -15,11 +15,15 @@ describe "Game" do
 
 	describe "#make_play" do
 
-		
-		it "plays both moves" do
+		let(:game_after_move) { 
 			game = Game.new(x, y)
 			game.make_play!
-			game.available_spaces.length.should eq 7
+			game
+		}
+		
+		it "plays both moves" do
+			game_after_move.available_spaces.length.should eq 7
 		end
+
 	end
 end
