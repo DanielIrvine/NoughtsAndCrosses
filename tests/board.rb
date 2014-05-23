@@ -32,9 +32,9 @@ class Board
 	end
 
 	def make_move(sq, player_mark)
-		newBoard = String.new(@board)
-		newBoard[sq] = player_mark
-		Board.new newBoard
+		new_board = String.new(@board)
+		new_board[sq] = player_mark
+		Board.new new_board
 	end
 
 	def available_spaces
