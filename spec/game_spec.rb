@@ -3,8 +3,8 @@ require './player'
 
 describe "Game" do
 
-	let(:x) { Player.new }
-	let(:y) { Player.new }
+	let(:x) { Player.new("X") }
+	let(:y) { Player.new("Y") }
 
 	describe "#new" do
 		it "creates an empty game board" do

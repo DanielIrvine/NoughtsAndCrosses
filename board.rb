@@ -50,10 +50,11 @@ class Board
 	end
 
 	def played_spaces
-		(0..8) - available_spaces
+		(0..8).to_a - available_spaces
 	end
 
 	def mark_at(sp)
 		@board[sp]
 	end
+	
 end
