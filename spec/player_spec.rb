@@ -1,4 +1,3 @@
-require './player'
 
 describe Player do
 
@@ -11,6 +10,6 @@ describe Player do
 		it "makes a move for the correct player mark" do
 			board = Player.new("X").make_move(Board.start)
 			board.played_spaces.map { |sp| board.mark_at(sp) }.first.should eq "X"
-		end
+    end
 	end
 end

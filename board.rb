@@ -15,7 +15,6 @@ class Board
 	end
 
 	def won?
-
 		WINNING_TRIPLETS.any?{ |triplet| played?(triplet[0]) && squares_equal?(triplet) }
 	end
 
@@ -57,4 +56,5 @@ class Board
 		@board[sp]
 	end
 	
+
 end
