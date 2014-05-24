@@ -28,4 +28,38 @@ describe Display do
     expect(output).to receive(:puts).with("3        X")
     Display.new(output).display_board(Board.new "X--OXO--X")
   end
+  
+  it "calculates a position from input 1 2" do
+    input = double()
+    input.should_receive(:gets).and_return("1 2")
+    expect(Display.new(input).get_valid_move(Board.start)).to eq 1
+  end
+  
+  it "calculates a position from input 3 2" do
+    input = double()
+    input.should_receive(:gets).and_return("3 2")
+    expect(Display.new(input).get_valid_move(Board.start)).to eq 7
+  end
+  
+  it "prompts for move repeatedly until one is valid" do
+    input = double()
+    input.should_receive(:gets).and_return("hello")
+    input.should_receive(:gets).and_return("3 2")
+    expect(Display.new(input).get_valid_move(Board.start)).to eq 7
+  end
+
+  it "does not accept 0 as a valid input" do
+    input = double()
+    input.should_receive(:gets).and_return("2 0")
+    input.should_receive(:gets).and_return("3 2")
+    expect(Display.new(input).get_valid_move(Board.start)).to eq 7
+  end
+
+  it "does not accept >2 as a valid input" do
+    input = double()
+    input.should_receive(:gets).and_return("1 4")
+    input.should_receive(:gets).and_return("3 2")
+    expect(Display.new(input).get_valid_move(Board.start)).to eq 7
+
+  end
 end

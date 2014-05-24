@@ -18,4 +18,26 @@ class Display
       @io.puts line
     end
   end
+
+  def get_valid_move(board)
+
+    while(true)
+
+      row, column = @io.gets.split(' ').map { |p| p.to_i }
+      if(valid?(row) && valid?(column))
+        position = convert_move(row, column)
+        if(board.available_spaces.include?(position))
+          return position
+        end
+      end
+    end
+  end
+
+  def convert_move(row, column)
+    return (row.to_i-1)*3 + column.to_i - 1
+  end
+
+  def valid?(coord)
+    (1..3).include?(coord)
+  end
 end
