@@ -28,4 +28,5 @@ class Game
   def next_player
     @board.played_spaces.length % 2 == 0 ? @player_x : @player_o
   end
+
 end
