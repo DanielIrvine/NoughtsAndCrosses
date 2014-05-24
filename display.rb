@@ -5,6 +5,10 @@ class Display
     @io = io
   end
 
+  def display_winner(player)
+    @io.puts player.mark + " wins!"; 
+  end
+  
   def display_board(board)
     @io.puts HEADER_ROW
     (0..2).each do |row|
@@ -21,6 +25,7 @@ class Display
 
   def get_valid_move(board)
 
+    @io.puts "Enter a row and column to play, e.g. '3 2':"
     while(true)
 
       row, column = @io.gets.split(' ').map { |p| p.to_i }

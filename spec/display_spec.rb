@@ -30,36 +30,54 @@ describe Display do
   end
   
   it "calculates a position from input 1 2" do
-    input = double()
+    input = double().as_null_object()
     input.should_receive(:gets).and_return("1 2")
     expect(Display.new(input).get_valid_move(Board.start)).to eq 1
   end
   
   it "calculates a position from input 3 2" do
-    input = double()
+    input = double().as_null_object()
     input.should_receive(:gets).and_return("3 2")
     expect(Display.new(input).get_valid_move(Board.start)).to eq 7
   end
   
   it "prompts for move repeatedly until one is valid" do
-    input = double()
+    input = double().as_null_object()
     input.should_receive(:gets).and_return("hello")
     input.should_receive(:gets).and_return("3 2")
     expect(Display.new(input).get_valid_move(Board.start)).to eq 7
   end
 
   it "does not accept 0 as a valid input" do
-    input = double()
+    input = double().as_null_object()
     input.should_receive(:gets).and_return("2 0")
     input.should_receive(:gets).and_return("3 2")
     expect(Display.new(input).get_valid_move(Board.start)).to eq 7
   end
 
   it "does not accept >2 as a valid input" do
-    input = double()
+    input = double().as_null_object()
     input.should_receive(:gets).and_return("1 4")
     input.should_receive(:gets).and_return("3 2")
     expect(Display.new(input).get_valid_move(Board.start)).to eq 7
+  end
 
+  it "prompts user for move" do
+    io = double()
+    io.should_receive(:puts).with(anything())
+    io.should_receive(:gets).and_return("3 2")
+    expect(Display.new(io).get_valid_move(Board.start)).to eq 7
+  end
+
+  it "displays a winner with player mark X" do
+    io = double()
+    io.should_receive(:puts).with("X wins!")
+    Display.new(io).display_winner(Player.new("X"))
+  end
+
+  it "displays a winner with player mark O" do
+    io = double()
+    io.should_receive(:puts).with("O wins!")
+    Display.new(io).display_winner(Player.new("O"))
   end
 end
