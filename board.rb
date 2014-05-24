@@ -16,15 +16,15 @@ class Board
 
 	def won?
 
-		WINNING_TRIPLETS.each do |triplet|
-			return true if (played?(triplet[0]) && squares_equal?(triplet))
-		end
-
-		false
+		WINNING_TRIPLETS.any?{ |triplet| played?(triplet[0]) && squares_equal?(triplet) }
 	end
 
   def drawn?
 		!won? && !available_spaces?
+	end
+
+	def game_over?
+		won? || !available_spaces?
 	end
 
 	def available_spaces?
