@@ -14,15 +14,17 @@ describe "Game" do
 		end
 	end
 
-	describe "#make_play" do
+	describe "#play_turn" do
 
-		it "plays both moves" do
+		it "plays one move" do
 			board = Game.new(x, o, io).play_turn!
-			board.available_spaces.length.should eq 7
+			board.available_spaces.length.should eq 8
 		end
 
-		it "plays two different player marks" do
-			board = Game.new(x, o, io).play_turn!
+		it "playing twice plays two different player marks" do
+      game = Game.new(x, o, io)
+      game.play_turn!
+      board = game.play_turn!
 			board.played_spaces.map{ |sp| board.mark_at(sp) }.uniq.length.should eq 2
 		end
 
@@ -31,10 +33,6 @@ describe "Game" do
         board.played_spaces.count == 1 
       end
       
-      expect(io).to receive(:display_board) do |board| 
-        board.played_spaces.count == 2 
-      end
-
       Game.new(x, o, io).play_turn!
     end
 	end

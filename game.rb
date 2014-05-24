@@ -5,28 +5,27 @@ class Game
 
 	attr_reader :board
 
-	def initialize (player_x, player_o, io)
+	def initialize (player_x, player_o, display)
 		@board = Board.start
 		@player_x = player_x
 		@player_o = player_o
-    @io = io
+    @display = display
 	end
 
 	def play_turn!
-    play_one!(@player_x)
-    play_one!(@player_o)
+    @board = next_player.make_move @board
+    @display.display_board(@board)
     @board
-	end
-
-  def play_one!(player)
-    @board = player.make_move @board
-    @io.display_board(@board)
   end
 	
 	def play_all!
-		while !@board.game_over?
+    @display.display_board(@board)
+    while !@board.game_over?
 			play_turn!
 		end
 	end
 
+  def next_player
+    @board.played_spaces.length % 2 == 0 ? @player_x : @player_o
+  end
 end
