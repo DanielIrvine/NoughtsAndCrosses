@@ -80,4 +80,23 @@ describe Display do
     io.should_receive(:puts).with("O wins!")
     Display.new(io).display_winner(Player.new("O"))
   end
+
+  describe "#human_first?" do
+    let (:io) { double().as_null_object() }
+
+    it "returns true when user provides 'y'" do
+      io.should_receive(:gets).and_return("y")
+      expect(Display.new(io).human_first?).to eq true
+    end
+
+    it "returns false when user provides 'n'" do
+      io.should_receive(:gets).and_return("n")
+      expect(Display.new(io).human_first?).to eq false
+    end
+
+    it "continues to ask until the user provides a valid answer" do
+      io.should_receive(:gets).and_return("a", "b", "y")
+      expect(Display.new(io).human_first?).to eq true
+    end
+  end
 end

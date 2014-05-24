@@ -5,6 +5,15 @@ class Display
     @io = io
   end
 
+  def human_first?
+    @io.puts "Would you like to play first? (y/n) "
+    while (true)
+      answer = @io.gets
+      return true if answer.downcase == "y"
+      return false if answer.downcase == "n"
+    end
+  end
+
   def display_winner(player)
     @io.puts player.mark + " wins!"; 
   end
