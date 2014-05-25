@@ -72,13 +72,13 @@ describe Display do
   it "displays a winner with player mark X" do
     io = double()
     io.should_receive(:puts).with("X wins!")
-    Display.new(io).display_winner(Player.new("X"))
+    Display.new(io).display_winner(FirstAvailableSpacePlayer.new.with_mark("X"))
   end
 
   it "displays a winner with player mark O" do
     io = double()
     io.should_receive(:puts).with("O wins!")
-    Display.new(io).display_winner(Player.new("O"))
+    Display.new(io).display_winner(FirstAvailableSpacePlayer.new.with_mark("O"))
   end
 
   describe "#human_first?" do

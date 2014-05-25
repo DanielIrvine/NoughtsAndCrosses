@@ -1,10 +1,10 @@
 require './game'
-require './player'
+require 'first_available_space_player'
 
 describe "Game" do
 
-	let(:x) { Player.new("X") }
-	let(:o) { Player.new("O") }
+  let(:x) { FirstAvailableSpacePlayer.new.with_mark("X") }
+  let(:o) { FirstAvailableSpacePlayer.new.with_mark("O") }
   let(:io) { double().as_null_object() }
   let(:game) { Game.new(x, o, io) }
 

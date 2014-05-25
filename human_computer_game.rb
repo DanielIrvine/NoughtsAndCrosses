@@ -4,7 +4,7 @@ require './display'
 class HumanComputerGame  
 
   def initialize(human, computer, display)
-    @human = human
+    @human = human 
     @computer = computer
     @display = display
   end
@@ -13,6 +13,6 @@ class HumanComputerGame
     human_first = @display.human_first?
     player_x = human_first ? @human : @computer
     player_o = human_first ? @computer : @human
-    Game.new(player_x, player_o, @display).play_all!
+    winner = Game.new(player_x, player_o, @display).play_all!
   end
 end

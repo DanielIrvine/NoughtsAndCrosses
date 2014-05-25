@@ -2,11 +2,11 @@ class Player
 
   attr_reader :mark
 
-	def initialize(mark)
-		@mark = mark
+	def make_move(board)
 	end
 
-	def make_move(board)
-		board.make_move(board.available_spaces.first, @mark)
-	end
+  def with_mark(mark)
+    @mark = mark
+    self
+  end
 end
