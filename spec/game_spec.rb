@@ -3,8 +3,8 @@ require 'first_available_space_player'
 
 describe "Game" do
 
-  let(:x) { FirstAvailableSpacePlayer.new.with_mark("X") }
-  let(:o) { FirstAvailableSpacePlayer.new.with_mark("O") }
+  let(:x) { FirstAvailableSpacePlayer.new }
+  let(:o) { FirstAvailableSpacePlayer.new }
   let(:io) { double().as_null_object() }
   let(:game) { Game.new(x, o, io) }
 
