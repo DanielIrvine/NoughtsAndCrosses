@@ -1,5 +1,8 @@
 require './human_computer_game'
-require './player'
+require './human_player'
 require './display'
 
-HumanComputerGame.new(Player.new, Player.new, Display.new(kernel)).play
+display = Display.new(Kernel)
+HumanComputerGame.new(HumanPlayer.new(display),
+                      HumanPlayer.new(display),
+                      display).play

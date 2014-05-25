@@ -8,7 +8,7 @@ class Display
   def human_first?
     @io.puts "Would you like to play first? (y/n) "
     while (true)
-      answer = @io.gets
+      answer = @io.gets.chomp
       return true if answer.downcase == "y"
       return false if answer.downcase == "n"
     end

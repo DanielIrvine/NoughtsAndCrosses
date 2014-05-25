@@ -31,41 +31,41 @@ describe Display do
   
   it "calculates a position from input 1 2" do
     input = double().as_null_object()
-    input.should_receive(:gets).and_return("1 2")
+    input.should_receive(:gets).and_return("1 2\n")
     expect(Display.new(input).get_valid_move(Board.start)).to eq 1
   end
   
   it "calculates a position from input 3 2" do
     input = double().as_null_object()
-    input.should_receive(:gets).and_return("3 2")
+    input.should_receive(:gets).and_return("3 2\n")
     expect(Display.new(input).get_valid_move(Board.start)).to eq 7
   end
   
   it "prompts for move repeatedly until one is valid" do
     input = double().as_null_object()
-    input.should_receive(:gets).and_return("hello")
-    input.should_receive(:gets).and_return("3 2")
+    input.should_receive(:gets).and_return("hello\n")
+    input.should_receive(:gets).and_return("3 2\n")
     expect(Display.new(input).get_valid_move(Board.start)).to eq 7
   end
 
   it "does not accept 0 as a valid input" do
     input = double().as_null_object()
-    input.should_receive(:gets).and_return("2 0")
-    input.should_receive(:gets).and_return("3 2")
+    input.should_receive(:gets).and_return("2 0\n")
+    input.should_receive(:gets).and_return("3 2\n")
     expect(Display.new(input).get_valid_move(Board.start)).to eq 7
   end
 
   it "does not accept >2 as a valid input" do
     input = double().as_null_object()
-    input.should_receive(:gets).and_return("1 4")
-    input.should_receive(:gets).and_return("3 2")
+    input.should_receive(:gets).and_return("1 4\n")
+    input.should_receive(:gets).and_return("3 2\n")
     expect(Display.new(input).get_valid_move(Board.start)).to eq 7
   end
 
   it "prompts user for move" do
     io = double()
     io.should_receive(:puts).with(anything())
-    io.should_receive(:gets).and_return("3 2")
+    io.should_receive(:gets).and_return("3 2\n")
     expect(Display.new(io).get_valid_move(Board.start)).to eq 7
   end
 
@@ -85,17 +85,17 @@ describe Display do
     let (:io) { double().as_null_object() }
 
     it "returns true when user provides 'y'" do
-      io.should_receive(:gets).and_return("y")
+      io.should_receive(:gets).and_return("y\n")
       expect(Display.new(io).human_first?).to eq true
     end
 
     it "returns false when user provides 'n'" do
-      io.should_receive(:gets).and_return("n")
+      io.should_receive(:gets).and_return("n\n")
       expect(Display.new(io).human_first?).to eq false
     end
 
     it "continues to ask until the user provides a valid answer" do
-      io.should_receive(:gets).and_return("a", "b", "y")
+      io.should_receive(:gets).and_return("a\n", "b\n", "y\n")
       expect(Display.new(io).human_first?).to eq true
     end
   end
