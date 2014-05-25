@@ -26,14 +26,12 @@ class Game
 			play_turn!
 		end
 
-    @display.display_winner(last_player)
+    @display.display_result(@board)
 	end
+    
 
   def next_player
     @board.played_spaces.length % 2 == 0 ? @player_x : @player_o
   end
 
-  def last_player
-    next_player == @player_x ? @player_o : @player_x
-  end
 end

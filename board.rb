@@ -15,9 +15,15 @@ class Board
 	end
 
 	def won?
-		WINNING_TRIPLETS.any?{ |triplet| played?(triplet[0]) && squares_equal?(triplet) }
-	end
+    return true if winner
+    false
+  end
 
+  def winner
+    triplet = WINNING_TRIPLETS.find{ |triplet| played?(triplet[0]) && squares_equal?(triplet) }
+    triplet ? mark_at(triplet[0]) : nil
+  end
+  
   def drawn?
 		!won? && !available_spaces?
 	end

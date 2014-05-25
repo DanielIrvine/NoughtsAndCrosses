@@ -72,13 +72,22 @@ describe Display do
   it "displays a winner with player mark X" do
     io = double()
     io.should_receive(:puts).with("X wins!")
-    Display.new(io).display_winner(FirstAvailableSpacePlayer.new.with_mark("X"))
+    board = Board.new("XXXOO----")
+    Display.new(io).display_result(board)
   end
 
   it "displays a winner with player mark O" do
     io = double()
     io.should_receive(:puts).with("O wins!")
-    Display.new(io).display_winner(FirstAvailableSpacePlayer.new.with_mark("O"))
+    board = Board.new("XX-OOOX--")
+    Display.new(io).display_result(board)
+  end
+
+  it "displays draw when necessary" do
+    io = double()
+    io.should_receive(:puts).with("It's a draw!")
+    board = Board.new("XXOOOXXOX")
+    Display.new(io).display_result(board)
   end
 
   describe "#human_first?" do

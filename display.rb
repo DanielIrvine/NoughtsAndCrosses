@@ -14,10 +14,10 @@ class Display
     end
   end
 
-  def display_winner(player)
-    @io.puts player.mark + " wins!"; 
+  def display_result(board)
+    @io.puts board.won? ? board.winner + " wins!" : "It's a draw!" 
   end
-  
+
   def display_board(board)
     @io.puts HEADER_ROW
     (0..2).each do |row|
