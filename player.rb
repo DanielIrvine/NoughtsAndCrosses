@@ -29,7 +29,12 @@ class Player
       end
     end
 
-    return @best_moves[board] = hash_from(best_score, best_move)
+    insert_rotations(board, best_score, best_move)
+
+    if( !@best_moves.has_key?(board) )
+      puts "Help! " + board.to_s
+    end
+    return @best_moves[board]
   end
 
   def hash_from(score, board)
@@ -41,4 +46,15 @@ class Player
     return 1 if board.winner == @mark
     -1
   end
+
+  def insert_rotations(board, best_score, best_move)
+    board_rotations = board.all_rotations
+    best_move_rotations = best_move.all_rotations
+
+    board_rotations.each_with_index do |rotated, i|
+      rotated_best_move = best_move_rotations[i]
+      @best_moves[rotated] = hash_from(best_score, rotated_best_move)
+    end
+  end
 end
+
