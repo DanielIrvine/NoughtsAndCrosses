@@ -8,8 +8,9 @@ class Game
 
 	def initialize (strategy_x, strategy_o, display)
 		@board = Board.start
-    @player_x = Player.new("X", strategy_x, self)
-    @player_o = Player.new("O", strategy_o, self)
+    best_moves = Hash.new
+    @player_x = Player.new("X", strategy_x, self, best_moves)
+    @player_o = Player.new("O", strategy_o, self, best_moves)
     @display = display
 	end
 

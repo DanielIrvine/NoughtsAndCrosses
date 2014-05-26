@@ -63,7 +63,16 @@ class Board
 	end
 
   def to_s
-    @board.to_s
+    @board
   end
 
+  def hash
+    @board.hash
+  end
+
+  def ==(other)
+    @board = other.to_s
+  end
+
+  alias eql? ==
 end
