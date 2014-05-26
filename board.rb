@@ -61,6 +61,9 @@ class Board
 	def mark_at(sp)
 		@board[sp]
 	end
-	
+
+  def to_s
+    @board.to_s
+  end
 
 end
