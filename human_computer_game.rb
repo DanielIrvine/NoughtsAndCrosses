@@ -10,6 +10,7 @@ class HumanComputerGame
   end
 
   def play
+    @computer.is_opponent_of!(@human)
     human_first = @display.human_first?
     player_x = human_first ? @human : @computer
     player_o = human_first ? @computer : @human
