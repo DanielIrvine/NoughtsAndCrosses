@@ -1,10 +1,10 @@
 require './human_computer_game'
-require 'first_available_space_player'
+require 'first_available_space_strategy'
 
 describe HumanComputerGame do
 
-  let (:x) { FirstAvailableSpacePlayer.new }
-  let (:o) { FirstAvailableSpacePlayer.new }
+  let (:x) { FirstAvailableSpaceStrategy.new }
+  let (:o) { FirstAvailableSpaceStrategy.new }
 
   describe "#play" do
 

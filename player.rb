@@ -1,22 +1,18 @@
 class Player
 
   attr_reader :mark
-  attr_writer :opponent
 
-	def make_move(board)
-	end
-
-  def with_mark(mark)
+	def initialize(mark, strategy, game)
     @mark = mark
-    self
+    @strategy = strategy
+    @game = game
   end
 
-  def is_opponent_of!(other)
-    @opponent = other
-    other.opponent = self
+  def make_move(board)
+    @strategy.make_move(board, self, @game.opponent_of(self))
   end
-  
-  def make_best_move(board)
+
+  def make_best_move(board, opponent)
     board.make_move(board.available_spaces.first, @mark)
   end
 

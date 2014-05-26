@@ -10,10 +10,9 @@ class HumanComputerGame
   end
 
   def play
-    @computer.is_opponent_of!(@human)
     human_first = @display.human_first?
-    player_x = human_first ? @human : @computer
-    player_o = human_first ? @computer : @human
-    winner = Game.new(player_x, player_o, @display).play_all!
+    strategy_x = human_first ? @human : @computer
+    strategy_o = human_first ? @computer : @human
+    winner = Game.new(strategy_x, strategy_o, @display).play_all!
   end
 end
