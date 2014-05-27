@@ -20,7 +20,7 @@ class Player
 
     best_score = -2
     best_move = nil
-    board.available_spaces.each do |sp|
+    board.available_spaces.shuffle.each do |sp|
       new_board = board.make_move(sp, @mark)
       score = -opponent.make_best_move(new_board, self)[:score]
       if score > best_score
@@ -31,9 +31,6 @@ class Player
 
     insert_rotations(board, best_score, best_move)
 
-    if( !@best_moves.has_key?(board) )
-      puts "Help! " + board.to_s
-    end
     return @best_moves[board]
   end
 
