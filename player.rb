@@ -2,7 +2,7 @@ class Player
 
   attr_reader :mark
 
-	def initialize(mark, strategy, game, best_moves = nil)
+  def initialize(mark, strategy, game, best_moves = nil)
     @mark = mark
     @strategy = strategy
     @game = game
