@@ -29,7 +29,8 @@ class Game
 		end
 
     @display.display_result(@board)
-	end
+    @board.winner
+  end
     
   def opponent_of(player)
     player == @player_x ? @player_o : @player_x
