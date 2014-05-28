@@ -1,5 +1,4 @@
 require './game'
-require './display'
 
 class HumanComputerGame  
 
