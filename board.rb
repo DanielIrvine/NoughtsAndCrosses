@@ -83,7 +83,11 @@ class Board
   end
 
   def all_rotations
-    ROTATIONS.map{ |r| rotate_by(r) }
+    @all_rotations ||= ROTATIONS.map{ |r| rotate_by(r) }
+  end
+
+  def rotate_and_zip(next_board)
+    ROTATIONS.each { |r| yield [rotate_by(r), next_board.rotate_by(r)]}
   end
   
   def to_s

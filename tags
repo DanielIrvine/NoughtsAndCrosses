@@ -1,0 +1,58 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+==	board.rb	/^  def ==(other)$/;"	f	class:Board
+Board	board.rb	/^class Board$/;"	c
+ComputerPlayerStrategy	computer_player_strategy.rb	/^class ComputerPlayerStrategy$/;"	c
+Display	display.rb	/^class Display$/;"	c
+FirstAvailableSpaceStrategy	spec/first_available_space_strategy.rb	/^class FirstAvailableSpaceStrategy$/;"	c
+Game	game.rb	/^class Game$/;"	c
+HumanComputerGame	human_computer_game.rb	/^class HumanComputerGame  $/;"	c
+HumanPlayerStrategy	human_player_strategy.rb	/^class HumanPlayerStrategy$/;"	c
+Player	player.rb	/^class Player$/;"	c
+all_rotations	board.rb	/^  def all_rotations$/;"	f	class:Board
+available_spaces	board.rb	/^  def available_spaces$/;"	f	class:Board
+available_spaces?	board.rb	/^  def available_spaces?$/;"	f	class:Board
+convert_move	display.rb	/^  def convert_move(row, column)$/;"	f	class:Display
+display_board	display.rb	/^  def display_board(board)$/;"	f	class:Display
+display_result	display.rb	/^  def display_result(board)$/;"	f	class:Display
+drawn?	board.rb	/^  def drawn?$/;"	f	class:Board
+game_over?	board.rb	/^  def game_over?$/;"	f	class:Board
+get_valid_move	display.rb	/^  def get_valid_move(board)$/;"	f	class:Display
+hash	board.rb	/^  def hash$/;"	f	class:Board
+hash_from	player.rb	/^  def hash_from(score, board)$/;"	f	class:Player
+human_first?	display.rb	/^  def human_first?$/;"	f	class:Display
+initialize	board.rb	/^  def initialize(board)$/;"	f	class:Board
+initialize	display.rb	/^  def initialize(io)$/;"	f	class:Display
+initialize	game.rb	/^  def initialize (strategy_x, strategy_o, display)$/;"	f	class:Game
+initialize	human_computer_game.rb	/^  def initialize(human, computer, display)$/;"	f	class:HumanComputerGame
+initialize	human_player_strategy.rb	/^  def initialize(display)$/;"	f	class:HumanPlayerStrategy
+initialize	player.rb	/^  def initialize(mark, strategy, game, best_moves = nil)$/;"	f	class:Player
+insert_rotations	player.rb	/^  def insert_rotations(board, best_score, best_move)$/;"	f	class:Player
+make_best_move	player.rb	/^  def make_best_move(board, opponent)$/;"	f	class:Player
+make_move	board.rb	/^  def make_move(sq, player_mark)$/;"	f	class:Board
+make_move	computer_player_strategy.rb	/^  def make_move(board, this_player, opponent)$/;"	f	class:ComputerPlayerStrategy
+make_move	human_player_strategy.rb	/^  def make_move(board, this_player, opponent)$/;"	f	class:HumanPlayerStrategy
+make_move	player.rb	/^  def make_move(board)$/;"	f	class:Player
+make_move	spec/first_available_space_strategy.rb	/^  def make_move(board, this_player, opponent)$/;"	f	class:FirstAvailableSpaceStrategy
+mark_at	board.rb	/^  def mark_at(sp)$/;"	f	class:Board
+next_player	game.rb	/^  def next_player$/;"	f	class:Game
+opponent_of	game.rb	/^  def opponent_of(player)$/;"	f	class:Game
+play	human_computer_game.rb	/^  def play$/;"	f	class:HumanComputerGame
+play_all!	game.rb	/^  def play_all!$/;"	f	class:Game
+play_turn!	game.rb	/^  def play_turn!$/;"	f	class:Game
+played?	board.rb	/^  def played?(square)$/;"	f	class:Board
+played_spaces	board.rb	/^  def played_spaces$/;"	f	class:Board
+rotate_by	board.rb	/^  def rotate_by(rotation)$/;"	f	class:Board
+score	player.rb	/^  def score(board)$/;"	f	class:Player
+squares_equal?	board.rb	/^  def squares_equal?(a)$/;"	f	class:Board
+start	board.rb	/^  def self.start$/;"	F	class:Board
+to_s	board.rb	/^  def to_s$/;"	f	class:Board
+valid?	display.rb	/^  def valid?(coord)$/;"	f	class:Display
+win_or_draw?	spec/computer_player_strategy_spec.rb	/^  def win_or_draw?(board, computer, human, current_player)$/;"	f
+win_or_draw_from_start?	spec/computer_player_strategy_spec.rb	/^  def win_or_draw_from_start?(strategy_x, strategy_o)$/;"	f
+winner	board.rb	/^  def winner$/;"	f	class:Board
+won?	board.rb	/^  def won?$/;"	f	class:Board

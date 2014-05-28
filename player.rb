@@ -16,7 +16,8 @@ class Player
   def make_best_move(board, opponent)
     
     return @best_moves[board] if @best_moves.has_key?(board)
-    return hash_from(score(board), board) if board.game_over?
+    return { :score => score(board), 
+            :best_move => board } if board.game_over?
 
     best_score = -2
     best_move = nil
@@ -34,8 +35,8 @@ class Player
     return @best_moves[board]
   end
 
-  def hash_from(score, board)
-    { :score => score, :board => board }
+  def result(score, board)
+    { :score => score, :best_move => board }
   end
 
   def score(board)
@@ -45,12 +46,8 @@ class Player
   end
 
   def insert_rotations(board, best_score, best_move)
-    board_rotations = board.all_rotations
-    best_move_rotations = best_move.all_rotations
-
-    board_rotations.each_with_index do |rotated, i|
-      rotated_best_move = best_move_rotations[i]
-      @best_moves[rotated] = hash_from(best_score, rotated_best_move)
+    board.rotate_and_zip(best_move) do |rotated, best_move|
+      @best_moves[rotated] = result(best_score, best_move)
     end
   end
 end
