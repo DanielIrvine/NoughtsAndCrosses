@@ -1,17 +1,16 @@
 require './human_computer_game'
-require 'first_available_space_strategy'
 
 describe HumanComputerGame do
-
-  let (:x) { FirstAvailableSpaceStrategy.new }
-  let (:o) { FirstAvailableSpaceStrategy.new }
 
   describe "#play" do
 
     it "asks the user who is playing first" do
       display = double().as_null_object()
       display.should_receive(:human_first?).and_return(true)
-      HumanComputerGame.new(x, o, display).play
+
+      game_class = double
+      game_class.should_receive(:new).and_return(double.as_null_object)
+      expect(HumanComputerGame.new(display, game_class).play).to eq anything
     end
     
   end

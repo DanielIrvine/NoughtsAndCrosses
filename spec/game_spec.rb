@@ -1,13 +1,14 @@
 require './game'
-require 'first_available_space_strategy'
+require 'first_available_space_player'
 
 describe "Game" do
 
   let(:io) { double().as_null_object() }
-  let(:game) {
-    strategy = FirstAvailableSpaceStrategy.new
-    Game.new(strategy, strategy, io)
-  }
+  let(:game) do
+    player_x = FirstAvailableSpacePlayer.new('X')
+    player_o = FirstAvailableSpacePlayer.new('O') 
+    game = Game.new(player_x, player_o, io)
+  end
 
   describe "#new" do
     it "creates an empty game board" do

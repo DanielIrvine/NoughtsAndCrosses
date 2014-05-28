@@ -1,20 +1,19 @@
-require './computer_player_strategy'
-require './human_player_strategy'
+require './computer_player'
 
-describe ComputerPlayerStrategy do
+describe ComputerPlayer do
 
   it "always wins" do
-    computer = ComputerPlayerStrategy.new
-    human = HumanPlayerStrategy.new(nil)
+    computer = ComputerPlayer.new('X')
+    human = HumanPlayer.new(display, 'O')
     expect(win_or_draw_from_start?(computer, human)).to eq true
+    computer = ComputerPlayer.new('O')
+    human = HumanPlayer.new(display, 'X')
     expect(win_or_draw_from_start?(human, computer)).to eq true
   end
 
-  def win_or_draw_from_start?(strategy_x, strategy_o)
-    game = Game.new(strategy_x, strategy_o, nil)
-    x = game.player_x
-    o = game.player_o
-    if strategy_x.is_a?(ComputerPlayerStrategy)
+  def win_or_draw_from_start?(x, o)
+    game = Game.new(x, o, nil)
+    if x.is_a?(ComputerPlayer)
       win_or_draw?(Board.start, x, o, x)
     else
       win_or_draw?(Board.start, o, x, x)
@@ -34,7 +33,7 @@ describe ComputerPlayerStrategy do
         return win_or_draw?(new_board, computer, human, computer)
       end
     else
-      new_board = computer.make_move(board)
+      new_board = computer.make_move(board, human)
       return win_or_draw?(new_board, computer, human, human)
     end
     

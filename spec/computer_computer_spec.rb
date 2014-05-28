@@ -1,15 +1,16 @@
-require './computer_player_strategy'
+require './computer_player'
 require './game'
 
-describe ComputerPlayerStrategy do
+describe ComputerPlayer do
 
   it "plays against itself" do
 
-    io = double().as_null_object()
+    io = double.as_null_object
 
-    strategy = ComputerPlayerStrategy.new
+    player_x = ComputerPlayer.new('X')
+    player_o = ComputerPlayer.new('O')
     #100.times do
-    #  expect(Game.new(strategy, strategy, io).play_all!).to_not eq "O"
+    #  expect(Game.new(player_x, player_o, io).play_all!).to_not eq "O"
     #end
   end
 
