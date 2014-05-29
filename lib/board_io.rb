@@ -1,7 +1,7 @@
 class BoardIO
 
-  MAIN_COLOR = '\033[1;39m'
-  GREY_COLOR = '\033[1;30m' 
+  MAIN_COLOR = "\033[1;39m"
+  GREY_COLOR = "\033[1;30m" 
   
   HEADER_ROW = '┌━━━┬━━━┬━━━┐'
   MIDDLE_ROW = '|━━━┼━━━┼━━━|'
@@ -25,7 +25,7 @@ class BoardIO
     @io.puts [MAIN_COLOR,
               HEADER_ROW,
               middle_rows,
-              FOOTER_ROW].flatten.join('\n')
+              FOOTER_ROW].flatten.join("\n")
   end
 
   def middle_rows
