@@ -1,4 +1,5 @@
-require './game'
+require 'spec_helper'
+require 'game'
 require 'first_available_space_player'
 
 describe "Game" do

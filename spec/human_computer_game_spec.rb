@@ -1,4 +1,5 @@
-require './human_computer_game'
+require 'spec_helper'
+require 'human_computer_game'
 
 describe HumanComputerGame do
 

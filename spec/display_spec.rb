@@ -1,4 +1,5 @@
-require './display'
+require 'spec_helper'
+require 'display'
 
 describe Display do
 

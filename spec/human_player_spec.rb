@@ -1,5 +1,5 @@
-require './human_player'
-require './player'
+require 'human_player'
+require 'player'
 
 describe HumanPlayer do
 

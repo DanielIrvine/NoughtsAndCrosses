@@ -1,5 +1,6 @@
-require './computer_player'
-require './game'
+require 'spec_helper'
+require 'computer_player'
+require 'game'
 
 describe ComputerPlayer do
 
