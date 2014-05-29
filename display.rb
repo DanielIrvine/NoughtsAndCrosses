@@ -56,13 +56,13 @@ class Display
   end
 
   def get_valid_move(board)
-    @io.puts "Enter a square number to play, e.g. '3':"
+    @io.puts "Enter a square to play, e.g. '3':"
 
     @io.rewind
-    while(true)
-      pos = @io.gets.to_i - 1
-      return pos if(board.available_spaces.include?(pos))
-    end
+
+    spaces = board.available_spaces
+    pos = @io.gets.to_i - 1 until spaces.include?(pos)
+    pos
   end
 
 end
