@@ -11,9 +11,9 @@ class HumanComputerGame
   def play
     if @display.human_first?
       player_x = HumanPlayer.new(@display, 'X')
-      player_o = ComputerPlayer.new('O')
+      player_o = ComputerPlayer.new('O', 'X')
     else
-      player_x = ComputerPlayer.new('X')
+      player_x = ComputerPlayer.new('X', 'O')
       player_o = HumanPlayer.new(@display, 'O')
     end
     

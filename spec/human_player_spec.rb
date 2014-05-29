@@ -10,6 +10,6 @@ describe HumanPlayer do
 
     board = Board.start
     player = HumanPlayer.new(display, 'X')
-    expect(player.make_move(board, player).mark_at(5)).to eq 'X'
+    expect(player.make_move(board).mark_at(5)).to eq 'X'
   end
 end

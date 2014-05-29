@@ -5,10 +5,10 @@ describe ComputerPlayer do
 
   it 'always wins' do
     
-    computer = ComputerPlayer.new('X')
+    computer = ComputerPlayer.new('X', 'O')
     human = HumanPlayer.new(nil, 'O')
     expect(win_or_draw_from_start?(computer, human)).to eq true
-    computer = ComputerPlayer.new('O')
+    computer = ComputerPlayer.new('O', 'X')
     human = HumanPlayer.new(nil, 'X')
     expect(win_or_draw_from_start?(human, computer)).to eq true
   end
@@ -45,7 +45,7 @@ describe ComputerPlayer do
   end
 
   def make_computer_move(board, computer, human)
-      new_board = computer.make_move(board, human)
+      new_board = computer.make_move(board)
       win_or_draw?(new_board, computer, human, human)
   end
 end

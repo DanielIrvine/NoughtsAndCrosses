@@ -8,8 +8,8 @@ describe ComputerPlayer do
 
     io = double.as_null_object
 
-    player_x = ComputerPlayer.new('X')
-    player_o = ComputerPlayer.new('O')
+    player_x = ComputerPlayer.new('X', 'O')
+    player_o = ComputerPlayer.new('O', 'X')
     #100.times do
     #  expect(Game.new(player_x, player_o, io).play_all!).to_not eq 'O'
     #end
