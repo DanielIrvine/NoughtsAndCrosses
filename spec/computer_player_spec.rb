@@ -3,11 +3,12 @@ require './computer_player'
 describe ComputerPlayer do
 
   it "always wins" do
+    
     computer = ComputerPlayer.new('X')
-    human = HumanPlayer.new(display, 'O')
+    human = HumanPlayer.new(nil, 'O')
     expect(win_or_draw_from_start?(computer, human)).to eq true
     computer = ComputerPlayer.new('O')
-    human = HumanPlayer.new(display, 'X')
+    human = HumanPlayer.new(nil, 'X')
     expect(win_or_draw_from_start?(human, computer)).to eq true
   end
 
