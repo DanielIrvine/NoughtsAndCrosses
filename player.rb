@@ -2,53 +2,9 @@ class Player
 
   attr_reader :mark
 
-  def initialize(mark, strategy, game, best_moves = nil)
+  def initialize(mark)
     @mark = mark
-    @strategy = strategy
-    @game = game
-    @best_moves = best_moves
   end
 
-  def make_move(board)
-    @strategy.make_move(board, self, @game.opponent_of(self))
-  end
-
-  def make_best_move(board, opponent)
-    
-    return @best_moves[board] if @best_moves.has_key?(board)
-    return { :score => score(board), 
-            :best_move => board } if board.game_over?
-
-    best_score = -2
-    best_move = nil
-    board.available_spaces.shuffle.each do |sp|
-      new_board = board.make_move(sp, @mark)
-      score = -opponent.make_best_move(new_board, self)[:score]
-      if score > best_score
-        best_score = score
-        best_move = new_board
-      end
-    end
-
-    insert_rotations(board, best_score, best_move)
-
-    return @best_moves[board]
-  end
-
-  def result(score, board)
-    { :score => score, :best_move => board }
-  end
-
-  def score(board)
-    return 0 if board.drawn?
-    return 1 if board.winner == @mark
-    -1
-  end
-
-  def insert_rotations(board, best_score, best_move)
-    board.rotate_and_zip(best_move) do |rotated, best_move|
-      @best_moves[rotated] = result(best_score, best_move)
-    end
-  end
 end
 

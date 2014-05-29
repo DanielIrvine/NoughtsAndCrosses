@@ -1,17 +1,23 @@
 require './game'
+require './human_player'
+require './computer_player'
 
 class HumanComputerGame  
 
-  def initialize(human, computer, display)
-    @human = human 
-    @computer = computer
+  def initialize(display, game_class)
     @display = display
+    @game_class = game_class
   end
 
   def play
-    human_first = @display.human_first?
-    strategy_x = human_first ? @human : @computer
-    strategy_o = human_first ? @computer : @human
-    winner = Game.new(strategy_x, strategy_o, @display).play_all!
+    if @display.human_first?
+      player_x = HumanPlayer.new(@display, 'X')
+      player_o = ComputerPlayer.new('O')
+    else
+      player_x = ComputerPlayer.new('X')
+      player_o = HumanPlayer.new(@display, 'O')
+    end
+    
+    @game_class.new(player_x, player_o, @display).play_all!
   end
 end

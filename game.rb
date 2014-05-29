@@ -6,16 +6,15 @@ class Game
   attr_reader :board
   attr_reader :player_x, :player_o
 
-  def initialize (strategy_x, strategy_o, display)
+  def initialize (player_x, player_o, display)
     @board = Board.start
-    best_moves = Hash.new
-    @player_x = Player.new("X", strategy_x, self, best_moves)
-    @player_o = Player.new("O", strategy_o, self, best_moves)
+    @player_x = player_x 
+    @player_o = player_o 
     @display = display
   end
 
   def play_turn!
-    @board = next_player.make_move @board
+    @board = next_player.make_move(@board, opponent_of(next_player))
     @display.display_board(@board)
     @board
   end
