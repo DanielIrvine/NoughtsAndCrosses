@@ -1,5 +1,5 @@
-require './board'
-require './display'
+require 'board'
+require 'display'
 
 class Game
 

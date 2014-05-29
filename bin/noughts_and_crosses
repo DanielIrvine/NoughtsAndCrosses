@@ -1,0 +1,10 @@
+#! /usr/bin/env ruby
+
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+
+require 'human_computer_game'
+require 'display'
+require 'game'
+require 'io/console'
+
+HumanComputerGame.new(Display.new(IO.console), Game).play

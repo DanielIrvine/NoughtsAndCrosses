@@ -1,4 +1,4 @@
-require './board_io'
+require 'board_io'
 
 class Display
 
