@@ -23,7 +23,7 @@ class Board
   end
 
   def self.start
-    Board.new "---------"
+    Board.new '---------'
   end
 
   def won?

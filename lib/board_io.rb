@@ -1,11 +1,11 @@
 class BoardIO
 
-  MAIN_COLOR = "\033[1;39m"
-  GREY_COLOR = "\033[1;30m" 
+  MAIN_COLOR = '\033[1;39m'
+  GREY_COLOR = '\033[1;30m' 
   
-  HEADER_ROW = "┌━━━┬━━━┬━━━┐"
-  MIDDLE_ROW = "|━━━┼━━━┼━━━|"
-  FOOTER_ROW = "└━━━┴━━━┴━━━┘"
+  HEADER_ROW = '┌━━━┬━━━┬━━━┐'
+  MIDDLE_ROW = '|━━━┼━━━┼━━━|'
+  FOOTER_ROW = '└━━━┴━━━┴━━━┘'
   
   def initialize(io, board)
     @io = io
@@ -14,7 +14,7 @@ class BoardIO
 
   def display_result
     if @board.won?
-      output = @board.winner + " wins!"
+      output = @board.winner + ' wins!'
     else
       output = "It's a draw!"
     end
@@ -25,7 +25,7 @@ class BoardIO
     @io.puts [MAIN_COLOR,
               HEADER_ROW,
               middle_rows,
-              FOOTER_ROW].flatten.join("\n")
+              FOOTER_ROW].flatten.join('\n')
   end
 
   def middle_rows

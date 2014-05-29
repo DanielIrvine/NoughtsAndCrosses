@@ -7,7 +7,7 @@ class Display
   end
 
   def human_first?
-    @io.puts "Would you like to play first? (y/n) "
+    @io.puts 'Would you like to play first? (y/n) '
     
     valid_answers = ['y', 'n']    
     answer = @io.gets.chomp.downcase until valid_answers.include? answer

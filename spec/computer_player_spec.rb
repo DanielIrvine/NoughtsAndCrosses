@@ -3,7 +3,7 @@ require 'computer_player'
 
 describe ComputerPlayer do
 
-  it "always wins" do
+  it 'always wins' do
     
     computer = ComputerPlayer.new('X')
     human = HumanPlayer.new(nil, 'O')
