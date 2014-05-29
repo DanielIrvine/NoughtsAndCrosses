@@ -6,7 +6,7 @@ describe HumanComputerGame do
   describe '#play' do
 
     it 'asks the user who is playing first' do
-      display = double.as_null_object()
+      display = double.as_null_object
       display.should_receive(:human_first?).and_return(true)
 
       game_class = double

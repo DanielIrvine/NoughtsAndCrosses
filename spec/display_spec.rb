@@ -74,7 +74,7 @@ describe Display do
   end
 
   describe '#human_first?' do
-    let (:io) { double.as_null_object() }
+    let (:io) { double.as_null_object }
 
     it 'returns true when user provides y' do
       io.should_receive(:gets).and_return("y\n")

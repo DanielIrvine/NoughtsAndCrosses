@@ -4,7 +4,7 @@ require 'first_available_space_player'
 
 describe 'Game' do
 
-  let(:io) { double.as_null_object() }
+  let(:io) { double.as_null_object }
   let(:game) do
     player_x = FirstAvailableSpacePlayer.new('X')
     player_o = FirstAvailableSpacePlayer.new('O') 
