@@ -1,12 +1,18 @@
 class Display
 
-  HEADER_ROW = "   1  2  3"
+  HEADER_ROW = "┌━━━┬━━━┬━━━┐"
+  MIDDLE_ROW = "|━━━┼━━━┼━━━|"
+  FOOTER_ROW = "└━━━┴━━━┴━━━┘"
+  
+  MAIN_COLOR = "\033[1;39m"
+  GREY_COLOR = "\033[1;30m" 
+  
   def initialize(io)
     @io = io
   end
 
   def human_first?
-    @io.puts "Would you like to play first? (y/n) "
+    @io.puts MAIN_COLOR + "Would you like to play first? (y/n) "
     while (true)
       answer = @io.gets.chomp
       return true if answer.downcase == "y"
@@ -19,39 +25,44 @@ class Display
   end
 
   def display_board(board)
-    @io.puts HEADER_ROW
-    (0..2).each do |row|
+    @io.puts [HEADER_ROW,
+              middle_rows(board),
+              FOOTER_ROW].flatten.join("\n")
+  end
 
-      line = (row + 1).to_s
-      (0..2).each do |column|
-        pos = row*3 + column
-        line << "  "
-        line << (board.played?(pos) ? board.mark_at(pos) : " ")
-      end
-      @io.puts line
+  def middle_rows(board)
+    test = (0..4).map do |row|
+      row % 2 == 1 ? MIDDLE_ROW : display_row(row/2, board)
     end
+  end
+  
+  def display_row(row, board)
+    line = '|' 
+    (0..2).each do |column|
+      pos = row*3 + column
+      line << ' ' 
+      line << character_for_square(pos, board) 
+      line << ' |'
+    end
+    line
+  end
+
+  def character_for_square(pos, board)
+    board.played?(pos) ? board.mark_at(pos) : grey_text((pos+1).to_s)
+  end
+
+  def grey_text(text)
+    GREY_COLOR + text + MAIN_COLOR 
   end
 
   def get_valid_move(board)
+    @io.puts "Enter a square number to play, e.g. '3':"
 
-    @io.puts "Enter a row and column to play, e.g. '3 2':"
+    @io.rewind
     while(true)
-
-      row, column = @io.gets.split(' ').map { |p| p.to_i }
-      if(valid?(row) && valid?(column))
-        position = convert_move(row, column)
-        if(board.available_spaces.include?(position))
-          return position
-        end
-      end
+      pos = @io.gets.to_i - 1
+      return pos if(board.available_spaces.include?(pos))
     end
   end
 
-  def convert_move(row, column)
-    return (row.to_i-1)*3 + column.to_i - 1
-  end
-
-  def valid?(coord)
-    (1..3).include?(coord)
-  end
 end
