@@ -27,8 +27,7 @@ class Board
   end
 
   def won?
-    return true if winner
-    false
+    winner != nil
   end
 
   def winner

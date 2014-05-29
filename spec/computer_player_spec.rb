@@ -30,15 +30,22 @@ describe ComputerPlayer do
     end
     
     if(current_player == human)
-      return board.available_spaces.all? do |sp|
-        new_board = board.make_move(sp, human.mark)
-        return win_or_draw?(new_board, computer, human, computer)
-      end
+      make_all_human_moves(board, computer, human)
     else
-      new_board = computer.make_move(board, human)
-      return win_or_draw?(new_board, computer, human, human)
+      make_computer_move(board, computer, human)
     end
     
   end
 
+  def make_all_human_moves(board, computer, human)
+      board.available_spaces.all? do |sp|
+        new_board = board.make_move(sp, human.mark)
+        win_or_draw?(new_board, computer, human, computer)
+      end
+  end
+
+  def make_computer_move(board, computer, human)
+      new_board = computer.make_move(board, human)
+      win_or_draw?(new_board, computer, human, human)
+  end
 end
