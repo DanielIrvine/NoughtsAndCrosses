@@ -21,9 +21,10 @@ class ComputerPlayer < Player
     board.available_spaces.shuffle.each do |sp|
       new_board = board.make_move(sp, mark)
       score = -make_best_move(new_board, opponent_mark, mark)[:score]
-      next unless score > best_score
-      best_score = score
-      best_move = new_board
+      if score > best_score
+        best_score = score
+        best_move = new_board
+      end
     end
 
     insert_rotations(board, best_score, best_move)
