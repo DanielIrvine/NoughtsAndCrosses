@@ -1,12 +1,11 @@
 class BoardIO
-
   MAIN_COLOR = "\033[1;39m"
-  GREY_COLOR = "\033[1;30m" 
-  
+  GREY_COLOR = "\033[1;30m"
+
   HEADER_ROW = '┌━━━┬━━━┬━━━┐'
   MIDDLE_ROW = '|━━━┼━━━┼━━━|'
   FOOTER_ROW = '└━━━┴━━━┴━━━┘'
-  
+
   def initialize(io, board)
     @io = io
     @board = board
@@ -29,15 +28,15 @@ class BoardIO
   end
 
   def middle_rows
-    test = (0..4).map do |row|
-      row % 2 == 1 ? MIDDLE_ROW : display_row(row/2)
+    (0..4).map do |row|
+      row.odd? ? MIDDLE_ROW : display_row(row / 2)
     end
   end
-  
+
   def display_row(row)
-    line = '|' 
+    line = '|'
     (0..2).each do |column|
-      pos = row*3 + column
+      pos = row * 3 + column
       line << ' ' + character_for_square(pos) + ' |'
     end
     line
@@ -47,22 +46,18 @@ class BoardIO
     if @board.played?(pos)
       @board.mark_at(pos)
     else
-      grey_text((pos+1).to_s)
+      grey_text((pos + 1).to_s)
     end
   end
 
   def grey_text(text)
-    GREY_COLOR + text + MAIN_COLOR 
+    GREY_COLOR + text + MAIN_COLOR
   end
 
-  def get_valid_move
+  def prompt_for_valid_move
     @io.puts "Enter a square to play, e.g. '3':"
-
-    @io.rewind
-
     spaces = @board.available_spaces
     pos = @io.gets.to_i - 1 until spaces.include?(pos)
     pos
   end
 end
-

@@ -2,14 +2,13 @@ require 'board'
 require 'display'
 
 class Game
-
   attr_reader :board
   attr_reader :player_x, :player_o
 
-  def initialize (player_x, player_o, display)
+  def initialize(player_x, player_o, display)
     @board = Board.start
-    @player_x = player_x 
-    @player_o = player_o 
+    @player_x = player_x
+    @player_o = player_o
     @display = display
   end
 
@@ -18,21 +17,17 @@ class Game
     @display.display_board(@board)
     @board
   end
-  
+
   def play_all!
-    
     @display.display_board(@board)
-    
-    while !@board.game_over?
-      play_turn!
-    end
+
+    play_turn! until @board.game_over?
 
     @display.display_result(@board)
     @board.winner
   end
-    
-  def next_player
-    @board.played_spaces.length % 2 == 0 ? @player_x : @player_o
-  end
 
+  def next_player
+    @board.played_spaces.length.even? ? @player_x : @player_o
+  end
 end

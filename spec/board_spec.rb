@@ -10,13 +10,13 @@ describe Board do
       (Board.new '---XXX---').won?.should eq true
       (Board.new '------XXX').won?.should eq true
     end
-    
+
     it 'returns true for all vertical wins' do
       (Board.new 'X--X--X--').won?.should eq true
       (Board.new '-X--X--X-').won?.should eq true
       (Board.new '--X--X--X').won?.should eq true
     end
-    
+
     it 'returns true for all diagonal wins' do
       (Board.new 'X---X---X').won?.should eq true
       (Board.new '--X-X-X--').won?.should eq true
@@ -32,7 +32,7 @@ describe Board do
   end
 
   describe '#played' do
-  
+
     it 'returns false for empty board' do
       Board.start.played?(0).should eq false
     end
@@ -67,8 +67,7 @@ describe Board do
   describe '#make_move' do
 
     it 'returns winning board after winning move' do
-      (Board.new 'XX-OO----').make_move(2, 'X').won?.should eq true   
+      (Board.new 'XX-OO----').make_move(2, 'X').won?.should eq true
     end
   end
 end
-

@@ -6,7 +6,7 @@ describe HumanPlayer do
   it 'uses display to get a valid move on the board' do
 
     display = double
-    display.should_receive(:get_valid_move).with(anything).and_return(5)
+    display.should_receive(:prompt_for_valid_move).with(anything).and_return(5)
 
     board = Board.start
     player = HumanPlayer.new(display, 'X')
