@@ -5,8 +5,8 @@ class Display
     @io = io
   end
 
-  def human_first?
-    @io.puts 'Would you like to play first? (y/n) '
+  def human?(mark)
+    @io.puts "Is player #{mark} human? Press 'y' for yes, 'n' for no."
     valid_answers = %w(y n)
     answer = @io.gets.chomp.downcase until valid_answers.include? answer
     answer == 'y'

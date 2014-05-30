@@ -2,8 +2,7 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
-require 'human_computer_game'
+require 'game_builder'
 require 'display'
-require 'game'
 
-HumanComputerGame.new(Display.new(Kernel), Game).play
+GameBuilder.new(Display.new(Kernel)).build.play_all!

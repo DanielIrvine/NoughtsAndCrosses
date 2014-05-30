@@ -65,20 +65,26 @@ describe Display do
     Display.new(io).display_result(board)
   end
 
-  describe '#human_first?' do
+  describe '#human?' do
     it 'returns true when user provides y' do
       str = SimplifiedStringIO.new("y\n")
-      expect(Display.new(str).human_first?).to eq true
+      expect(Display.new(str).human?('X')).to eq true
     end
-
+    
     it 'returns false when user provides n' do
       str = SimplifiedStringIO.new("n\n")
-      expect(Display.new(str).human_first?).to eq false
+      expect(Display.new(str).human?('X')).to eq false
     end
 
     it 'continues to ask until the user provides a valid answer' do
       str = SimplifiedStringIO.new("a\nb\ny\n")
-      expect(Display.new(str).human_first?).to eq true
+      expect(Display.new(str).human?('X')).to eq true
+    end
+
+    it 'displays the player mark in the output' do
+      str = SimplifiedStringIO.new("y\n")
+      Display.new(str).human?('X')
+      expect(str.string).to include('X')
     end
   end
 end
