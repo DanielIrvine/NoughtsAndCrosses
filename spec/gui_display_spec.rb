@@ -62,4 +62,22 @@ describe GUIDisplay do
     expect(game.board.played?(4)).to eq true
   end
 
+  it "has next move available when last space played" do
+    gui = double.as_null_object
+    display = GUIDisplay.new(gui)
+    display.on_play = Proc.new { }
+    coord = GUIDisplay::SIZE / 3
+    display.play_at(coord, coord)
+    expect(display.next_move_available?).to eq true
+  end
+
+  it "has no next move available when move played" do
+    gui = double.as_null_object
+    display = GUIDisplay.new(gui)
+    display.on_play = Proc.new { }
+    coord = GUIDisplay::SIZE / 3
+    display.play_at(coord, coord)
+    display.prompt_for_move
+    expect(display.next_move_available?).to eq false
+  end
 end
