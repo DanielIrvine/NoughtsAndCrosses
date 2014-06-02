@@ -69,5 +69,9 @@ describe Board do
     it 'returns winning board after winning move' do
       (Board.new 'XX-OO----').make_move(2, 'X').won?.should eq true
     end
+
+    it 'does not play already played square' do
+      expect((Board.new 'X--------').make_move(0, 'O').nil?).to eq true 
+    end
   end
 end

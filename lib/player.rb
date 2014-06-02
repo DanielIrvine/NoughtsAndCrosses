@@ -4,4 +4,8 @@ class Player
   def initialize(mark)
     @mark = mark
   end
+
+  def can_play?
+    true
+  end
 end

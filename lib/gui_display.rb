@@ -18,7 +18,13 @@ class GUIDisplay
   end
 
   def prompt_for_move
-    @last_space_played
+    move = @last_space_played
+    @last_space_played = nil
+    move
+  end
+
+  def next_move_available?
+    !@last_space_played.nil?
   end
 
   def display_board(board)
@@ -29,10 +35,8 @@ class GUIDisplay
       @gui.draw_square('X', x, y) if board.played?(sq)
       
       x += increment
-      if(x == SIZE)
-        x = 0
-        y += increment
-      end
+      x = 0 if(x == SIZE)
+      y += increment if(x == 0)
     end
   end
 

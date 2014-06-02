@@ -24,4 +24,8 @@ class Display
     @io.puts "Enter a square to play, e.g. '3':"
     @io.gets.to_i - 1
   end
+
+  def next_move_available?
+    true
+  end
 end

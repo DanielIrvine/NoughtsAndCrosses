@@ -10,4 +10,7 @@ class HumanPlayer < Player
     board.make_move(@display.prompt_for_move, @mark)
   end
 
+  def can_play?
+    @display.next_move_available?
+  end
 end

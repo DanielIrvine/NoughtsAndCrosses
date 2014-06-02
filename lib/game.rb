@@ -22,9 +22,11 @@ class Game
   def play_all!
     @display.display_board(@board)
 
-    play_turn! until @board.game_over?
+    play_turn! until (@board.game_over? || !next_player.can_play?)
 
-    @display.display_result(@board)
+    if @board.game_over?
+      @display.display_result(@board)
+    end
     @board.winner
   end
 
