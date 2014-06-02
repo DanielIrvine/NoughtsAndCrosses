@@ -13,7 +13,8 @@ class Game
   end
 
   def play_turn!
-    @board = next_player.make_move(@board)
+    next_board = next_player.make_move(@board)
+    @board = next_board if !next_board.nil?
     @display.display_board(@board)
     @board
   end

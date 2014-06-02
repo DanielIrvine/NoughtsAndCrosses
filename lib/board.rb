@@ -47,6 +47,7 @@ class Board
   end
 
   def make_move(sq, player_mark)
+    return nil if !available_spaces.include?(sq)
     new_board = String.new(@board)
     new_board[sq] = player_mark
     Board.new new_board

@@ -20,7 +20,8 @@ class Display
     BoardIO.new(@io, board).display_result
   end
 
-  def prompt_for_valid_move(board)
-    BoardIO.new(@io, board).prompt_for_valid_move
+  def prompt_for_move
+    @io.puts "Enter a square to play, e.g. '3':"
+    @io.gets.to_i - 1
   end
 end

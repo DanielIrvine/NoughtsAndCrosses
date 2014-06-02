@@ -24,24 +24,9 @@ describe Display do
     expect(str.string.scan(/O/).length).to eq 2
   end
 
-  it 'prompts for move repeatedly until one is valid' do
-    str = SimplifiedStringIO.new("hello\n8\n")
-    expect(Display.new(str).prompt_for_valid_move(Board.start)).to eq 7
-  end
-
-  it 'does not accept 0 as a valid input' do
-    str = SimplifiedStringIO.new("0\n8\n")
-    expect(Display.new(str).prompt_for_valid_move(Board.start)).to eq 7
-  end
-
-  it 'does not accept >9 as a valid input' do
-    str = SimplifiedStringIO.new("10\n8\n")
-    expect(Display.new(str).prompt_for_valid_move(Board.start)).to eq 7
-  end
-
   it 'prompts user for move' do
     str = SimplifiedStringIO.new('8')
-    expect(Display.new(str).prompt_for_valid_move(Board.start)).to eq 7
+    expect(Display.new(str).prompt_for_move).to eq 7
   end
 
   it 'displays a winner with player mark X' do

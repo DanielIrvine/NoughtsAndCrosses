@@ -54,10 +54,4 @@ class BoardIO
     GREY_COLOR + text + MAIN_COLOR
   end
 
-  def prompt_for_valid_move
-    @io.puts "Enter a square to play, e.g. '3':"
-    spaces = @board.available_spaces
-    pos = @io.gets.to_i - 1 until spaces.include?(pos)
-    pos
-  end
 end

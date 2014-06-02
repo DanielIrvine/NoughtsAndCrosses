@@ -7,6 +7,7 @@ class HumanPlayer < Player
   end
 
   def make_move(board)
-    board.make_move(@display.prompt_for_valid_move(board), @mark)
+    board.make_move(@display.prompt_for_move, @mark)
   end
+
 end
