@@ -5,8 +5,9 @@ describe GUIDisplay do
 
   it "displays a square window" do
     gui = double.as_null_object
-    expect(gui).to receive(:display_window).with(GUIDisplay::SIZE,
-                                                GUIDisplay::SIZE)
+    expect(gui).to receive(:display_window).with(GUIDisplay::BOARD_SIZE,
+                                                GUIDisplay::BOARD_SIZE +
+                                                GUIDisplay::RESULT_SIZE)
     display = GUIDisplay.new(gui)
     display.show
   end
@@ -36,8 +37,8 @@ describe GUIDisplay do
 
   it "displays an x in the right place when played" do
     gui = double.as_null_object
-    x = GUIDisplay::SIZE / 3
-    y = GUIDisplay::SIZE / 3 * 2
+    x = GUIDisplay::BOARD_SIZE / 3
+    y = GUIDisplay::BOARD_SIZE / 3 * 2
     expect(gui).to receive(:draw_square).with('X', x, y) 
     display = GUIDisplay.new(gui)
     display.display_board(Board.start.make_move(7, 'X'))
@@ -57,7 +58,7 @@ describe GUIDisplay do
     o = HumanPlayer.new(display, 'O')
     game = Game.new(x, o, display)
     display.on_play = Proc.new{ game.play_turn! }
-    coord = GUIDisplay::SIZE / 3
+    coord = GUIDisplay::BOARD_SIZE / 3
     display.play_at(coord, coord)
     expect(game.board.played?(4)).to eq true
   end
@@ -66,7 +67,7 @@ describe GUIDisplay do
     gui = double.as_null_object
     display = GUIDisplay.new(gui)
     display.on_play = Proc.new { }
-    coord = GUIDisplay::SIZE / 3
+    coord = GUIDisplay::BOARD_SIZE / 3
     display.play_at(coord, coord)
     expect(display.next_move_available?).to eq true
   end
@@ -75,9 +76,30 @@ describe GUIDisplay do
     gui = double.as_null_object
     display = GUIDisplay.new(gui)
     display.on_play = Proc.new { }
-    coord = GUIDisplay::SIZE / 3
+    coord = GUIDisplay::BOARD_SIZE / 3
     display.play_at(coord, coord)
     display.prompt_for_move
     expect(display.next_move_available?).to eq false
+  end
+
+  it "displays result text at correct location" do
+    gui = double.as_null_object
+    expect(gui).to receive(:draw_text).with(anything, GUIDisplay::BOARD_SIZE)
+    display = GUIDisplay.new(gui)
+    display.display_result(Board.new 'XXXOO-O--')
+  end
+
+  it 'displays draw text if board is drawn' do
+    gui = double.as_null_object
+    expect(gui).to receive(:draw_text).with("It's a draw!", anything)
+    display = GUIDisplay.new(gui)
+    display.display_result(Board.new 'XOXOXOOXO')
+  end
+
+  it 'displays won text if board is won' do
+    gui = double.as_null_object
+    expect(gui).to receive(:draw_text).with('X wins!', anything)
+    display = GUIDisplay.new(gui)
+    display.display_result(Board.new 'XXXOO-O--')
   end
 end
