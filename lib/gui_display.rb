@@ -28,13 +28,8 @@ class GUIDisplay
   end
 
   def display_board(board)
-    x = 0
-    y = 0
     (0..8).each do |sq|
-      @gui.draw_text(board.mark_at(sq), x, y) if board.played?(sq)
-      
-      x = x == 2 ? 0 : x+1 
-      y += 1 if(x == 0)
+      @gui.draw_square(board.mark_at(sq), sq) if board.played?(sq)
     end
   end
 
@@ -44,7 +39,7 @@ class GUIDisplay
     else
       text = board.winner + " wins!"
     end
-    @gui.draw_text(text, 3, 0, 3)
+    @gui.draw_result(text)
   end
   
   def play_at(x, y)

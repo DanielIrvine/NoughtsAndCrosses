@@ -35,7 +35,7 @@ describe GUIDisplay do
 
   it "displays an x in the right place when played" do
     gui = double.as_null_object
-    expect(gui).to receive(:draw_text).with('X', 1, 2) 
+    expect(gui).to receive(:draw_text).with('X', 2, 1) 
     display = GUIDisplay.new(gui)
     display.display_board(Board.start.make_move(7, 'X'))
  end
