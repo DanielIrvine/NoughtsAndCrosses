@@ -1,6 +1,6 @@
 require 'board_io'
 
-class Display
+class CLIDisplay
   def initialize(io)
     @io = io
   end
@@ -16,8 +16,8 @@ class Display
     BoardIO.new(@io, board).display
   end
 
-  def display_result(board)
-    BoardIO.new(@io, board).display_result
+  def display_result(text)
+    @io.puts text
   end
 
   def prompt_for_move
@@ -25,7 +25,4 @@ class Display
     @io.gets.to_i - 1
   end
 
-  def next_move_available?
-    true
-  end
 end

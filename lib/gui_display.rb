@@ -7,6 +7,7 @@ class GUIDisplay
   def initialize(gui)
     @gui = gui
     @gui.on_click = Proc.new{ |x,y| play_at(x, y) }
+    @gui.on_play = Proc.new { @on_play.call if !@on_play.nil? }
   end
 
   def show
@@ -23,28 +24,20 @@ class GUIDisplay
     move
   end
 
-  def next_move_available?
-    !@last_space_played.nil?
-  end
-
   def display_board(board)
     (0..8).each do |sq|
       @gui.draw_square(board.mark_at(sq), sq) if board.played?(sq)
     end
   end
 
-  def display_result(board)
-    if board.drawn?
-      text = "It's a draw!"
-    else
-      text = board.winner + " wins!"
-    end
-    @gui.draw_result(text)
+  def display_result(result_text)
+    @gui.draw_result(result_text)
   end
   
   def play_at(x, y)
-    @last_space_played = convert_to_space(x, y)    
-    @on_play.call if(@last_space_played < 9)
+    space = convert_to_space(x, y)    
+    @last_space_played = space if space < 9
+    @on_play.call
   end
 
   def convert_to_space(x, y)

@@ -59,38 +59,11 @@ describe GUIDisplay do
     expect(game.board.played?(4)).to eq true
   end
 
-  it "has next move available when last space played" do
-    gui = double.as_null_object
-    display = GUIDisplay.new(gui)
-    display.on_play = Proc.new { }
-    coord = GUIDisplay::CELL_SIZE
-    display.play_at(coord, coord)
-    expect(display.next_move_available?).to eq true
-  end
-
-  it "has no next move available when move played" do
-    gui = double.as_null_object
-    display = GUIDisplay.new(gui)
-    display.on_play = Proc.new { }
-    coord = GUIDisplay::CELL_SIZE
-    display.play_at(coord, coord)
-    display.prompt_for_move
-    expect(display.next_move_available?).to eq false
-  end
-
-  it 'displays draw text if board is drawn' do
+  it 'displays result text' do
     gui = double.as_null_object
     expect(gui).to receive(:draw_result).with("It's a draw!")
     display = GUIDisplay.new(gui)
-    display.display_result(Board.new 'XOXOXOOXO')
+    display.display_result("It's a draw!")
   end
-
-  it 'displays won text if board is won' do
-    gui = double.as_null_object
-    expect(gui).to receive(:draw_result).with('X wins!')
-    display = GUIDisplay.new(gui)
-    display.display_result(Board.new 'XXXOO-O--')
-  end
-
 
 end

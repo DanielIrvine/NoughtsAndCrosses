@@ -11,15 +11,6 @@ class BoardIO
     @board = board
   end
 
-  def display_result
-    if @board.won?
-      output = @board.winner + ' wins!'
-    else
-      output = "It's a draw!"
-    end
-    @io.puts output
-  end
-
   def display
     @io.puts [MAIN_COLOR,
               HEADER_ROW,

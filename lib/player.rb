@@ -5,7 +5,4 @@ class Player
     @mark = mark
   end
 
-  def can_play?
-    true
-  end
 end

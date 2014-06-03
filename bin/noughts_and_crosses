@@ -3,6 +3,7 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'game_builder'
-require 'display'
+require 'cli_display'
 
-GameBuilder.new(Display.new(Kernel)).build.play_all!
+game = GameBuilder.new(CLIDisplay.new(Kernel)).build
+game.play_all! until game.board.game_over?

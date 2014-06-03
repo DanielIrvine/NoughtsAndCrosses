@@ -1,5 +1,4 @@
 require 'board'
-require 'display'
 
 class Game
   attr_reader :board
@@ -20,17 +19,22 @@ class Game
   end
 
   def play_all!
-    @display.display_board(@board)
+    #@display.display_board(@board)
 
-    play_turn! until (@board.game_over? || !next_player.can_play?)
-
-    if @board.game_over?
-      @display.display_result(@board)
-    end
+    play_turn!
+    @display.display_result(result_text) if @board.game_over?
     @board.winner
   end
 
   def next_player
     @board.played_spaces.length.even? ? @player_x : @player_o
+  end
+  
+  def result_text
+    if @board.won?
+      board.winner + ' wins!'
+    else
+      "It's a draw!"
+    end
   end
 end

@@ -2,12 +2,19 @@ require 'Qt'
 
 class GameBoardWidget < Qt::Widget
 
-  attr_writer :on_click
+  attr_writer :on_click, :on_play
+
+  slots :play
 
   def initialize
     super
     @font = Qt::Font.new('Helvetica Neue', 60, 0)
     setWindowTitle('Noughts and Crosses')
+    
+    @timer = Qt::Timer.new(self)
+    connect(@timer, SIGNAL('timeout()'), self, SLOT(:play))
+
+    @timer.start(1000)
   end
 
   def prompt_yes_no?(text)
@@ -62,5 +69,11 @@ class GameBoardWidget < Qt::Widget
   
   def mousePressEvent(event)
     @on_click.call(event.x, event.y)
+    @on_play.call
   end
+
+  def play
+    @on_play.call
+  end
+
 end
