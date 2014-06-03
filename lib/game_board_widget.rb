@@ -25,23 +25,16 @@ class GameBoardWidget < Qt::Widget
   def display_window(rows, cols, cell_size)
     resize(cols * cell_size, rows * cell_size)
     create_grid
-    create_result_label
-    create_vertical_layout
+    create_result_label(cell_size)
+    setLayout(@grid)
     show
   end
 
-  def create_result_label
-    @result = create_label 
-    @result.setSizePolicy(Qt::SizePolicy::Preferred, Qt::SizePolicy::Preferred) 
+  def create_result_label(height)
+    @result = create_label
+    @grid.addWidget(@result, 3, 0, 1, 3)
   end
 
-  def create_vertical_layout
-    vBox = Qt::VBoxLayout.new
-    vBox.addLayout(@grid)
-    vBox.addWidget(@result)
-    setLayout(vBox)
-  end
-  
   def create_grid
     @grid = Qt::GridLayout.new
     cells = [0, 1, 2]
@@ -51,16 +44,16 @@ class GameBoardWidget < Qt::Widget
   end
 
   def create_label
-    label = Qt::Label.new(self)
+    label = Qt::Label.new
     label.setAlignment(Qt::AlignCenter)
     label.setFont(@font)
     label.setSizePolicy(Qt::SizePolicy::MinimumExpanding, Qt::SizePolicy::MinimumExpanding)
+    label.setFrameStyle(Qt::Frame::StyledPanel | Qt::Frame::Plain);
     label
   end
 
   def draw_square(text, index)
-    label = @grid.itemAt(index)
-    label.widget.setText(text)
+    @grid.itemAt(index).widget.setText(text)
   end
 
   def draw_result(text)
