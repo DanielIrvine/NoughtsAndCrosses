@@ -29,24 +29,23 @@ class GUIDisplay
   end
 
   def display_board(board)
-    increment = BOARD_SIZE / 3
     x = 0
     y = 0
     (0..8).each do |sq|
-      @gui.draw_square('X', x, y) if board.played?(sq)
+      @gui.draw_text(board.mark_at(sq), x, y) if board.played?(sq)
       
-      x += increment
-      x = 0 if(x == BOARD_SIZE)
-      y += increment if(x == 0)
+      x = x == 2 ? 0 : x+1 
+      y += 1 if(x == 0)
     end
   end
 
   def display_result(board)
     if board.drawn?
-      @gui.draw_text("It's a draw!", BOARD_SIZE)
+      text = "It's a draw!"
     else
-      @gui.draw_text(board.winner + " wins!", BOARD_SIZE)
+      text = board.winner + " wins!"
     end
+    @gui.draw_text(text, 3, 0, 3)
   end
   
   def play_at(x, y)
