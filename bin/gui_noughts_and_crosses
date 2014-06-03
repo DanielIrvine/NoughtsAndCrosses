@@ -1,14 +1,18 @@
+#! /usr/bin/env ruby
+
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+
+require 'game_builder'
+require 'qt'
 require 'game_board_widget'
 require 'gui_display'
 
 app = Qt::Application.new(ARGV)
 widget = GameBoardWidget.new
-app.mainWidget = widget
 gui_display = GUIDisplay.new(widget)
 
 game = GameBuilder.new(gui_display).build
 gui_display.on_play = Proc.new { game.play_all! }
 
-gui_display.display_window
+gui_display.show
 app.exec
-

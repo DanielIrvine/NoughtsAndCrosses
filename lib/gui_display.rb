@@ -2,8 +2,7 @@ class GUIDisplay
 
   attr_writer :on_play
 
-  BOARD_SIZE = 600
-  RESULT_SIZE = 60
+  CELL_SIZE = 150 
 
   def initialize(gui)
     @gui = gui
@@ -11,7 +10,7 @@ class GUIDisplay
   end
 
   def show
-    @gui.display_window(BOARD_SIZE, BOARD_SIZE + RESULT_SIZE)
+    @gui.display_window(4, 3, CELL_SIZE)
   end
   
   def human?(mark)
@@ -50,13 +49,12 @@ class GUIDisplay
   
   def play_at(x, y)
     @last_space_played = convert_to_space(x, y)    
-    @on_play.call
+    @on_play.call if(@last_space_played < 9)
   end
 
   def convert_to_space(x, y)
-    square_size = BOARD_SIZE / 3
-    row = (x / square_size).to_i
-    col = (y / square_size).to_i
+    col = (x / CELL_SIZE).to_i
+    row = (y / CELL_SIZE).to_i
     row * 3 + col
   end
   
