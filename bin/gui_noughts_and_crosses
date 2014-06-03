@@ -8,11 +8,8 @@ require 'game_board_widget'
 require 'gui_display'
 
 app = Qt::Application.new(ARGV)
-widget = GameBoardWidget.new
-gui_display = GUIDisplay.new(widget)
+gui_display = GUIDisplay.new(GameBoardWidget.new)
 
 game = GameBuilder.new(gui_display).build
 gui_display.on_play = Proc.new { game.play_all! }
-
-gui_display.show
 app.exec

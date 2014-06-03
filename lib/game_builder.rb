@@ -11,6 +11,7 @@ class GameBuilder
   def build
     x = build_player('X')
     o = build_player('O')
+    @display.show
     Game.new(x, o, @display)
   end
 

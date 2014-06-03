@@ -25,10 +25,6 @@ class GameBoardWidget < Qt::Widget
     reply == Qt::MessageBox::Yes
   end
 
-  def exec
-    @app.exec
-  end
-
   def display_window(rows, cols, cell_size)
     resize(cols * cell_size, rows * cell_size)
     create_grid

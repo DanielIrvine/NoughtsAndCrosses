@@ -12,6 +12,9 @@ class CLIDisplay
     answer == 'y'
   end
 
+  def show
+    BoardIO.new(@io, Board.start).display
+  end
   def display_board(board)
     BoardIO.new(@io, board).display
   end

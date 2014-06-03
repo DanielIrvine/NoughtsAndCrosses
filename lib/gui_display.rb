@@ -13,7 +13,7 @@ class GUIDisplay
   def show
     @gui.display_window(4, 3, CELL_SIZE)
   end
-  
+
   def human?(mark)
     @gui.prompt_yes_no?("Is player #{mark} human?")
   end
