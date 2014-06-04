@@ -44,7 +44,7 @@ describe 'Game' do
 
     it 'displays a winning message when game is over' do
       expect(io).to receive(:display_result).with('X wins!')
-      game.play_all! until game.board.game_over?
+      play_all_moves(game)
     end
 
     it 'displays a draw result' do
@@ -52,7 +52,7 @@ describe 'Game' do
       x = DefinedSequencePlayer.new('X', [0, 1, 5, 6, 7])
       o = DefinedSequencePlayer.new('O', [2, 3, 4, 8])
       game = Game.new(x, o, io)
-      game.play_all! until game.board.game_over?
+      play_all_moves(game)
     end
 
     it 'displays a winning message for o' do
@@ -60,7 +60,7 @@ describe 'Game' do
       x = DefinedSequencePlayer.new('X', [0, 1, 7])
       o = DefinedSequencePlayer.new('O', [3, 4, 5])
       game = Game.new(x, o, io)
-      game.play_all! until game.board.game_over?
+      play_all_moves(game)
     end
 
     it 'displays the board after each move' do
@@ -68,5 +68,14 @@ describe 'Game' do
       game.play_all!
     end
 
+  end
+
+  xit 'can play a game of 4x4' do
+    x = FirstAvailableSpacePlayer.new('X')
+    o = FirstAvailableSpacePlayer.new('O')
+  end
+  
+  def play_all_moves(game)
+    game.play_all! until game.game_over? 
   end
 end

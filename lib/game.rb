@@ -28,6 +28,10 @@ class Game
     @board.played_spaces.length.even? ? @player_x : @player_o
   end
   
+  def game_over?
+    @board.game_over?
+  end
+
   def result_text
     if @board.won?
       board.winner + ' wins!'
