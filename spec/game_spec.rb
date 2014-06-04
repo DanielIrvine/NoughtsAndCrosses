@@ -70,11 +70,6 @@ describe 'Game' do
 
   end
 
-  xit 'can play a game of 4x4' do
-    x = FirstAvailableSpacePlayer.new('X')
-    o = FirstAvailableSpacePlayer.new('O')
-  end
-  
   def play_all_moves(game)
     game.play_all! until game.game_over? 
   end
