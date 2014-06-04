@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'board'
+require 'board_dynamics'
 
 describe Board do
 
@@ -77,10 +78,11 @@ describe Board do
 
   describe 'four_by_four' do
     it 'returns true if there is a win in a row' do
-      expect(Board.new('XXXX------------', 4).won?).to eq true
-      expect(Board.new('----XXXX--------', 4).won?).to eq true
-      expect(Board.new('--------XXXX----', 4).won?).to eq true
-      expect(Board.new('------------XXXX', 4).won?).to eq true
+      dynamics = BoardDynamics.new(4)
+      expect(Board.new('XXXX------------', dynamics).won?).to eq true
+      expect(Board.new('----XXXX--------', dynamics).won?).to eq true
+      expect(Board.new('--------XXXX----', dynamics).won?).to eq true
+      expect(Board.new('------------XXXX', dynamics).won?).to eq true
     end
   end
 end

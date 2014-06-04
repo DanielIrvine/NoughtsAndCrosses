@@ -4,15 +4,15 @@ class Board
 
   UNPLAYED_SQUARE = '-'
 
-  def initialize(board, size = 3, dynamics = nil)
+  def initialize(board, dynamics = BoardDynamics.new(3))
     @board = board
-    @dynamics = dynamics || BoardDynamics.new(size)
+    @dynamics = dynamics
   end
 
   def self.with_size(size)
     str = ''
     (size*size).times { str << UNPLAYED_SQUARE }
-    Board.new(str, size, BoardDynamics.new(size))
+    Board.new(str, BoardDynamics.new(size))
   end
 
   def won?
@@ -72,7 +72,7 @@ class Board
   end
 
   def build_board(new_board)
-    Board.new(new_board, size, @dynamics)
+    Board.new(new_board, @dynamics)
   end
 
   def rotate_and_zip(next_board, &block)
