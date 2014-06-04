@@ -6,11 +6,9 @@ require 'defined_sequence_player'
 describe 'Game' do
 
   let(:io) { double.as_null_object }
-  let(:game) do
-    player_x = FirstAvailableSpacePlayer.new('X')
-    player_o = FirstAvailableSpacePlayer.new('O')
-    Game.new(player_x, player_o, io)
-  end
+  let(:x) { FirstAvailableSpacePlayer.new('X') }
+  let(:o) { FirstAvailableSpacePlayer.new('O') }
+  let(:game) { Game.new(x, o, io) }
 
   describe '#new' do
     it 'creates an empty game board' do
@@ -44,33 +42,25 @@ describe 'Game' do
 
     it 'displays a winning message when game is over' do
       expect(io).to receive(:display_result).with('X wins!')
-      play_all_moves(game)
+      game = Game.new(x, o, io, Board.new('XX-------'))
+      game.play_all!
     end
 
     it 'displays a draw result' do
       expect(io).to receive(:display_result).with("It's a draw!")
-      x = DefinedSequencePlayer.new('X', [0, 1, 5, 6, 7])
-      o = DefinedSequencePlayer.new('O', [2, 3, 4, 8])
-      game = Game.new(x, o, io)
-      play_all_moves(game)
+      game = Game.new(x, o, io, Board.new('XXOOOXXO-'))
+      game.play_all!
     end
 
     it 'displays a winning message for o' do
       expect(io).to receive(:display_result).with('O wins!')
-      x = DefinedSequencePlayer.new('X', [0, 1, 7])
-      o = DefinedSequencePlayer.new('O', [3, 4, 5])
-      game = Game.new(x, o, io)
-      play_all_moves(game)
+      game = Game.new(x, o, io, Board.new('XXOXO-O--'))
+      game.play_all!
     end
 
     it 'displays the board after each move' do
       expect(io).to receive(:display_board).with(anything)
       game.play_all!
     end
-
-  end
-
-  def play_all_moves(game)
-    game.play_all! until game.game_over? 
   end
 end
