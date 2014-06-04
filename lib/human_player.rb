@@ -7,8 +7,10 @@ class HumanPlayer < Player
   end
 
   def make_move(board)
-    move = @display.prompt_for_move
-    return nil if move.nil?
-    board.make_move(move, @mark)
+    board.make_move(@display.prompt_for_move, @mark)
+  end
+
+  def has_available_move?
+    @display.has_available_move?
   end
 end

@@ -19,9 +19,11 @@ class GUIDisplay
   end
 
   def prompt_for_move
-    move = @last_space_played
-    @last_space_played = nil
-    move
+    @last_space_played
+  end
+
+  def has_available_move?
+    @last_space_played != nil
   end
 
   def display_board(board)

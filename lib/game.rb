@@ -12,14 +12,9 @@ class Game
   end
 
   def play_turn!
-    next_board = next_player.make_move(@board)
-    @board = next_board if !next_board.nil?
+    return if !next_player.has_available_move?
+    @board = next_player.make_move(@board)
     @display.display_board(@board)
-    @board
-  end
-
-  def play_all!
-    play_turn!
     @display.display_result(result_text) if game_over?
     @board
   end

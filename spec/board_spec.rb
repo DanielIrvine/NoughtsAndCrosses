@@ -71,7 +71,7 @@ describe Board do
     end
 
     it 'does not play already played square' do
-      expect((Board.new 'X--------').make_move(0, 'O').nil?).to eq true 
+      expect((Board.new 'X--------').make_move(0, 'O').mark_at(0)).to eq 'X' 
     end
   end
 end

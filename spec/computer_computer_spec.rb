@@ -11,7 +11,7 @@ describe ComputerPlayer, :functional => true do
     player_x = ComputerPlayer.new('X', 'O')
     player_o = ComputerPlayer.new('O', 'X')
     # 100.times do
-    #  expect(Game.new(player_x, player_o, io).play_all!).to_not eq 'O'
+    #  expect(Game.new(player_x, player_o, io).play_turn!).to_not eq 'O'
     # end
   end
 

@@ -5,4 +5,7 @@ class Player
     @mark = mark
   end
 
+  def has_available_move?
+    true
+  end
 end

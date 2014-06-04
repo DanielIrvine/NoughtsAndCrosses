@@ -11,5 +11,5 @@ app = Qt::Application.new(ARGV)
 gui_display = GUIDisplay.new(GameBoardWidget.new)
 
 game = GameBuilder.new(gui_display).build
-gui_display.on_play = Proc.new { game.play_all! }
+gui_display.on_play = Proc.new { game.play_turn! }
 app.exec

@@ -29,4 +29,7 @@ class CLIDisplay
     @io.gets.to_i - 1
   end
 
+  def has_available_move?
+    true
+  end
 end
