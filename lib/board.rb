@@ -27,8 +27,9 @@ class Board
     3.times { all_rotations << rotate_right(all_rotations.last) }
 
     all_rotations << winning_rows.reverse
-    # TODO: further mirrorings
-
+    all_rotations << winning_rows.map(&:reverse)
+    all_rotations << rotate_right(winning_rows).reverse
+    all_rotations << rotate_right(winning_rows).map(&:reverse)
     flatten_transforms(all_rotations)
   end
 
