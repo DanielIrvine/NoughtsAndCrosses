@@ -2,24 +2,13 @@ class Board
 
   attr_reader :size
 
-  ROTATIONS = [ # identity
-    [0, 1, 2, 3, 4, 5, 6, 7, 8],
-    # rotations
-    [2, 5, 8, 1, 4, 7, 0, 3, 6],
-    [8, 7, 6, 5, 4, 3, 2, 1, 0],
-    [6, 3, 0, 7, 4, 1, 8, 5, 2],
-    # mirrored
-    [2, 1, 0, 5, 4, 3, 8, 7, 6],
-    [6, 7, 8, 3, 4, 5, 0, 1, 2],
-    [8, 5, 2, 7, 4, 1, 6, 3, 0],
-    [0, 3, 6, 1, 4, 7, 2, 5, 8]]
-
   UNPLAYED_SQUARE = '-'
 
-  def initialize(board, size = 3, winning_combos = nil)
+  def initialize(board, size = 3, winning_combos = nil, transforms = nil)
     @board = board
     @size = size
     @winning_combos = winning_combos || calculate_winning_combos
+    @transforms = transforms || calculate_transforms
   end
 
   def self.with_size(size)
@@ -28,6 +17,29 @@ class Board
     Board.new(str, size)
   end
 
+  def rotate_right(a)
+    a.transpose.reverse
+  end
+
+  def calculate_transforms
+    all_rotations = [] 
+    all_rotations << winning_rows
+    3.times { all_rotations << rotate_right(all_rotations.last) }
+
+    all_rotations << winning_rows.reverse
+    # TODO: further mirrorings
+
+    flatten_transforms(all_rotations)
+  end
+
+  def flatten_transforms(a)
+    transforms = []
+    a.each do |r|
+      transforms << r.flatten
+    end
+    transforms
+  end
+  
   def won?
     winner != nil
   end
@@ -70,7 +82,7 @@ class Board
     return self if !available_spaces.include?(sq)
     new_board = String.new(@board)
     new_board[sq] = player_mark
-    Board.new(new_board, @size, @winning_combos)
+    build_board(new_board)
   end
 
   def available_spaces
@@ -98,15 +110,15 @@ class Board
     all_indexes.each do |sq|
       new_board[sq] = @board[rotation[sq]]
     end
-    Board.new(new_board, @size, @winning_combos)
+    build_board(new_board)
   end
 
-  def all_rotations
-    @all_rotations ||= ROTATIONS.map { |r| rotate_by(r) }
+  def build_board(new_board)
+    Board.new(new_board, @size, @winning_combos, @transforms)
   end
 
   def rotate_and_zip(next_board, &block)
-    ROTATIONS.each { |r| block.call([rotate_by(r), next_board.rotate_by(r)]) }
+    @transforms.each { |r| block.call([rotate_by(r), next_board.rotate_by(r)]) }
   end
 
   def all_indexes
