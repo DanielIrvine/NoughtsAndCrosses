@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'game'
 require 'first_available_space_player'
-require 'defined_sequence_player'
 
 describe 'Game' do
 
