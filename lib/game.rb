@@ -20,7 +20,7 @@ class Game
 
   def play_all!
     play_turn!
-    @display.display_result(result_text) if @board.game_over?
+    @display.display_result(result_text) if game_over?
     @board
   end
 

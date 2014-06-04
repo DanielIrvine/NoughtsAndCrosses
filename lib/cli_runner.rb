@@ -5,7 +5,7 @@ class CLIRunner
   end
 
   def play  
-    @game.play_all! until @game.board.game_over?
+    @game.play_all! until @game.game_over?
     @game.board 
   end
 end
