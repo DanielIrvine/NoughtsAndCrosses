@@ -2,10 +2,6 @@ class Board
 
   attr_reader :size
 
-  WINNING_TRIPLETS = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
-                      [0, 3, 6], [1, 4, 7], [2, 5, 8],
-                      [0, 4, 8], [2, 4, 6]]
-
   ROTATIONS = [ # identity
     [0, 1, 2, 3, 4, 5, 6, 7, 8],
     # rotations
@@ -20,9 +16,10 @@ class Board
 
   UNPLAYED_SQUARE = '-'
 
-  def initialize(board, size = 3)
+  def initialize(board, size = 3, winning_combos = nil)
     @board = board
     @size = size
+    @winning_combos = winning_combos || calculate_winning_combos
   end
 
   def self.with_size(size)
@@ -35,9 +32,27 @@ class Board
     winner != nil
   end
 
+  def winning_rows
+    max = (@size*@size)-1
+    (0..max).to_a.each_slice(@size).to_a
+  end
+ 
+  def winning_columns
+    winning_rows.transpose
+  end
+
+  def winning_diagonals
+    [ winning_rows.map.with_index { |row, i| row[i] },
+      winning_rows.map.with_index { |row, i| (row.reverse)[i] } ]
+  end
+
+  def calculate_winning_combos
+    winning_rows + winning_columns + winning_diagonals
+  end
+  
   def winner
-    triplet = WINNING_TRIPLETS.find { |t| played?(t[0]) && squares_equal?(t) }
-    triplet ? mark_at(triplet[0]) : nil
+    combo = @winning_combos.find { |t| played?(t[0]) && squares_equal?(t) }
+    combo ? mark_at(combo[0]) : nil
   end
 
   def drawn?
@@ -56,7 +71,7 @@ class Board
     return self if !available_spaces.include?(sq)
     new_board = String.new(@board)
     new_board[sq] = player_mark
-    Board.new(new_board, @size)
+    Board.new(new_board, @size, @winning_combos)
   end
 
   def available_spaces
@@ -84,7 +99,7 @@ class Board
     (0..8).each do |sq|
       new_board[sq] = @board[rotation[sq]]
     end
-    Board.new(new_board, @size)
+    Board.new(new_board, @size, @winning_combos)
   end
 
   def all_rotations

@@ -74,4 +74,13 @@ describe Board do
       expect((Board.new 'X--------').make_move(0, 'O').mark_at(0)).to eq 'X' 
     end
   end
+
+  describe 'four_by_four' do
+    it 'returns true if there is a win in a row' do
+      expect(Board.new('XXXX------------', 4).won?).to eq true
+      expect(Board.new('----XXXX--------', 4).won?).to eq true
+      expect(Board.new('--------XXXX----', 4).won?).to eq true
+      expect(Board.new('------------XXXX', 4).won?).to eq true
+    end
+  end
 end
