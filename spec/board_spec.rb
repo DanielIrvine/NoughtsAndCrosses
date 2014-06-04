@@ -23,7 +23,7 @@ describe Board do
     end
 
     it 'returns false for empty board' do
-      Board.start.won?.should eq false
+      Board.with_size(3).won?.should eq false
     end
 
     it 'returns true for win for O' do
@@ -34,14 +34,14 @@ describe Board do
   describe '#played' do
 
     it 'returns false for empty board' do
-      Board.start.played?(0).should eq false
+      Board.with_size(3).played?(0).should eq false
     end
   end
 
   describe '#drawn' do
 
     it 'returns false for empty board' do
-      Board.start.drawn?.should eq false
+      Board.with_size(3).drawn?.should eq false
     end
 
     it 'return true for full board' do
@@ -52,7 +52,7 @@ describe Board do
   describe '#available_spaces' do
 
     it 'returns nine spaces for empty board' do
-      Board.start.available_spaces.should eq [0, 1, 2, 3, 4, 5, 6, 7, 8]
+      Board.with_size(3).available_spaces.should eq [0, 1, 2, 3, 4, 5, 6, 7, 8]
     end
 
     it 'returns zero spaces for full board' do

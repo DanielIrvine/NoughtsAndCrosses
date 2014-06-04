@@ -15,9 +15,9 @@ describe ComputerPlayer do
 
   def win_or_draw_from_start?(x, o)
     if x.is_a?(ComputerPlayer)
-      win_or_draw?(Board.start, x, o, x)
+      win_or_draw?(Board.with_size(3), x, o, x)
     else
-      win_or_draw?(Board.start, o, x, x)
+      win_or_draw?(Board.with_size(3), o, x, x)
     end
   end
 

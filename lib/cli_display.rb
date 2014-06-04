@@ -12,8 +12,15 @@ class CLIDisplay
     answer == 'y'
   end
 
-  def show
-    BoardIO.new(@io, Board.start).display
+  def four_by_four?
+    @io.puts "Would you like to play a 4x4 game? Press 'y' for yes, or 'n' to play a 3x3 game."
+    valid_answers = %w(y n)
+    answer = @io.gets.chomp.downcase until valid_answers.include? answer
+    answer == 'y'
+  end
+
+  def show(board)
+    BoardIO.new(@io, board).display
   end
 
   def display_board(board)

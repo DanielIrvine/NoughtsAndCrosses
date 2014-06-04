@@ -11,8 +11,9 @@ class GameBuilder
   def build
     x = build_player('X')
     o = build_player('O')
-    @display.show
-    Game.new(x, o, @display)
+    board = build_board
+    @display.show(board)
+    Game.new(x, o, @display, board)
   end
 
   def build_player(mark)
@@ -20,6 +21,14 @@ class GameBuilder
       HumanPlayer.new(@display, mark)
     else
       ComputerPlayer.new(mark, opponent_of(mark))
+    end
+  end
+  
+  def build_board
+    if @display.four_by_four?
+      Board.with_size(4)
+    else
+      Board.with_size(3)
     end
   end
 

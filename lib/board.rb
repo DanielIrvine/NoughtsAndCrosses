@@ -1,4 +1,7 @@
 class Board
+
+  attr_reader :size
+
   WINNING_TRIPLETS = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
                       [0, 3, 6], [1, 4, 7], [2, 5, 8],
                       [0, 4, 8], [2, 4, 6]]
@@ -17,12 +20,15 @@ class Board
 
   UNPLAYED_SQUARE = '-'
 
-  def initialize(board)
+  def initialize(board, size = 3)
     @board = board
+    @size = size
   end
 
-  def self.start
-    Board.new '---------'
+  def self.with_size(size)
+    str = ''
+    (size*size).times { str << UNPLAYED_SQUARE }
+    Board.new(str, size)
   end
 
   def won?
@@ -50,7 +56,7 @@ class Board
     return self if !available_spaces.include?(sq)
     new_board = String.new(@board)
     new_board[sq] = player_mark
-    Board.new new_board
+    Board.new(new_board, @size)
   end
 
   def available_spaces
@@ -78,7 +84,7 @@ class Board
     (0..8).each do |sq|
       new_board[sq] = @board[rotation[sq]]
     end
-    Board.new new_board
+    Board.new(new_board, @size)
   end
 
   def all_rotations

@@ -4,7 +4,7 @@ class Game
   attr_reader :board
   attr_reader :player_x, :player_o
 
-  def initialize(x, o, display, start = Board.start)
+  def initialize(x, o, display, start = Board.with_size(3))
     @board = start
     @player_x = x 
     @player_o = o

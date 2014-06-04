@@ -23,21 +23,21 @@ describe GUIDisplay do
       .exactly(0).times
     
     display = GUIDisplay.new(gui)
-    display.display_board(Board.start)
+    display.display_board(Board.with_size(3))
   end
 
   it "displays an x when x is played" do
     gui = double.as_null_object
     expect(gui).to receive(:draw_square).with('X', 0)
     display = GUIDisplay.new(gui)
-    display.display_board(Board.start.make_move(0, 'X'))
+    display.display_board(Board.with_size(3).make_move(0, 'X'))
   end
 
   it "displays an x in the right place when played" do
     gui = double.as_null_object
     expect(gui).to receive(:draw_square).with('X', 7) 
     display = GUIDisplay.new(gui)
-    display.display_board(Board.start.make_move(7, 'X'))
+    display.display_board(Board.with_size(3).make_move(7, 'X'))
  end
 
   it 'displays multiple squares' do

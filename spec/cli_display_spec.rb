@@ -6,7 +6,7 @@ describe CLIDisplay do
 
   it 'displays an empty square for the empty board' do
     str = SimplifiedStringIO.new
-    CLIDisplay.new(str).display_board(Board.start)
+    CLIDisplay.new(str).display_board(Board.with_size(3))
     expect(str.string).not_to include('X')
     expect(str.string).not_to include('O')
   end
