@@ -19,11 +19,9 @@ class Game
   end
 
   def play_all!
-    #@display.display_board(@board)
-
     play_turn!
     @display.display_result(result_text) if @board.game_over?
-    @board.winner
+    @board
   end
 
   def next_player

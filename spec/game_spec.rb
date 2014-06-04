@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'game'
 require 'first_available_space_player'
-require 'one_move_player'
+require 'defined_sequence_player'
 
 describe 'Game' do
 
@@ -47,18 +47,20 @@ describe 'Game' do
       game.play_all! until game.board.game_over?
     end
 
-    xit 'displays a draw result' do
+    it 'displays a draw result' do
       expect(io).to receive(:display_result).with("It's a draw!")
-    end
-
-    xit 'displays a winning message for o' do
-      expect(io).to receive(:display_result).with('O wins!')
+      x = DefinedSequencePlayer.new('X', [0, 1, 5, 6, 7])
+      o = DefinedSequencePlayer.new('O', [2, 3, 4, 8])
+      game = Game.new(x, o, io)
       game.play_all! until game.board.game_over?
     end
 
-    xit 'plays until game over' do
-      game.play_all!
-      game.board.game_over?.should eq true
+    it 'displays a winning message for o' do
+      expect(io).to receive(:display_result).with('O wins!')
+      x = DefinedSequencePlayer.new('X', [0, 1, 7])
+      o = DefinedSequencePlayer.new('O', [3, 4, 5])
+      game = Game.new(x, o, io)
+      game.play_all! until game.board.game_over?
     end
 
     it 'displays the board after each move' do
@@ -66,14 +68,5 @@ describe 'Game' do
       game.play_all!
     end
 
-    xit 'plays until neither player can play' do
-      omp_x = OneMovePlayer.new('X')
-      omp_o = OneMovePlayer.new('O')
-      display = double.as_null_object
-      two_move_game = Game.new(omp_x, omp_o, display)
-      two_move_game.play_all!
-      expect(two_move_game.board.available_spaces.length).to eq 7
-    end
   end
-
 end

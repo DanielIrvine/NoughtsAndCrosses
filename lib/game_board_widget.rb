@@ -12,7 +12,7 @@ class GameBoardWidget < Qt::Widget
     setWindowTitle('Noughts and Crosses')
     
     @timer = Qt::Timer.new(self)
-    connect(@timer, SIGNAL('timeout()'), self, SLOT(:play))
+    connect(@timer, SIGNAL(:timeout), self, SLOT(:play))
 
     @timer.start(1000)
   end

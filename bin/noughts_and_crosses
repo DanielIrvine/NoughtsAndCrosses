@@ -4,6 +4,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'game_builder'
 require 'cli_display'
+require 'cli_runner'
 
 game = GameBuilder.new(CLIDisplay.new(Kernel)).build
-game.play_all! until game.board.game_over?
+CLIRunner.new(game).play
