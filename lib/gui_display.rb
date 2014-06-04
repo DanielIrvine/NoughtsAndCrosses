@@ -27,7 +27,7 @@ class GUIDisplay
   end
 
   def display_board(board)
-    (0..8).each do |sq|
+    board.all_indexes.each do |sq|
       @gui.draw_square(board.mark_at(sq), sq) if board.played?(sq)
     end
   end

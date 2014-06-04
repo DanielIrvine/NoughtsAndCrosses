@@ -33,8 +33,7 @@ class Board
   end
 
   def winning_rows
-    max = (@size*@size)-1
-    (0..max).to_a.each_slice(@size).to_a
+    all_indexes.to_a.each_slice(@size).to_a
   end
  
   def winning_columns
@@ -75,7 +74,7 @@ class Board
   end
 
   def available_spaces
-    (0..8).select { |sp| @board[sp] == UNPLAYED_SQUARE }
+    all_indexes.select { |sp| @board[sp] == UNPLAYED_SQUARE }
   end
 
   def played?(square)
@@ -87,7 +86,7 @@ class Board
   end
 
   def played_spaces
-    (0..8).to_a - available_spaces
+    all_indexes.to_a - available_spaces
   end
 
   def mark_at(sp)
@@ -96,7 +95,7 @@ class Board
 
   def rotate_by(rotation)
     new_board = ''
-    (0..8).each do |sq|
+    all_indexes.each do |sq|
       new_board[sq] = @board[rotation[sq]]
     end
     Board.new(new_board, @size, @winning_combos)
@@ -108,6 +107,10 @@ class Board
 
   def rotate_and_zip(next_board, &block)
     ROTATIONS.each { |r| block.call([rotate_by(r), next_board.rotate_by(r)]) }
+  end
+
+  def all_indexes
+    (0..@size*@size-1)
   end
 
   def to_s
