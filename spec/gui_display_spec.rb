@@ -5,7 +5,7 @@ describe GUIDisplay do
 
   it "displays a window with space for board and result" do
     gui = double.as_null_object
-    expect(gui).to receive(:display_window).with(4, 3, GUIDisplay::CELL_SIZE)
+    expect(gui).to receive(:display_window).with(4, 3, GUIDisplay::CELL_SIZE, anything)
     display = GUIDisplay.new(gui)
     display.show(Board.with_size(3))
   end
@@ -19,7 +19,7 @@ describe GUIDisplay do
 
   it 'displays a window for a 4x4 game' do
     gui = double.as_null_object
-    expect(gui).to receive(:display_window).with(5, 4, GUIDisplay::CELL_SIZE)
+    expect(gui).to receive(:display_window).with(5, 4, GUIDisplay::CELL_SIZE, anything)
     display = GUIDisplay.new(gui)
     display.show(Board.with_size(4))
   end
@@ -69,7 +69,7 @@ describe GUIDisplay do
     game = Game.new(x, o, display)
     display.on_play = Proc.new{ game.play_turn! }
     coord = GUIDisplay::CELL_SIZE
-    display.play_at(coord, coord)
+    display.play_at(4)
     expect(game.board.played?(4)).to eq true
   end
 

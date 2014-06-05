@@ -1,4 +1,5 @@
 require 'Qt'
+require 'cell_label'
 
 class GameBoardWidget < Qt::Widget
 
@@ -10,7 +11,7 @@ class GameBoardWidget < Qt::Widget
     super
     @font = Qt::Font.new('Helvetica Neue', 60, 0)
     setWindowTitle('Noughts and Crosses')
-    
+    Qt::Application::setFont(@font)
     @timer = Qt::Timer.new(self)
     connect(@timer, SIGNAL(:timeout), self, SLOT(:play))
 
@@ -25,34 +26,35 @@ class GameBoardWidget < Qt::Widget
     reply == Qt::MessageBox::Yes
   end
 
-  def display_window(rows, cols, cell_size)
+  def display_window(rows, cols, cell_size, controller)
     resize(cols * cell_size, rows * cell_size)
-    create_grid
-    create_result_label(cell_size)
+    create_grid(cols, controller)
+    create_result_label(rows - 1, cols, cell_size)
     setLayout(@grid)
     show
   end
 
-  def create_result_label(height)
-    @result = create_label
-    @grid.addWidget(@result, 3, 0, 1, 3)
+  def create_result_label(row, col_span, height)
+    @result = Qt::Label.new
+    set_label_properties(@result)
+    @grid.addWidget(@result, row, 0, 1, col_span)
   end
 
-  def create_grid
-    @grid = Qt::GridLayout.new
-    cells = [0, 1, 2]
-    cells.product(cells).each do |row, col|
-      @grid.addWidget(create_label, row, col)
-    end
-  end
-
-  def create_label
-    label = Qt::Label.new
+  def set_label_properties(label)
     label.setAlignment(Qt::AlignCenter)
-    label.setFont(@font)
     label.setSizePolicy(Qt::SizePolicy::MinimumExpanding, Qt::SizePolicy::MinimumExpanding)
-    label.setFrameStyle(Qt::Frame::StyledPanel | Qt::Frame::Plain);
-    label
+    label.setFont(@font)
+  end
+  
+  def create_grid(size, controller)
+    @grid = Qt::GridLayout.new
+    cells = (0...size).to_a
+    cells.product(cells).each do |row, col|
+      index = row * size + col
+      label = CellLabel.new(index, controller)
+      set_label_properties(label)
+      @grid.addWidget(label, row, col)
+    end
   end
 
   def draw_square(text, index)
@@ -63,11 +65,6 @@ class GameBoardWidget < Qt::Widget
     @result.setText(text)
   end
   
-  def mousePressEvent(event)
-    @on_click.call(event.x, event.y)
-    @on_play.call
-  end
-
   def play
     @on_play.call
   end

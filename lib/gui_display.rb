@@ -1,3 +1,5 @@
+require 'gui_controller'
+
 class GUIDisplay
 
   attr_writer :on_play
@@ -6,7 +8,6 @@ class GUIDisplay
 
   def initialize(gui)
     @gui = gui
-    @gui.on_click = Proc.new{ |x,y| play_at(x, y) }
     @gui.on_play = Proc.new { @on_play.call if !@on_play.nil? }
   end
 
@@ -15,7 +16,10 @@ class GUIDisplay
   end
 
   def show(board)
-    @gui.display_window(board.size + 1, board.size, CELL_SIZE)
+    @gui.display_window(board.size + 1,
+                        board.size, 
+                        CELL_SIZE,
+                        GuiController.new(self))
   end
 
   def human?(mark)
@@ -40,16 +44,9 @@ class GUIDisplay
     @gui.draw_result(result_text)
   end
   
-  def play_at(x, y)
-    space = convert_to_space(x, y)    
+  def play_at(space)
     @last_space_played = space
     @on_play.call
   end
 
-  def convert_to_space(x, y)
-    col = (x / CELL_SIZE).to_i
-    row = (y / CELL_SIZE).to_i
-    row * 3 + col
-  end
-  
 end
