@@ -11,11 +11,11 @@ class GUIDisplay
   end
 
   def four_by_four?
-    false
+    @gui.prompt_yes_no?('Do you want to play a 4x4 game? Choose no for a 3x3 game.')
   end
 
   def show(board)
-    @gui.display_window(4, 3, CELL_SIZE)
+    @gui.display_window(board.size + 1, board.size, CELL_SIZE)
   end
 
   def human?(mark)
@@ -42,7 +42,7 @@ class GUIDisplay
   
   def play_at(x, y)
     space = convert_to_space(x, y)    
-    @last_space_played = space if space < 9
+    @last_space_played = space
     @on_play.call
   end
 

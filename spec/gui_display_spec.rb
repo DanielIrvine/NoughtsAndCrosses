@@ -17,6 +17,20 @@ describe GUIDisplay do
     expect(display.human?('X')).to eq true
   end
 
+  it 'displays a window for a 4x4 game' do
+    gui = double.as_null_object
+    expect(gui).to receive(:display_window).with(5, 4, GUIDisplay::CELL_SIZE)
+    display = GUIDisplay.new(gui)
+    display.show(Board.with_size(4))
+  end
+  
+  it 'prompts the user if the game is 4x4' do
+    gui = double.as_null_object
+    expect(gui).to receive(:prompt_yes_no?).with('Do you want to play a 4x4 game? Choose no for a 3x3 game.').and_return(true)
+    display = GUIDisplay.new(gui)
+    expect(display.four_by_four?).to eq true
+  end
+
   it "displays no squares for an empty board" do
     gui = double.as_null_object
     expect(gui).to receive(:draw_square).with(anything, anything)
