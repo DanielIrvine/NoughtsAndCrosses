@@ -2,9 +2,12 @@ class BoardIO
   MAIN_COLOR = "\033[1;39m"
   GREY_COLOR = "\033[1;30m"
 
-  HEADER_ROW = '┌━━━┬━━━┬━━━┐'
-  MIDDLE_ROW = '|━━━┼━━━┼━━━|'
-  FOOTER_ROW = '└━━━┴━━━┴━━━┘'
+  TOP_JOINS = '┌┬┐'
+  MIDDLE_JOINS = '|┼|'
+  BOTTOM_JOINS = '└┴┘'
+
+  HORIZONTAL = '━━━'
+  VERTICAL = '|'
 
   def initialize(io, board)
     @io = io
@@ -13,22 +16,34 @@ class BoardIO
 
   def display
     @io.puts [MAIN_COLOR,
-              HEADER_ROW,
+              join_row(TOP_JOINS),
               middle_rows,
-              FOOTER_ROW].flatten.join("\n")
+              join_row(BOTTOM_JOINS)].flatten.join("\n")
   end
 
+  def join_row(joins)
+    joins[0] + horizontal_segment(joins[1]) + HORIZONTAL + joins[2]
+  end
+
+  def horizontal_segment(join_character)
+    line = ''
+    (@board.size - 1).times { line << HORIZONTAL + join_character }
+    line
+  end
+  
   def middle_rows
-    (0..4).map do |row|
-      row.odd? ? MIDDLE_ROW : display_row(row / 2)
+    num_rows = (@board.size*2) - 2
+    (0..num_rows).map do |row|
+      row.odd? ? join_row(MIDDLE_JOINS) : display_row(row / 2)
     end
   end
 
   def display_row(row)
-    line = '|'
-    (0..2).each do |column|
-      pos = row * 3 + column
-      line << ' ' + character_for_square(pos) + ' |'
+    line = String.new(VERTICAL)
+    num_lines = @board.size-1
+    (0..num_lines).each do |column|
+      pos = row * @board.size + column
+      line << ' ' + character_for_square(pos) + ' ' + VERTICAL
     end
     line
   end

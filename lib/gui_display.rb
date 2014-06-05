@@ -10,7 +10,11 @@ class GUIDisplay
     @gui.on_play = Proc.new { @on_play.call if !@on_play.nil? }
   end
 
-  def show
+  def four_by_four?
+    false
+  end
+
+  def show(board)
     @gui.display_window(4, 3, CELL_SIZE)
   end
 

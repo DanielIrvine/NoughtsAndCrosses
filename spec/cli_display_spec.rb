@@ -17,6 +17,13 @@ describe CLIDisplay do
     expect(str.string.scan(/X/).length).to eq 1
   end
 
+  it 'displays a 4x4 board' do
+    str = SimplifiedStringIO.new
+    CLIDisplay.new(str).display_board(Board.new 'XXXOOOOXXXOOOOXX')
+    expect(str.string.scan(/X/).length).to eq 8
+    expect(str.string.scan(/O/).length).to eq 8
+  end
+  
   it 'displays a winning board' do
     str = SimplifiedStringIO.new
     CLIDisplay.new(str).display_board(Board.new 'X--OXO--X')

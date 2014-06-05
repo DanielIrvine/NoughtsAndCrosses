@@ -4,9 +4,9 @@ class Board
 
   UNPLAYED_SQUARE = '-'
 
-  def initialize(board, dynamics = BoardDynamics.new(3))
+  def initialize(board, dynamics = nil)
     @board = board
-    @dynamics = dynamics
+    @dynamics = dynamics || BoardDynamics.new(Math.sqrt(board.length).to_i)
   end
 
   def self.with_size(size)

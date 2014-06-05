@@ -7,7 +7,7 @@ describe GUIDisplay do
     gui = double.as_null_object
     expect(gui).to receive(:display_window).with(4, 3, GUIDisplay::CELL_SIZE)
     display = GUIDisplay.new(gui)
-    display.show
+    display.show(Board.with_size(3))
   end
 
   it "prompts the user if player X is human" do
