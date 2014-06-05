@@ -3,19 +3,10 @@ require 'cell_label'
 
 class GameBoardWidget < Qt::Widget
 
-  attr_writer :on_click, :on_play
-
-  slots :play
-
   def initialize
     super
     @font = Qt::Font.new('Helvetica Neue', 60, 0)
     setWindowTitle('Noughts and Crosses')
-    Qt::Application::setFont(@font)
-    @timer = Qt::Timer.new(self)
-    connect(@timer, SIGNAL(:timeout), self, SLOT(:play))
-
-    @timer.start(1000)
   end
 
   def prompt_yes_no?(text)
@@ -65,8 +56,7 @@ class GameBoardWidget < Qt::Widget
     @result.setText(text)
   end
   
-  def play
-    @on_play.call
+  def create_timer(controller)
+    PlayTimer.new(self, controller)
   end
-
 end

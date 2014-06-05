@@ -5,7 +5,8 @@ class GuiController
   end
 
   def play_at(sp)
-    @gui.play_at(sp)
+    @gui.last_space_played = sp
+    @gui.play
   end
   
   def play

@@ -69,7 +69,8 @@ describe GUIDisplay do
     game = Game.new(x, o, display)
     display.on_play = Proc.new{ game.play_turn! }
     coord = GUIDisplay::CELL_SIZE
-    display.play_at(4)
+    display.last_space_played = 4
+    display.play
     expect(game.board.played?(4)).to eq true
   end
 

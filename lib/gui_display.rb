@@ -2,13 +2,14 @@ require 'gui_controller'
 
 class GUIDisplay
 
-  attr_writer :on_play
+  attr_writer :on_play, :last_space_played
 
   CELL_SIZE = 150 
 
   def initialize(gui)
     @gui = gui
-    @gui.on_play = Proc.new { @on_play.call if !@on_play.nil? }
+    @controller = GuiController.new(self)
+    @gui.create_timer(@controller)
   end
 
   def four_by_four?
@@ -19,7 +20,7 @@ class GUIDisplay
     @gui.display_window(board.size + 1,
                         board.size, 
                         CELL_SIZE,
-                        GuiController.new(self))
+                        @controller)
   end
 
   def human?(mark)
@@ -44,8 +45,7 @@ class GUIDisplay
     @gui.draw_result(result_text)
   end
   
-  def play_at(space)
-    @last_space_played = space
+  def play
     @on_play.call
   end
 
