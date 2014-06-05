@@ -8,19 +8,22 @@ class ComputerPlayer < Player
   end
 
   def make_move(board)
-    make_best_move(board, @mark, @opponent_mark)[:best_move]
+    #max_depth = board.size * board.size
+    max_depth = board.size * 3
+    make_best_move(board, max_depth, 0, @mark, @opponent_mark)[:best_move]
   end
 
-  def make_best_move(board, mark, opponent_mark)
+  def make_best_move(board, max_depth, depth, mark, opponent_mark)
     return @best_moves[board] if @best_moves.key?(board)
-    return { score: score(board, mark),
+    return { score: score(board, mark, depth, max_depth),
              best_move: board } if board.game_over?
+    return { score: 0, best_move: board } if depth == max_depth
 
-    best_score = -2
+    best_score = -(max_depth - 1)
     best_move = nil
     board.available_spaces.shuffle.each do |sp|
       new_board = board.make_move(sp, mark)
-      score = -make_best_move(new_board, opponent_mark, mark)[:score]
+      score = -make_best_move(new_board, max_depth, depth + 1, opponent_mark, mark)[:score]
       if score > best_score
         best_score = score
         best_move = new_board
@@ -36,10 +39,10 @@ class ComputerPlayer < Player
     { score: score, best_move: board }
   end
 
-  def score(board, player)
+  def score(board, player, depth, max_depth)
     return 0 if board.drawn?
-    return 1 if board.winner == player
-    -1
+    return max_depth - depth if board.winner == player
+    -(max_depth - depth)
   end
 
   def insert_rotations(board, best_score, best_move)
