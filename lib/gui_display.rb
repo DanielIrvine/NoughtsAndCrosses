@@ -2,13 +2,17 @@ require 'gui_controller'
 
 class GUIDisplay
 
-  attr_writer :last_space_played
+  attr_writer :on_play, :last_space_played
 
   CELL_SIZE = 150 
 
   def initialize(gui)
     @gui = gui
     @controller = GuiController.new(self)
+  end
+
+  def set_callback(on_play)
+    @on_play = on_play 
     @gui.create_timer(@controller)
   end
 
