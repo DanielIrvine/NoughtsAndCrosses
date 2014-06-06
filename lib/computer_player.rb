@@ -1,6 +1,9 @@
 require 'player'
 
 class ComputerPlayer < Player
+
+  INF = 100
+
   def initialize(mark, opponent_mark)
     super(mark)
     @opponent_mark = opponent_mark
@@ -8,28 +11,32 @@ class ComputerPlayer < Player
   end
 
   def make_move(board)
-    #max_depth = board.size * board.size
-    max_depth = board.size * 3
-    make_best_move(board, max_depth, 0, @mark, @opponent_mark)[:best_move]
+    make_best_move(board,
+                   board.size * board.size + 1,
+                   -INF,
+                   INF,
+                   @mark, @opponent_mark)[:best_move]
   end
 
-  def make_best_move(board, max_depth, depth, mark, opponent_mark)
+  def make_best_move(board, depth, alpha, beta, mark, opponent_mark)
     return @best_moves[board] if @best_moves.key?(board)
-    return { score: score(board, mark, depth, max_depth),
+    return { score: score(board, mark, depth),
              best_move: board } if board.game_over?
-    return { score: 0, best_move: board } if depth == max_depth
 
-    best_score = -(max_depth - 1)
+    best_score = -INF 
     best_move = nil
     board.available_spaces.shuffle.each do |sp|
       new_board = board.make_move(sp, mark)
-      score = -make_best_move(new_board, max_depth, depth + 1, opponent_mark, mark)[:score]
+      score = -make_best_move(new_board, depth - 1, -beta, -alpha, opponent_mark, mark)[:score]
       if score > best_score
         best_score = score
         best_move = new_board
       end
+      alpha = [score, alpha].max
+      break if (alpha >= beta)
     end
 
+    @best_moves[board] = result(best_score, best_move)
     insert_rotations(board, best_score, best_move)
 
     @best_moves[board]
@@ -39,10 +46,10 @@ class ComputerPlayer < Player
     { score: score, best_move: board }
   end
 
-  def score(board, player, depth, max_depth)
+  def score(board, player, depth)
     return 0 if board.drawn?
-    return max_depth - depth if board.winner == player
-    -(max_depth - depth)
+    return depth if board.winner == player
+    -depth
   end
 
   def insert_rotations(board, best_score, best_move)

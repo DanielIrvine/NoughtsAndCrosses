@@ -1,5 +1,6 @@
 require 'Qt'
 require 'cell_label'
+require 'play_timer'
 
 class GameBoardWidget < Qt::Widget
 

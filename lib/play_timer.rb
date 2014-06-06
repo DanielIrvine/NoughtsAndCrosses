@@ -3,7 +3,7 @@ class PlayTimer < Qt::Timer
   slots :play
 
   def initialize(parent, controller)
-    self(parent)
+    super(parent)
 
     @controller = controller
     connect(self, SIGNAL(:timeout), self, SLOT(:play))

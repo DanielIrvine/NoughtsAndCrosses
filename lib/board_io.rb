@@ -6,12 +6,13 @@ class BoardIO
   MIDDLE_JOINS = '|┼|'
   BOTTOM_JOINS = '└┴┘'
 
-  HORIZONTAL = '━━━'
+  HORIZONTAL = '━'
   VERTICAL = '|'
 
   def initialize(io, board)
     @io = io
     @board = board
+    @max_digits = @board.all_indexes.max.to_s.length
   end
 
   def display
@@ -22,15 +23,19 @@ class BoardIO
   end
 
   def join_row(joins)
-    joins[0] + horizontal_segment(joins[1]) + HORIZONTAL + joins[2]
+    joins[0] + horizontal_segment(joins[1]) + horizontal + joins[2]
   end
 
   def horizontal_segment(join_character)
     line = ''
-    (@board.size - 1).times { line << HORIZONTAL + join_character }
+    (@board.size - 1).times { line << horizontal + join_character }
     line
   end
   
+  def horizontal
+    horizontal = ''.rjust(@max_digits + 2, HORIZONTAL)
+  end
+
   def middle_rows
     num_rows = (@board.size*2) - 2
     (0..num_rows).map do |row|
@@ -43,16 +48,17 @@ class BoardIO
     num_lines = @board.size-1
     (0..num_lines).each do |column|
       pos = row * @board.size + column
-      line << ' ' + character_for_square(pos) + ' ' + VERTICAL
+      padded_char = character_for_square(pos)
+      line << ' ' + padded_char + ' ' + VERTICAL
     end
     line
   end
 
   def character_for_square(pos)
     if @board.played?(pos)
-      @board.mark_at(pos)
+      @board.mark_at(pos).rjust(@max_digits)
     else
-      grey_text((pos + 1).to_s)
+      grey_text((pos + 1).to_s.rjust(@max_digits))
     end
   end
 

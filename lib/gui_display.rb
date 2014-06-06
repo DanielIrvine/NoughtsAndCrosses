@@ -2,7 +2,7 @@ require 'gui_controller'
 
 class GUIDisplay
 
-  attr_writer :on_play, :last_space_played
+  attr_writer :last_space_played
 
   CELL_SIZE = 150 
 
