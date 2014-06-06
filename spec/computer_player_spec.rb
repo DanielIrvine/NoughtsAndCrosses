@@ -3,10 +3,11 @@ require 'computer_player'
 
 describe ComputerPlayer do
 
-  xit 'can play a 4x4 game' do
+  it 'can play a 4x4 game' do
+    board = Board.new('X----O----------', BoardDynamics.new(4))
     x = ComputerPlayer.new('X', 'O')
     o = FirstAvailableSpacePlayer.new('O')
-    expect(win_or_draw?(Board.with_size(4), x, o, x)).to eq true
+    expect(win_or_draw?(board, x, o, x)).to eq true
   end
 
   it 'always wins' do

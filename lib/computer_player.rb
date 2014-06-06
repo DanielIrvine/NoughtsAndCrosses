@@ -12,14 +12,14 @@ class ComputerPlayer < Player
 
   def make_move(board)
     make_best_move(board,
-                   board.size * board.size + 1,
+                   board.available_spaces.length + 1,
                    -INF,
                    INF,
                    @mark, @opponent_mark)[:best_move]
   end
 
   def make_best_move(board, depth, alpha, beta, mark, opponent_mark)
-    return @best_moves[board] if @best_moves.key?(board)
+    #return @best_moves[board] if @best_moves.key?(board)
     return { score: score(board, mark, depth),
              best_move: board } if board.game_over?
 
@@ -32,14 +32,15 @@ class ComputerPlayer < Player
         best_score = score
         best_move = new_board
       end
-      alpha = [score, alpha].max
-      break if (alpha >= beta)
+      alpha = [best_score, alpha].max
+      break if (best_score >= beta)
     end
 
-    @best_moves[board] = result(best_score, best_move)
-    insert_rotations(board, best_score, best_move)
+    #@best_moves[board] = result(best_score, best_move)
+    #insert_rotations(board, best_score, best_move)
 
-    @best_moves[board]
+    result(best_score, best_move)
+    #@best_moves[board]
   end
 
   def result(score, board)
