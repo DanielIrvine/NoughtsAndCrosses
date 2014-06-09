@@ -2,9 +2,9 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
-require 'game_builder'
+require 'controller'
 require 'cli_display'
-require 'cli_runner'
 
-game = GameBuilder.new(CLIDisplay.new(Kernel)).build
-CLIRunner.new(game).play
+display = CLIDisplay.new(Controller.new, Kernel)
+display.begin
+display.exec

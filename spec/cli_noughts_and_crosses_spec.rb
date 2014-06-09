@@ -1,4 +1,5 @@
 require 'cli_runner'
+require 'controller'
 
 describe CLIRunner do
 
@@ -6,7 +7,6 @@ describe CLIRunner do
     io = double.as_null_object
     x = FirstAvailableSpacePlayer.new('X')
     o = FirstAvailableSpacePlayer.new('O')
-    game = Game.new(x, o, io)
-    CLIRunner.new(game).play.game_over?.should eq true
+    CLIRunner.new(Controller.new).play.game_over?.should eq true
   end
 end

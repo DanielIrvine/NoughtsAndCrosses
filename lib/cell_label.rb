@@ -2,14 +2,15 @@ require 'qt'
 
 class CellLabel < Qt::Label
   
-  def initialize(index, controller)
+  def initialize(index, parent)
     super(nil)
     @index = index
-    @controller = controller
+    @parent = parent
     setFrameStyle(Qt::Frame::StyledPanel | Qt::Frame::Plain);
   end
 
   def mousePressEvent(_)
-    @controller.play_at(@index)
+    @parent.set_next_human_move(@index)
+    @parent.play_turn
   end
 end

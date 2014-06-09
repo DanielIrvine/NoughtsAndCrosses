@@ -4,19 +4,19 @@ class Game
   attr_reader :board
   attr_reader :player_x, :player_o
 
-  def initialize(x, o, display, start = Board.with_size(3))
+  def initialize(x, o, start = Board.with_size(3))
     @board = start
     @player_x = x 
     @player_o = o
-    @display = display
   end
 
   def play_turn!
-    return if !next_player.has_available_move?
     @board = next_player.make_move(@board)
-    @display.display_board(@board)
-    @display.display_result(result_text) if game_over?
     @board
+  end
+
+  def move_possible?
+    next_player.has_available_move?
   end
 
   def next_player

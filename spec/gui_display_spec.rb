@@ -1,84 +1,98 @@
 require 'gui_display'
 require 'board'
+require 'game'
+require 'controller'
+require 'first_available_space_player'
+require 'game_board_widget'
 
 describe GUIDisplay do
+  
+  let(:x) { FirstAvailableSpacePlayer.new('X') }
+  let(:o) { FirstAvailableSpacePlayer.new('O') }
+  let(:io) { double.as_null_object }
+
+  it 'displays a winning message when game is over' do
+    expect(io).to receive(:draw_result).with('X wins!')
+    game = Game.new(x, o, Board.new('XX-OO----'))
+    controller = Controller.new(game)
+    gui = GUIDisplay.new(controller, io).play_turn
+  end
+
+  it 'displays a draw result' do
+    expect(io).to receive(:draw_result).with("It's a draw!")
+    game = Game.new(x, o, Board.new('XXOOOXXO-'))
+    controller = Controller.new(game)
+    gui = GUIDisplay.new(controller, io).play_turn
+  end
+
+  it 'displays a winning message for o' do
+    expect(io).to receive(:draw_result).with('O wins!')
+    game = Game.new(x, o, Board.new('XXOXO-O--'))
+    controller = Controller.new(game)
+    GUIDisplay.new(controller, io).play_turn
+  end
+
+  it 'displays the board after each move' do
+    expect(io).to receive(:draw_square).with(anything, anything).exactly(9).times
+    game = Game.new(x, o, Board.new('XXOOOXXOX'))
+    controller = Controller.new(game)
+    GUIDisplay.new(controller, io).play_turn
+  end
 
   it "displays a window with space for board and result" do
-    gui = double.as_null_object
-    expect(gui).to receive(:display_window).with(4, 3, GUIDisplay::CELL_SIZE, anything)
-    display = GUIDisplay.new(gui)
-    display.show(Board.with_size(3))
+    io = double
+    expect(io).to receive(:display_window).with(4, 3, GUIDisplay::CELL_SIZE, anything)
+    expect(io).to receive(:prompt_yes_no?).with(anything).and_return(false).exactly(3).times
+    GUIDisplay.new(Controller.new, io).begin
   end
 
   it "prompts the user if player X is human" do
-    gui = double.as_null_object
-    expect(gui).to receive(:prompt_yes_no?).with('Is player X human?').and_return(true)
-    display = GUIDisplay.new(gui)
+    expect(io).to receive(:prompt_yes_no?).with('Is player X human?').and_return(true)
+    display = GUIDisplay.new(Controller.new, io)
     expect(display.human?('X')).to eq true
   end
 
   it 'displays a window for a 4x4 game' do
-    gui = double.as_null_object
-    expect(gui).to receive(:display_window).with(5, 4, GUIDisplay::CELL_SIZE, anything)
-    display = GUIDisplay.new(gui)
-    display.show(Board.with_size(4))
+    expect(io).to receive(:prompt_yes_no?).with(anything).and_return(true)
+    expect(io).to receive(:display_window).with(5, 4, GUIDisplay::CELL_SIZE, anything)
+    display = GUIDisplay.new(Controller.new, io)
+    display.begin
   end
   
   it 'prompts the user if the game is 4x4' do
-    gui = double.as_null_object
-    expect(gui).to receive(:prompt_yes_no?).with('Do you want to play a 4x4 game? Choose no for a 3x3 game.').and_return(true)
-    display = GUIDisplay.new(gui)
-    expect(display.four_by_four?).to eq true
-  end
-
-  it "displays no squares for an empty board" do
-    gui = double.as_null_object
-    expect(gui).to receive(:draw_square).with(anything, anything)
-      .exactly(0).times
-    
-    display = GUIDisplay.new(gui)
-    display.display_board(Board.with_size(3))
+    expect(io).to receive(:prompt_yes_no?).with('Do you want to play a 4x4 game? Choose no for a 3x3 game.').and_return(true)
+    display = GUIDisplay.new(Controller.new, io)
+    expect(display.size?).to eq 4
   end
 
   it "displays an x when x is played" do
-    gui = double.as_null_object
-    expect(gui).to receive(:draw_square).with('X', 0)
-    display = GUIDisplay.new(gui)
-    display.display_board(Board.with_size(3).make_move(0, 'X'))
+    expect(io).to receive(:draw_square).with('X', 0)
+    game = Game.new(x, o, Board.with_size(3))
+    controller = Controller.new(game)
+    GUIDisplay.new(controller, io).play_turn
   end
 
   it "displays an x in the right place when played" do
-    gui = double.as_null_object
-    expect(gui).to receive(:draw_square).with('X', 7) 
-    display = GUIDisplay.new(gui)
-    display.display_board(Board.with_size(3).make_move(7, 'X'))
- end
+    expect(io).to receive(:draw_square).with('X', 4)
+    game = Game.new(x, o, Board.new('OOOO-----'))
+    controller = Controller.new(game)
+    GUIDisplay.new(controller, io).play_turn
+  end
 
   it 'displays multiple squares' do
-    gui = double.as_null_object
-    expect(gui).to receive(:draw_square).with(anything, anything).exactly(3).times
-    display = GUIDisplay.new(gui)
-    display.display_board(Board.new 'XOX------')
+    expect(io).to receive(:draw_square).with(anything, anything).exactly(4).times
+    game = Game.new(x, o, Board.new('XOX------'))
+    controller = Controller.new(game)
+    GUIDisplay.new(controller, io).play_turn
   end
 
-  it 'makes play when board is clicked' do
-    gui = double.as_null_object
-    display = GUIDisplay.new(gui)
-    x = HumanPlayer.new(display, 'X')
-    o = HumanPlayer.new(display, 'O')
-    game = Game.new(x, o, display)
-    display.on_play = Proc.new{ game.play_turn! }
-    coord = GUIDisplay::CELL_SIZE
-    display.last_space_played = 4
-    display.play
+  # TODO: this needs to be run against non-Qt code somehow
+  xit 'makes play when board is clicked' do
+    app = Qt::Application.new(ARGV)
+    io = GameBoardWidget.new
+    display = GUIDisplay.new(Controller.new, io)
+    io.grid[4].mousePressEvent(nil)
     expect(game.board.played?(4)).to eq true
-  end
-
-  it 'displays result text' do
-    gui = double.as_null_object
-    expect(gui).to receive(:draw_result).with("It's a draw!")
-    display = GUIDisplay.new(gui)
-    display.display_result("It's a draw!")
   end
 
 end

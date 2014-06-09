@@ -1,11 +1,12 @@
 require 'Qt'
 require 'cell_label'
-require 'play_timer'
 
 class GameBoardWidget < Qt::Widget
 
+  attr_reader :grid
+
   def initialize
-    super
+    super(nil)
     @font = Qt::Font.new('Helvetica Neue', 60, 0)
     setWindowTitle('Noughts and Crosses')
   end
@@ -18,14 +19,15 @@ class GameBoardWidget < Qt::Widget
     reply == Qt::MessageBox::Yes
   end
 
-  def display_window(rows, cols, cell_size, controller)
+  def display_window(rows, cols, cell_size, parent)
     resize(cols * cell_size, rows * cell_size)
-    create_grid(cols, controller)
+    create_grid(cols, parent)
     create_result_label(rows - 1, cols, cell_size)
     setLayout(@grid)
+    @timer = PlayTimer.new(parent)
     show
   end
-
+  
   def create_result_label(row, col_span, height)
     @result = Qt::Label.new
     set_label_properties(@result)
@@ -38,12 +40,12 @@ class GameBoardWidget < Qt::Widget
     label.setFont(@font)
   end
   
-  def create_grid(size, controller)
+  def create_grid(size, parent)
     @grid = Qt::GridLayout.new
     cells = (0...size).to_a
     cells.product(cells).each do |row, col|
       index = row * size + col
-      label = CellLabel.new(index, controller)
+      label = CellLabel.new(index, parent)
       set_label_properties(label)
       @grid.addWidget(label, row, col)
     end
@@ -57,7 +59,4 @@ class GameBoardWidget < Qt::Widget
     @result.setText(text)
   end
   
-  def create_timer(controller)
-    PlayTimer.new(self, controller)
-  end
 end

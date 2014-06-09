@@ -1,5 +1,7 @@
 require 'spec_helper'
 require 'computer_player'
+require 'human_player'
+require 'board'
 
 describe ComputerPlayer do
 
@@ -14,10 +16,10 @@ describe ComputerPlayer do
   it 'always wins' do
 
     computer = ComputerPlayer.new('X', 'O')
-    human = HumanPlayer.new(nil, 'O')
+    human = HumanPlayer.new('O')
     expect(win_or_draw_from_start?(computer, human)).to eq true
     computer = ComputerPlayer.new('O', 'X')
-    human = HumanPlayer.new(nil, 'X')
+    human = HumanPlayer.new('X')
     expect(win_or_draw_from_start?(human, computer)).to eq true
   end
 
