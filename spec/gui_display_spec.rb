@@ -1,7 +1,5 @@
 require 'gui_display'
-require 'board'
-require 'game'
-require 'game_board_widget'
+require 'test_game_board_widget'
 
 describe GUIDisplay do
   
@@ -39,7 +37,7 @@ describe GUIDisplay do
   end
 
   it "displays a window with space for board and result" do
-    expect(gui).to receive(:display_window).with(4, 3, GUIDisplay::CELL_SIZE, anything)
+    expect(gui).to receive(:display_window).with(4, 3, anything)
     expect(gui).to receive(:prompt_yes_no?).with(anything).and_return(false).exactly(3).times
     display.begin
   end
@@ -95,14 +93,8 @@ describe GUIDisplay do
     end
   end
 
-  # TODO: this needs to be run against non-Qt code somehow
-  # the issue is the display.begin method which will cause a dialog
-  # to display. since what we are actually trying to test is ruby code
-  # which connects objects together, it may actually work to just NOT
-  # show or prompt the user if 'in test mode'.
   it 'makes play when board is clicked' do
-    app = Qt::Application.new(ARGV)
-    gui = GameBoardWidget.new
+    gui = TestGameBoardWidget.new
     display = GUIDisplay.new(gui)
     display.begin
     gui.grid.itemAt(4).widget.mousePressEvent(nil)

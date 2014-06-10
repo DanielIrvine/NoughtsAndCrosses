@@ -3,6 +3,8 @@ require 'cell_label'
 
 class GameBoardWidget < Qt::Widget
 
+  CELL_SIZE = 150
+
   attr_reader :grid
 
   def initialize
@@ -12,7 +14,6 @@ class GameBoardWidget < Qt::Widget
   end
 
   def prompt_yes_no?(text)
-    return true
     reply = Qt::MessageBox.question(self,
                                 'Noughts and Crosses',
                                 text,
@@ -20,13 +21,13 @@ class GameBoardWidget < Qt::Widget
     reply == Qt::MessageBox::Yes
   end
 
-  def display_window(rows, cols, cell_size, parent)
-    resize(cols * cell_size, rows * cell_size)
+  def display_window(rows, cols, parent)
+    resize(cols * CELL_SIZE, rows * CELL_SIZE)
     create_grid(cols, parent)
-    create_result_label(rows - 1, cols, cell_size)
+    create_result_label(rows - 1, cols, CELL_SIZE)
     setLayout(@grid)
     @timer = PlayTimer.new(parent)
-    #show
+    show
   end
   
   def create_result_label(row, col_span, height)

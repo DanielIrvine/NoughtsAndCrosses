@@ -3,8 +3,6 @@ require 'game'
 
 class GUIDisplay
 
-  CELL_SIZE = 150 
-
   def initialize(gui)
     @gui = gui
   end
@@ -16,7 +14,6 @@ class GUIDisplay
                              size?)
     @gui.display_window(@controller.board.size + 1,
                         @controller.board.size,
-                        CELL_SIZE,
                         self)
   end
 
