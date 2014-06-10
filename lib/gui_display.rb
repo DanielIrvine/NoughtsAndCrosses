@@ -3,8 +3,11 @@ require 'game'
 
 class GUIDisplay
 
-  def initialize(gui)
+  def initialize(gui, dialog, timer)
     @gui = gui
+    puts dialog.to_s
+    @dialog = dialog
+    @timer = timer
   end
 
   def begin
@@ -15,16 +18,16 @@ class GUIDisplay
     @gui.display_window(@controller.board.size + 1,
                         @controller.board.size,
                         self)
+    @timer.start
   end
 
-
   def size?
-    four_by_four = @gui.prompt_yes_no?('Do you want to play a 4x4 game? Choose no for a 3x3 game.')
-    four_by_four ? 4 : 3
+    result = @dialog.ask('Do you want to play a 4x4 game? Choose no for a 3x3 game.')
+    result ? 4 : 3
   end
 
   def human?(mark)
-    @gui.prompt_yes_no?("Is player #{mark} human?")
+    @dialog.ask("Is player #{mark} human?")
   end
 
   def display_board(board)

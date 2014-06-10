@@ -5,6 +5,7 @@ class GameBoardWidget < Qt::Widget
 
   CELL_SIZE = 150
 
+  attr_reader :result
   attr_reader :grid
 
   def initialize
@@ -13,20 +14,11 @@ class GameBoardWidget < Qt::Widget
     setWindowTitle('Noughts and Crosses')
   end
 
-  def prompt_yes_no?(text)
-    reply = Qt::MessageBox.question(self,
-                                'Noughts and Crosses',
-                                text,
-                                Qt::MessageBox::Yes, Qt::MessageBox::No)
-    reply == Qt::MessageBox::Yes
-  end
-
   def display_window(rows, cols, parent)
     resize(cols * CELL_SIZE, rows * CELL_SIZE)
     create_grid(cols, parent)
     create_result_label(rows - 1, cols, CELL_SIZE)
     setLayout(@grid)
-    @timer = PlayTimer.new(parent)
     show
   end
   

@@ -6,11 +6,11 @@ require 'board'
 describe ComputerPlayer do
 
   xit 'can play a 4x4 game' do
-    board = Board.new('X----O--XO----X-', BoardDynamics.new(4))
+    board = Board.with_size(4)
     x = ComputerPlayer.new('X', 'O')
     o = ComputerPlayer.new('O', 'X')
     new_board = o.make_move(board)
-    #expect(win_or_draw?(board, x, o, x)).to eq true
+    expect(win_or_draw?(board, x, o, x)).to eq true
   end
 
   it 'always wins' do
