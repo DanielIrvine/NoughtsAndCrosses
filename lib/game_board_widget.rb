@@ -12,6 +12,7 @@ class GameBoardWidget < Qt::Widget
   end
 
   def prompt_yes_no?(text)
+    return true
     reply = Qt::MessageBox.question(self,
                                 'Noughts and Crosses',
                                 text,
@@ -25,7 +26,7 @@ class GameBoardWidget < Qt::Widget
     create_result_label(rows - 1, cols, cell_size)
     setLayout(@grid)
     @timer = PlayTimer.new(parent)
-    show
+    #show
   end
   
   def create_result_label(row, col_span, height)

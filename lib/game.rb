@@ -17,10 +17,6 @@ class Game
     @board
   end
 
-  def move_possible?
-    next_player.has_available_move?
-  end
-
   def next_player
     @board.played_spaces.length.even? ? @x : @o
   end

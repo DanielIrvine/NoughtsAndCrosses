@@ -1,25 +1,27 @@
 require 'spec_helper'
 require 'game'
-require 'first_available_space_player'
+require 'human_player'
+require 'computer_player'
 
 describe 'Game' do
 
-  let(:io) { double.as_null_object }
-  let(:x) { FirstAvailableSpacePlayer.new('X') }
-  let(:o) { FirstAvailableSpacePlayer.new('O') }
-  let(:game) { Game.new(x, o, Board.with_size(3)) }
+ it "can create a human and a computer player" do
+   game = Game.new(true, false, 3)
+   expect(game.x.kind_of?(HumanPlayer)).to eq true
+   expect(game.o.kind_of?(ComputerPlayer)).to eq true
+ end
 
-  describe '#play_turn' do
-    it 'plays one move' do
-      board = game.play_turn!
-      board.available_spaces.length.should eq 8
-    end
-
-    it 'playing twice plays two different player marks' do
-      game.play_turn!
-      board = game.play_turn!
-      board.played_spaces.map { |sp| board.mark_at(sp) }.uniq.length.should eq 2
-    end
-  end
+ it "can create two computer players" do
+   game = Game.new(false, false, 3)
+   expect(game.x.kind_of?(ComputerPlayer)).to eq true
+   expect(game.o.kind_of?(ComputerPlayer)).to eq true
+   expect(game.x.mark).to eq 'X'
+   expect(game.o.mark).to eq 'O'
+ end
+ 
+ it "creates a board of the right size" do
+   game = Game.new(false, false, 5)
+   expect(game.board.size).to eq 5
+ end
 
 end

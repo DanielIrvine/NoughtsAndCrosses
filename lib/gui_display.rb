@@ -5,14 +5,13 @@ class GUIDisplay
 
   CELL_SIZE = 150 
 
-  def initialize(gui, game = nil)
+  def initialize(gui)
     @gui = gui
-    @controller = game
   end
 
   def begin
     
-    @controller ||= Game.new(human?('X'),
+    @controller = Game.new(human?('X'),
                              human?('O'),
                              size?)
     @gui.display_window(@controller.board.size + 1,

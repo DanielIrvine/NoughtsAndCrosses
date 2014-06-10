@@ -1,6 +1,7 @@
 require 'gui_display'
 require 'board'
 require 'game'
+require 'game_board_widget'
 
 describe GUIDisplay do
   
@@ -95,12 +96,17 @@ describe GUIDisplay do
   end
 
   # TODO: this needs to be run against non-Qt code somehow
-  xit 'makes play when board is clicked' do
+  # the issue is the display.begin method which will cause a dialog
+  # to display. since what we are actually trying to test is ruby code
+  # which connects objects together, it may actually work to just NOT
+  # show or prompt the user if 'in test mode'.
+  it 'makes play when board is clicked' do
     app = Qt::Application.new(ARGV)
-    io = GameBoardWidget.new
-    display = GUIDisplay.new(Controller.new, io)
-    io.grid[4].mousePressEvent(nil)
-    expect(game.board.played?(4)).to eq true
+    gui = GameBoardWidget.new
+    display = GUIDisplay.new(gui)
+    display.begin
+    gui.grid.itemAt(4).widget.mousePressEvent(nil)
+    expect(gui.grid.itemAt(4).widget.text=='X').to eq true
   end
 
 end
