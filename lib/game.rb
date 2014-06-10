@@ -1,13 +1,15 @@
 require 'board'
+require 'human_player'
+require 'computer_player'
 
 class Game
   attr_reader :board
-  attr_reader :player_x, :player_o
+  attr_reader :x, :o
 
-  def initialize(x, o, start = Board.with_size(3))
-    @board = start
-    @player_x = x 
-    @player_o = o
+  def initialize(x_human, o_human, size)
+    @x = build_player('X', x_human)
+    @o = build_player('O', o_human)
+    @board = Board.with_size(size)
   end
 
   def play_turn!
@@ -20,11 +22,15 @@ class Game
   end
 
   def next_player
-    @board.played_spaces.length.even? ? @player_x : @player_o
+    @board.played_spaces.length.even? ? @x : @o
   end
   
   def game_over?
     @board.game_over?
+  end
+
+  def set_next_human_move(square)
+    next_player.next_move = square if next_player.kind_of?(HumanPlayer)
   end
 
   def result_text
@@ -33,5 +39,17 @@ class Game
     else
       "It's a draw!"
     end
+  end
+
+  def build_player(mark, human)
+    if human
+      HumanPlayer.new(mark)
+    else
+      ComputerPlayer.new(mark, opponent_of(mark))
+    end
+  end
+
+  def opponent_of(mark)
+    mark == 'X' ? 'O' : 'X'
   end
 end

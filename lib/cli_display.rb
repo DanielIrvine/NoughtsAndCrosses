@@ -1,17 +1,17 @@
 require 'board_io'
+require 'game'
 
 class CLIDisplay
 
-  def initialize(controller, io)
+  def initialize(io)
     @io = io
-    @controller = controller
   end
 
   def begin
-    board = @controller.begin(human?('X'),
-                              human?('O'),
-                              size?)
-    display_board(board)
+    @controller = Game.new(human?('X'),
+                           human?('O'),
+                           size?)
+    display_board(@controller.board)
   end
   
   def human?(mark)

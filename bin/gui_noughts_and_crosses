@@ -2,14 +2,11 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
-require 'game_builder'
 require 'qt'
 require 'game_board_widget'
 require 'gui_display'
-require 'controller'
 
 app = Qt::Application.new(ARGV)
-controller = Controller.new
 ui = GameBoardWidget.new
-GUIDisplay.new(controller, ui).begin
+GUIDisplay.new(ui).begin
 app.exec

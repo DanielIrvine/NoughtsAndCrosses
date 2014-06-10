@@ -2,9 +2,8 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
-require 'controller'
 require 'cli_display'
 
-display = CLIDisplay.new(Controller.new, Kernel)
+display = CLIDisplay.new(Kernel)
 display.begin
 display.exec

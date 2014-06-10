@@ -1,20 +1,22 @@
 require 'play_timer'
+require 'game'
 
 class GUIDisplay
 
   CELL_SIZE = 150 
 
-  def initialize(controller, gui)
+  def initialize(gui, game = nil)
     @gui = gui
-    @controller = controller 
+    @controller = game
   end
 
   def begin
-    board = @controller.begin(human?('X'),
-                              human?('O'),
-                              size?)
-    @gui.display_window(board.size + 1,
-                        board.size,
+    
+    @controller ||= Game.new(human?('X'),
+                             human?('O'),
+                             size?)
+    @gui.display_window(@controller.board.size + 1,
+                        @controller.board.size,
                         CELL_SIZE,
                         self)
   end

@@ -4,6 +4,15 @@ require 'cli_display'
 
 describe CLIDisplay do
 
+  it 'plays until game over' do
+    seq = %w(y y n 1 2 5 3 9) * "\n"
+    io = SimplifiedStringIO.new(seq)
+    display = CLIDisplay.new(io)
+    display.begin
+    display.exec
+    expect(io.string).to end_with("X wins!\n")
+  end
+
   it 'displays an empty square for the empty board' do
     str = SimplifiedStringIO.new
     CLIDisplay.new(str).display_board(Board.with_size(3))
@@ -29,11 +38,6 @@ describe CLIDisplay do
     CLIDisplay.new(str).display_board(Board.new 'X--OXO--X')
     expect(str.string.scan(/X/).length).to eq 3
     expect(str.string.scan(/O/).length).to eq 2
-  end
-
-  it 'prompts user for move' do
-    str = SimplifiedStringIO.new('8')
-    expect(CLIDisplay.new(str).prompt_for_move).to eq 7
   end
 
   it 'displays result text' do
