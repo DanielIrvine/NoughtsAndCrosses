@@ -3,8 +3,8 @@ require 'game'
 
 class GUIDisplay
 
-  def initialize(gui, dialog, timer)
-    @gui = gui
+  def initialize(window, dialog, timer)
+    @window = window
     @dialog = dialog
     @timer= timer
   end
@@ -14,9 +14,9 @@ class GUIDisplay
     @controller = Game.new(human?('X'),
                            human?('O'),
                            size?)
-    @gui.display_window(@controller.board.size + 1,
-                        @controller.board.size,
-                        self)
+    @window.display_window(@controller.board.size + 1,
+                           @controller.board.size,
+                           self)
     @timer.use(self)
   end
 
@@ -31,12 +31,12 @@ class GUIDisplay
 
   def display_board(board)
     board.all_indexes.each do |sq|
-      @gui.draw_square(board.mark_at(sq), sq) if board.played?(sq)
+      @window.draw_square(board.mark_at(sq), sq) if board.played?(sq)
     end
   end
 
   def display_result(result_text)
-    @gui.draw_result(result_text)
+    @window.draw_result(result_text)
   end
   
   def play_turn

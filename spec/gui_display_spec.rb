@@ -5,13 +5,13 @@ require 'gui_display'
 
 describe GUIDisplay do
   
-  let(:gui) { TestGameBoardWidget.new }
+  let(:window) { TestGameBoardWidget.new }
   let(:question) { TestQuestion.new(
     { 'Is player X human?' => true,
       'Is player O human?' => true,
       'Do you want to play a 4x4 game? Choose no for a 3x3 game.' => false }) }
   let(:timer) { TestPlayTimer.new }
-  let(:display) { GUIDisplay.new(gui, question, timer) }
+  let(:display) { GUIDisplay.new(window, question, timer) }
 
   it 'displays a winning message when game is over' do
     display.begin
@@ -19,18 +19,21 @@ describe GUIDisplay do
       click(sq)
       display.play_turn
     end
-    expect(gui.result.text).to eq 'X wins!'
+    expect(has_label_with_text('X wins!')).to eq true
   end
 
-  it 'plays X move when timer is fired' do
-    question['Is player X human?'] = false
-    display.begin
-    timer.fire
-    any_set = false
-    (0..8).each do |sq|
-      any_set = true if gui.grid.itemAt(sq).widget.text == 'X'
+
+  describe 'computer player as x' do
+
+    before do
+      question['Is player X human?'] = false
     end
-    expect(any_set).to eq true
+
+    it 'plays X move when timer is fired' do
+      display.begin
+      timer.fire
+      expect(has_label_with_text('X')).to eq true
+    end
   end
 
   it 'displays a draw result' do
@@ -39,7 +42,7 @@ describe GUIDisplay do
       click(sq)
       display.play_turn
     end
-    expect(gui.result.text).to eq "It's a draw!"
+    expect(has_label_with_text("It's a draw!")).to eq true
   end
 
   it 'displays a winning message for o' do
@@ -48,14 +51,9 @@ describe GUIDisplay do
       click(sq)
       display.play_turn
     end
-    expect(gui.result.text).to eq 'O wins!'
+    expect(has_label_with_text('O wins!')).to eq true
   end
 
-  it "displays a window with space for board and result" do
-    display.begin
-    expect(gui.grid.count).to eq 10
-    expect(gui.grid.itemAt(9).widget).to eq gui.result
-  end
 
   it "prompts the user if player X is human" do
     expect(question).to receive(:ask).with('Is player X human?').and_return(true)
@@ -65,7 +63,8 @@ describe GUIDisplay do
   it 'displays a 4x4 board' do
     question['Do you want to play a 4x4 game? Choose no for a 3x3 game.'] = true
     display.begin
-    expect(gui.grid.count).to eq (4*4 + 1)
+    click(15)
+    expect(square(15).text).to eq 'X'
   end
   
   it 'prompts the user if the game is 4x4' do
@@ -73,18 +72,11 @@ describe GUIDisplay do
     expect(display.size?).to eq 4
   end
 
-  it "displays an x when x is played" do
-    display.begin
-    click(0)
-    display.play_turn
-    expect(gui.grid.itemAt(0).widget.text).to eq 'X'
-  end
-
   it "displays an x in the right place when played" do
     display.begin
     click(4)
     display.play_turn
-    expect(gui.grid.itemAt(4).widget.text).to eq 'X'
+    expect(square(4).text).to eq 'X'
   end
 
   it "doesn't play in an already played square" do
@@ -93,7 +85,8 @@ describe GUIDisplay do
       click(sq)
       display.play_turn
     end
-    expect(gui.grid.itemAt(4).widget.text).to eq 'X'
+    expect(num_labels_with_text('X')).to eq 1
+    expect(num_labels_with_text('O')).to eq 0
   end
 
   it 'displays multiple squares' do
@@ -102,13 +95,24 @@ describe GUIDisplay do
       click(sq) 
       display.play_turn
     end
-    expect(gui.grid.itemAt(1).widget.text).to eq 'X'
-    expect(gui.grid.itemAt(2).widget.text).to eq 'O'
-    expect(gui.grid.itemAt(3).widget.text).to eq 'X'
-    expect(gui.grid.itemAt(4).widget.text).to eq 'O'
+    expect(num_labels_with_text('X')).to eq 2
+    expect(num_labels_with_text('O')).to eq 2
   end
 
   def click(index)
-    gui.grid.itemAt(index).widget.mousePressEvent(nil) 
+    square(index).mousePressEvent(nil)
+  end
+
+  def square(index)
+    window.children.find{ |c| c.object_name=="square-#{index}"}
+  end
+  def has_label_with_text(text)
+    window.children.each do |child|
+      return true if child.kind_of?(Qt::Label) && child.text == text
+    end
+  end
+
+  def num_labels_with_text(text)
+    window.children.count { |child| child.kind_of?(Qt::Label) && child.text == text }
   end
 end

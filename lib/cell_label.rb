@@ -7,6 +7,7 @@ class CellLabel < Qt::Label
     @index = index
     @parent = parent
     setFrameStyle(Qt::Frame::StyledPanel | Qt::Frame::Plain);
+    setObjectName("square-#{index}")
   end
 
   def mousePressEvent(_)
