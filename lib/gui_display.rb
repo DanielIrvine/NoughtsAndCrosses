@@ -5,7 +5,6 @@ class GUIDisplay
 
   def initialize(gui, dialog, timer)
     @gui = gui
-    puts dialog.to_s
     @dialog = dialog
     @timer = timer
   end

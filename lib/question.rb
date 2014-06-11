@@ -17,5 +17,7 @@ class Question < Qt::MessageBox
     show
     clickedButton == Qt::MessageBox::Yes
   end
+
 end
 end
+

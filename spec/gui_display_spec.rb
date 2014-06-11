@@ -39,7 +39,6 @@ describe GUIDisplay do
   end
 
   it "displays a window with space for board and result" do
-    expect(question).to receive(:ask).with(anything).and_return(false).exactly(3).times
     display.begin
     expect(gui.grid.count).to eq 10
     expect(gui.grid.itemAt(9).widget).to eq gui.result
@@ -51,18 +50,17 @@ describe GUIDisplay do
   end
 
   it 'displays a 4x4 board' do
-    expect(question).to receive(:ask).with(anything).and_return(true)
+    question['Do you want to play a 4x4 game? Choose no for a 3x3 game.'] = true
     display.begin
     expect(gui.grid.count).to eq (4*4 + 1)
   end
   
   it 'prompts the user if the game is 4x4' do
-    expect(question).to receive(:ask).with('Do you want to play a 4x4 game? Choose no for a 3x3 game.').and_return(true)
+    question['Do you want to play a 4x4 game? Choose no for a 3x3 game.'] = true
     expect(display.size?).to eq 4
   end
 
   it "displays an x when x is played" do
-    expect(question).to receive(:ask).with(anything).and_return(true)
     display.begin
     click(0)
     display.play_turn
@@ -70,7 +68,6 @@ describe GUIDisplay do
   end
 
   it "displays an x in the right place when played" do
-    expect(question).to receive(:ask).with(anything).and_return(true)
     display.begin
     click(4)
     display.play_turn
@@ -78,7 +75,6 @@ describe GUIDisplay do
   end
 
   it "doesn't play in an already played square" do
-    expect(question).to receive(:ask).with(anything).and_return(true)
     display.begin
     [4, 4].each do |sq|
       click(sq)

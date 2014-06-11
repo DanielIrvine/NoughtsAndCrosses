@@ -1,4 +1,5 @@
 require 'question'
+require 'qt'
 
 class TestQuestion < Dan::Question
 
@@ -7,7 +8,14 @@ class TestQuestion < Dan::Question
     @answers = answers
   end
 
-  def ask(text)
-    @answers[text]
+  def show
+  end
+
+  def []=(key, value)
+    @answers[key] = value
+  end
+  
+  def clickedButton
+    @answers[text] ? Qt::MessageBox::Yes : Qt::MessageBox::No
   end
 end
