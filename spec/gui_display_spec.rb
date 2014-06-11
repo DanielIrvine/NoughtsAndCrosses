@@ -10,7 +10,7 @@ describe GUIDisplay do
     { 'Is player X human?' => true,
       'Is player O human?' => true,
       'Do you want to play a 4x4 game? Choose no for a 3x3 game.' => false }) }
-  let(:timer) { TestPlayTimer }
+  let(:timer) { TestPlayTimer.new }
   let(:display) { GUIDisplay.new(gui, question, timer) }
 
   it 'displays a winning message when game is over' do
@@ -20,6 +20,17 @@ describe GUIDisplay do
       display.play_turn
     end
     expect(gui.result.text).to eq 'X wins!'
+  end
+
+  it 'plays X move when timer is fired' do
+    question['Is player X human?'] = false
+    display.begin
+    timer.fire
+    any_set = false
+    (0..8).each do |sq|
+      any_set = true if gui.grid.itemAt(sq).widget.text == 'X'
+    end
+    expect(any_set).to eq true
   end
 
   it 'displays a draw result' do

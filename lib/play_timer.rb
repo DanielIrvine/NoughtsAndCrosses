@@ -4,15 +4,18 @@ class PlayTimer < Qt::Timer
 
   slots :play
 
-  def initialize(controller)
+  def initialize
     super(nil)
 
-    @controller = controller
     connect(self, SIGNAL(:timeout), self, SLOT(:play))
+  end
+
+  def use(display)
+    @display = display
     start(1000)
   end
 
   def play
-    @controller.play_turn
+    @display.play_turn
   end
 end

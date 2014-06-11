@@ -6,4 +6,7 @@ class TestPlayTimer < PlayTimer
 
   end
 
+  def fire 
+    emit timeout()
+  end
 end
