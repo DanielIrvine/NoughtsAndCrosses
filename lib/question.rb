@@ -7,15 +7,16 @@ class Question < Qt::MessageBox
     super(nil)
     setIcon(Qt::MessageBox::Question)
     setWindowTitle('Noughts and Crosses')
-    addButton(Qt::MessageBox::Yes)
-    addButton(Qt::MessageBox::No)
+    @yes = addButton(Qt::MessageBox::Yes)
+    @no = addButton(Qt::MessageBox::No)
     setDefaultButton(Qt::MessageBox::No)
+    setWindowModality(Qt::ApplicationModal)
   end
 
   def ask(question)
     setText(question)
-    show
-    clickedButton == Qt::MessageBox::Yes
+    self.exec()
+    buttonRole(clickedButton) == Qt::MessageBox::YesRole 
   end
 
 end

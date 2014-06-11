@@ -2,15 +2,13 @@ require 'spec_helper'
 require 'computer_player'
 require 'human_player'
 require 'board'
+require 'game'
 
 describe ComputerPlayer do
 
-  xit 'can play a 4x4 game' do
-    board = Board.with_size(4)
-    x = ComputerPlayer.new('X', 'O')
-    o = ComputerPlayer.new('O', 'X')
-    new_board = o.make_move(board)
-    expect(win_or_draw?(board, x, o, x)).to eq true
+  it 'can play a 4x4 game' do
+    game = Game.new(false, false, 4)
+    game.play_turn! until game.game_over? 
   end
 
   it 'always wins' do

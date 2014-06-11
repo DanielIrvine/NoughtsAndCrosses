@@ -12,8 +12,8 @@ class GUIDisplay
   def begin
     
     @controller = Game.new(human?('X'),
-                             human?('O'),
-                             size?)
+                           human?('O'),
+                           size?)
     @gui.display_window(@controller.board.size + 1,
                         @controller.board.size,
                         self)

@@ -8,14 +8,14 @@ class TestQuestion < Dan::Question
     @answers = answers
   end
 
-  def show
+  def exec
   end
 
   def []=(key, value)
     @answers[key] = value
   end
   
-  def clickedButton
-    @answers[text] ? Qt::MessageBox::Yes : Qt::MessageBox::No
+  def clickedButton 
+    @answers[text] ? @yes : @no 
   end
 end
