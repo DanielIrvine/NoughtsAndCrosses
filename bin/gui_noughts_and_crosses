@@ -11,5 +11,5 @@ require 'play_timer'
 app = Qt::Application.new(ARGV)
 GUIDisplay.new(GameBoardWidget.new,
                Dan::Question.new,
-               PlayTimer).begin
+               PlayTimer.new).begin
 app.exec
