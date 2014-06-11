@@ -3,10 +3,10 @@ require 'game'
 
 class GUIDisplay
 
-  def initialize(gui, dialog, timer)
+  def initialize(gui, dialog, timer_type)
     @gui = gui
     @dialog = dialog
-    @timer = timer
+    @timer_type = timer_type
   end
 
   def begin
@@ -17,7 +17,7 @@ class GUIDisplay
     @gui.display_window(@controller.board.size + 1,
                         @controller.board.size,
                         self)
-    @timer.start
+    @timer_type.new(self)
   end
 
   def size?

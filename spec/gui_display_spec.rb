@@ -1,5 +1,6 @@
 require 'test_game_board_widget'
 require 'test_question'
+require 'test_play_timer'
 require 'gui_display'
 
 describe GUIDisplay do
@@ -9,7 +10,8 @@ describe GUIDisplay do
     { 'Is player X human?' => true,
       'Is player O human?' => true,
       'Do you want to play a 4x4 game? Choose no for a 3x3 game.' => false }) }
-  let(:display) { GUIDisplay.new(gui, question, double.as_null_object) }
+  let(:timer) { TestPlayTimer }
+  let(:display) { GUIDisplay.new(gui, question, timer) }
 
   it 'displays a winning message when game is over' do
     display.begin
