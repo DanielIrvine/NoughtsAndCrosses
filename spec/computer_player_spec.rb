@@ -6,7 +6,7 @@ require 'game'
 
 describe ComputerPlayer do
 
-  it 'can play a 4x4 game' do
+  it 'can play a 4x4 game', :functional => true do
     game = Game.new(false, false, 4)
     game.play_turn! until game.game_over? 
   end
