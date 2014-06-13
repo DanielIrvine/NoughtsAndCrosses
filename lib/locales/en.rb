@@ -11,5 +11,4 @@ module NoughtsAndCrosses
 }
 
   end
-
 end
