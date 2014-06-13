@@ -5,9 +5,6 @@ class GameBoardWidget < Qt::Widget
 
   CELL_SIZE = 150
 
-  attr_reader :result
-  attr_reader :grid
-
   def initialize
     super(nil)
     @font = Qt::Font.new('Helvetica Neue', 60, 0)

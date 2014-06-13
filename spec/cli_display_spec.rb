@@ -42,7 +42,7 @@ describe CLIDisplay do
 
   it 'displays result text' do
     io = double
-    io.should_receive(:puts).with('O wins!')
+    expect(io).to receive(:puts).with('O wins!')
     CLIDisplay.new(io).display_result('O wins!')
   end
 

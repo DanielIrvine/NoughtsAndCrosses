@@ -21,4 +21,3 @@ class Question < Qt::MessageBox
 
 end
 end
-

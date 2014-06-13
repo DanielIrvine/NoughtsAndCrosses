@@ -1,11 +1,10 @@
-require 'player'
+class ComputerPlayer
 
-class ComputerPlayer < Player
-
+  attr_reader :mark
   INF = 100
 
   def initialize(mark, opponent_mark)
-    super(mark)
+    @mark = mark
     @opponent_mark = opponent_mark
     @best_moves = {}
   end

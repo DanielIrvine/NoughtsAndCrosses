@@ -1,8 +1,6 @@
-require 'player'
-
-class FirstAvailableSpacePlayer < Player
+class FirstAvailableSpacePlayer
   def initialize(mark)
-    super(mark) 
+    @mark = mark
   end
 
   def make_move(board)

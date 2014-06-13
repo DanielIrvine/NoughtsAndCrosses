@@ -25,6 +25,10 @@ class GUIDisplay
     result ? 4 : 3
   end
 
+  #def four_by_four?
+  #  @dialog.ask('Do you want...')
+  #end
+  
   def human?(mark)
     @dialog.ask("Is player #{mark} human?")
   end

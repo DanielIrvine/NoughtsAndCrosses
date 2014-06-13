@@ -1,11 +1,10 @@
-require 'player'
+class HumanPlayer
 
-class HumanPlayer < Player
-
+  attr_reader :mark
   attr_writer :next_move
 
   def initialize(mark)
-    super(mark)
+    @mark = mark
   end
 
   def make_move(board)

@@ -46,7 +46,7 @@ describe Board do
     end
 
     it 'return true for full board' do
-      (Board.new 'XXOOOXXXO').drawn?.should eq true
+      expect(Board.new('XXOOOXXXO').drawn?).to eq true
     end
   end
 

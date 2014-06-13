@@ -13,5 +13,6 @@ class CellLabel < Qt::Label
   def mousePressEvent(_)
     @parent.set_next_human_move(@index)
     @parent.play_turn
+    @parent.play_turn
   end
 end
