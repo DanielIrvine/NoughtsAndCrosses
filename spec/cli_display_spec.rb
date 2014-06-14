@@ -1,18 +1,21 @@
 require 'spec_helper'
 require 'simplified_string_io'
 require 'cli_display'
+require 'strings'
 
 module NoughtsAndCrosses
   module CLI
     describe CLIDisplay do
-    
+   
+      include Strings
+      
       it 'plays until game over' do
         seq = %w(y y n 1 2 5 3 9) * "\n"
         io = SimplifiedStringIO.new(seq)
         display = CLIDisplay.new(io)
         display.begin
         display.exec
-        expect(io.string).to end_with("X wins!\n")
+        expect(io.string.chomp).to end_with(translate(:winner, 'X'))
       end
     
       it 'displays an empty square for the empty board' do
@@ -44,8 +47,8 @@ module NoughtsAndCrosses
     
       it 'displays result text' do
         io = double
-        expect(io).to receive(:puts).with('O wins!')
-        CLIDisplay.new(io).display_result('O wins!')
+        expect(io).to receive(:puts).with(translate(:winner, 'O'))
+        CLIDisplay.new(io).display_result(translate(:winner, 'O'))
       end
     
       describe '#human?' do

@@ -1,9 +1,12 @@
 require 'board_io'
 require 'game'
+require 'strings'
 
 module NoughtsAndCrosses
   module CLI
     class CLIDisplay
+
+      include Strings
 
       def initialize(io)
         @io = io
@@ -17,14 +20,14 @@ module NoughtsAndCrosses
       end
       
       def human?(mark)
-        @io.puts "Is player #{mark} human? Press 'y' for yes, 'n' for no."
+        @io.puts translate(:human, mark)
         valid_answers = %w(y n)
         answer = @io.gets.chomp.downcase until valid_answers.include? answer
         answer == 'y'
       end
 
       def size?
-        @io.puts "Would you like to play a 4x4 game? Press 'y' for yes, or 'n' to play a 3x3 game."
+        @io.puts translate(:four_by_four)
         valid_answers = %w(y n)
         answer = @io.gets.chomp.downcase until valid_answers.include? answer
         answer == 'y' ? 4 : 3
@@ -40,7 +43,7 @@ module NoughtsAndCrosses
 
       def prompt_for_move_if_necessary
         return if !@controller.next_player.kind_of?(HumanPlayer)
-        @io.puts "Enter a square to play, e.g. '3':"
+        @io.puts translate(:enter_square)
         square = @io.gets.to_i - 1
         @controller.set_next_human_move(square)
       end

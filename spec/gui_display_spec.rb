@@ -2,16 +2,19 @@ require 'test_game_board_widget'
 require 'test_question'
 require 'test_play_timer'
 require 'gui_display'
+require 'strings'
 
 module NoughtsAndCrosses
   module GUI
     describe GUIDisplay do
-      
+     
+      include Strings
+
       let(:window) { TestGameBoardWidget.new }
       let(:question) { TestQuestion.new(
-        { 'Is player X human?' => true,
-          'Is player O human?' => true,
-          'Do you want to play a 4x4 game? Choose no for a 3x3 game.' => false }) }
+        { translate(:human, 'X') => true,
+          translate(:human, 'O') => true,
+          translate(:four_by_four) => false }) }
       let(:timer) { TestPlayTimer.new }
       let(:display) { GUIDisplay.new(window, question, timer) }
     
@@ -21,14 +24,14 @@ module NoughtsAndCrosses
           click(sq)
           display.play_turn
         end
-        expect(has_label_with_text('X wins!')).to eq true
+        expect(has_label_with_text(translate(:winner, 'X'))).to eq true
       end
     
     
       describe 'computer player as x' do
     
         before do
-          question['Is player X human?'] = false
+          question[translate(:human, 'X')] = false
         end
     
         it 'plays X move when timer is fired' do
@@ -44,7 +47,7 @@ module NoughtsAndCrosses
           click(sq)
           display.play_turn
         end
-        expect(has_label_with_text("It's a draw!")).to eq true
+        expect(has_label_with_text(translate(:draw))).to eq true
       end
     
       it 'displays a winning message for o' do
@@ -53,24 +56,24 @@ module NoughtsAndCrosses
           click(sq)
           display.play_turn
         end
-        expect(has_label_with_text('O wins!')).to eq true
+        expect(has_label_with_text(translate(:winner, 'O'))).to eq true
       end
     
     
       it "prompts the user if player X is human" do
-        expect(question).to receive(:ask).with('Is player X human?').and_return(true)
+        expect(question).to receive(:ask).with(translate(:human, 'X')).and_return(true)
         expect(display.human?('X')).to eq true
       end
     
       it 'displays a 4x4 board' do
-        question['Do you want to play a 4x4 game? Choose no for a 3x3 game.'] = true
+        question[translate(:four_by_four)] = true
         display.begin
         click(15)
         expect(square(15).text).to eq 'X'
       end
       
       it 'prompts the user if the game is 4x4' do
-        question['Do you want to play a 4x4 game? Choose no for a 3x3 game.'] = true
+        question[translate(:four_by_four)] = true
         expect(display.size?).to eq 4
       end
     
