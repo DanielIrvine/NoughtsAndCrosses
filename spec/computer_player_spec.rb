@@ -33,13 +33,13 @@ module NoughtsAndCrosses
     it 'should play corner square' do
       board = Board.new('----X----')
       new_board = computer.make_move(board)
-      expect((new_board.available_spaces & [0, 2, 6, 8]).length).to eq 3
+      expect((new_board.played_spaces & [0, 2, 6, 8]).length).to eq 1
     end
     
     it 'should block a fork' do
       board = Board.new('X---O---X')
       new_board = computer.make_move(board)
-      expect((new_board.played_spaces & [1, 3, 6, 7]).length).to eq 1
+      expect((new_board.played_spaces & [1, 3, 5, 7]).length).to eq 1
     end
     
     it 'should create a fork' do

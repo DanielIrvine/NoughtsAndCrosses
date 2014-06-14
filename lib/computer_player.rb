@@ -18,7 +18,7 @@ module NoughtsAndCrosses
         make_random_move(board)
       else
         make_best_move(board,
-                       [board.available_spaces.length + 1, 7].min,
+                       [board.available_spaces.length, 7].min,
                        -INF,
                        INF,
                        @mark, @opponent_mark)[:best_move]
@@ -34,19 +34,18 @@ module NoughtsAndCrosses
       return { score: score(board, mark, depth),
                best_move: board } if board.game_over?
   
-      best_score = -INF 
       best_move = nil
       board.available_spaces.shuffle.each do |sp|
         new_board = board.make_move(sp, mark)
         score = -make_best_move(new_board, depth - 1, -beta, -alpha, opponent_mark, mark)[:score]
-        if score > best_score
-          best_score = score
+        if score > alpha
+          alpha = score
           best_move = new_board
         end
-        break if best_score >= beta
+        break if alpha >= beta
       end
   
-      result(best_score, best_move)
+      result(alpha, best_move)
     end
   
     def result(score, board)
