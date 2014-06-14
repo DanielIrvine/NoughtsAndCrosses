@@ -9,7 +9,14 @@ require 'gui_display'
 require 'play_timer'
 
 app = Qt::Application.new(ARGV)
-GUIDisplay.new(GameBoardWidget.new,
-               Dan::Question.new,
-               PlayTimer.new).begin
+module NoughtsAndCrosses
+
+  module GUI
+
+      GUIDisplay.new(GameBoardWidget.new,
+                     Question.new,
+                     PlayTimer.new).begin
+  end
+end
+
 app.exec

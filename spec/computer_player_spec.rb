@@ -7,56 +7,45 @@ require 'game'
 module NoughtsAndCrosses
   describe ComputerPlayer do
   
+    let(:computer) { ComputerPlayer.new('O', 'X') }
+
+    it 'blocks the easiest possible 4x4 win' do
+      board = Board.new('XXX-O---O-------')
+      expect(computer.make_move(board).mark_at(3)).to eq 'O'
+    end
+    
+    it 'can win a 4x4 game' do
+      board = Board.new('XXXOX--O---O----')
+      expect(computer.make_move(board).winner).to eq 'O'
+    end
+    
     it 'can begin a 4x4 game' do
       game = Game.new(false, false, 4)
       game.play_turn!
       expect(game.board.available_spaces.length).to eq 15
     end
   
-    it 'always wins' do
-  
-      computer = ComputerPlayer.new('X', 'O')
-      human = HumanPlayer.new('O')
-      expect(win_or_draw_from_start?(computer, human)).to eq true
-      computer = ComputerPlayer.new('O', 'X')
-      human = HumanPlayer.new('X')
-      expect(win_or_draw_from_start?(human, computer)).to eq true
+    it 'should play centre square' do
+      board = Board.new('X--------')
+      expect(computer.make_move(board).mark_at(4)).to eq 'O'
     end
-  
-    def win_or_draw_from_start?(x, o)
-      if x.is_a?(ComputerPlayer)
-        win_or_draw?(Board.with_size(3), x, o, x)
-      else
-        win_or_draw?(Board.with_size(3), o, x, x)
-      end
-    end
-  
-    def win_or_draw?(board, computer, human, current_player)
-      if board.game_over?
-        return true if board.drawn?
-        return board.winner == computer.mark
-      end
-  
-      if current_player == human
-        result = make_all_human_moves(board, computer, human)
-      else
-        result = make_computer_move(board, computer, human)
-      end
-  
-      puts board if !result
-      result
-    end
-  
-    def make_all_human_moves(board, computer, human)
-      board.available_spaces.all? do |sp|
-        new_board = board.make_move(sp, human.mark)
-        win_or_draw?(new_board, computer, human, computer)
-      end
-    end
-  
-    def make_computer_move(board, computer, human)
+
+    it 'should play corner square' do
+      board = Board.new('----X----')
       new_board = computer.make_move(board)
-      win_or_draw?(new_board, computer, human, human)
+      expect((new_board.available_spaces & [0, 2, 6, 8]).length).to eq 3
+    end
+    
+    it 'should block a fork' do
+      board = Board.new('X---O---X')
+      new_board = computer.make_move(board)
+      expect((new_board.played_spaces & [1, 3, 6, 7]).length).to eq 1
+    end
+    
+    it 'should create a fork' do
+      board = Board.new('X-O-O---X')
+      computer = ComputerPlayer.new('X', 'O')
+      expect(computer.make_move(board).mark_at(6)).to eq 'X'
     end
   end
 end

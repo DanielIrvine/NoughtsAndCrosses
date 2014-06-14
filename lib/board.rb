@@ -64,20 +64,8 @@ module NoughtsAndCrosses
       @board[sp]
     end
   
-    def rotate_by(rotation)
-      new_board = ''
-      all_indexes.each do |sq|
-        new_board[sq] = @board[rotation[sq]]
-      end
-      build_board(new_board)
-    end
-  
     def build_board(new_board)
       Board.new(new_board, @dynamics)
-    end
-  
-    def rotate_and_zip(next_board, &block)
-      @dynamics.transforms.each { |r| block.call([rotate_by(r), next_board.rotate_by(r)]) }
     end
   
     def all_indexes
@@ -87,20 +75,6 @@ module NoughtsAndCrosses
     def size
       @dynamics.size
     end
-  
-    def to_s
-      @board
-    end
-  
-    def hash
-      @board.hash
-    end
-  
-    def ==(other)
-      @board = other.to_s
-    end
-  
-    alias_method :eql?, :==
   end
 end
 

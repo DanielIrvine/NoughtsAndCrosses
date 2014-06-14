@@ -2,37 +2,11 @@ module NoughtsAndCrosses
 
   class BoardDynamics
   
-    attr_reader :size, :transforms, :winning_combos
+    attr_reader :size, :winning_combos
   
     def initialize(size)
       @size = size
-      @transforms = calculate_transforms
       @winning_combos = calculate_winning_combos
-    end
-  
-    def calculate_transforms
-      rotations = [] 
-      rotations << winning_rows
-      3.times { rotations << rotate_right(rotations.last) }
-  
-      flips = []
-      flips << winning_rows.reverse
-      flips << winning_rows.map(&:reverse)
-      flips << rotate_right(winning_rows).reverse
-      flips << rotate_right(winning_rows).map(&:reverse)
-      flatten_transforms(rotations + flips)
-    end
-  
-    def flatten_transforms(a)
-      transforms = []
-      a.each do |r|
-        transforms << r.flatten
-      end
-      transforms
-    end
-  
-    def rotate_right(a)
-      a.transpose.reverse
     end
   
     def winning_rows
