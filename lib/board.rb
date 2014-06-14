@@ -1,19 +1,18 @@
-require 'board_dynamics'
-
 module NoughtsAndCrosses
   class Board
   
+    attr_reader :size
     UNPLAYED_SQUARE = '-'
   
-    def initialize(board, dynamics = nil)
+    def initialize(board, size = nil)
       @board = board
-      @dynamics = dynamics || BoardDynamics.new(Math.sqrt(board.length).to_i)
+      @size = size || Math.sqrt(board.length).to_i
     end
   
     def self.with_size(size)
       str = ''
       (size*size).times { str << UNPLAYED_SQUARE }
-      Board.new(str, BoardDynamics.new(size))
+      Board.new(str, size)
     end
   
     def won?
@@ -21,7 +20,7 @@ module NoughtsAndCrosses
     end
   
     def winner
-      combo = @dynamics.winning_combos.find { |t| played?(t[0]) && squares_equal?(t) }
+      combo = winning_combos.find { |t| played?(t[0]) && squares_equal?(t) }
       combo ? mark_at(combo[0]) : nil
     end
   
@@ -65,15 +64,28 @@ module NoughtsAndCrosses
     end
   
     def build_board(new_board)
-      Board.new(new_board, @dynamics)
+      Board.new(new_board)
     end
   
     def all_indexes
-      @dynamics.all_indexes
+      (0..@size*@size-1)
     end
-      
-    def size
-      @dynamics.size
+
+    def winning_rows
+      all_indexes.to_a.each_slice(@size).to_a
+    end
+   
+    def winning_columns
+      winning_rows.transpose
+    end
+  
+    def winning_diagonals
+      [ winning_rows.map.with_index { |row, i| row[i] },
+        winning_rows.map.with_index { |row, i| (row.reverse)[i] } ]
+    end
+
+    def winning_combos
+      winning_rows + winning_columns + winning_diagonals
     end
   end
 end

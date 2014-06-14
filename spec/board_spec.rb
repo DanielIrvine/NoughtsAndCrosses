@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'board'
-require 'board_dynamics'
 
 module NoughtsAndCrosses
 
@@ -30,7 +29,7 @@ module NoughtsAndCrosses
       end
   
       it 'returns true for win for O' do
-        (Board.new 'O--O--O').won?.should eq true
+        (Board.new 'O--O--O--').won?.should eq true
       end
     end
   
@@ -80,11 +79,10 @@ module NoughtsAndCrosses
   
     describe 'four_by_four' do
       it 'returns true if there is a win in a row' do
-        dynamics = BoardDynamics.new(4)
-        expect(Board.new('XXXX------------', dynamics).won?).to eq true
-        expect(Board.new('----XXXX--------', dynamics).won?).to eq true
-        expect(Board.new('--------XXXX----', dynamics).won?).to eq true
-        expect(Board.new('------------XXXX', dynamics).won?).to eq true
+        expect(Board.new('XXXX------------').won?).to eq true
+        expect(Board.new('----XXXX--------').won?).to eq true
+        expect(Board.new('--------XXXX----').won?).to eq true
+        expect(Board.new('------------XXXX').won?).to eq true
       end
     end
   end
