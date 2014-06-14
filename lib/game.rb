@@ -11,8 +11,8 @@ module NoughtsAndCrosses
     attr_reader :x, :o
   
     def initialize(x_human, o_human, size)
-      @x = build_player(translate(:x), x_human)
-      @o = build_player(translate(:o), o_human)
+      @x = build_player('X', x_human)
+      @o = build_player('O', o_human)
       @board = Board.with_size(size)
     end
   
@@ -35,9 +35,9 @@ module NoughtsAndCrosses
   
     def result_text
       if @board.won?
-        board.winner + ' wins!'
+        translate(:winner, board.winner) 
       else
-        "It's a draw!"
+        translate(:draw)
       end
     end
   

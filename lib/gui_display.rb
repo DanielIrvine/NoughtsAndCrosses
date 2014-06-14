@@ -1,10 +1,13 @@
 require 'play_timer'
 require 'game'
+require 'strings'
 
 module NoughtsAndCrosses
   module GUI
     class GUIDisplay
     
+      include Strings
+
       def initialize(window, dialog, timer)
         @window = window
         @dialog = dialog
@@ -23,7 +26,7 @@ module NoughtsAndCrosses
       end
     
       def size?
-        result = @dialog.ask('Do you want to play a 4x4 game? Choose no for a 3x3 game.')
+        result = @dialog.ask(translate(:four_by_four))
         result ? 4 : 3
       end
     
@@ -32,7 +35,7 @@ module NoughtsAndCrosses
       #end
       
       def human?(mark)
-        @dialog.ask("Is player #{mark} human?")
+        @dialog.ask(translate(:human, mark))
       end
     
       def display_board(board)
