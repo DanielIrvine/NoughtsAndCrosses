@@ -10,10 +10,10 @@ module NoughtsAndCrosses
     attr_reader :board
     attr_reader :x, :o
   
-    def initialize(x_human, o_human, size)
+    def initialize(x_human, o_human, four_by_four)
       @x = build_player('X', x_human)
       @o = build_player('O', o_human)
-      @board = Board.with_size(size)
+      @board = Board.with_size(four_by_four ? 4 : 3)
     end
   
     def play_turn!

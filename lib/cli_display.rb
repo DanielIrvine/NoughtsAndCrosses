@@ -15,7 +15,7 @@ module NoughtsAndCrosses
       def begin
         @controller = Game.new(human?('X'),
                                human?('O'),
-                               size?)
+                               four_by_four?)
         display_board(@controller.board)
       end
       
@@ -26,11 +26,11 @@ module NoughtsAndCrosses
         answer == 'y'
       end
 
-      def size?
+      def four_by_four?
         @io.puts translate(:four_by_four)
         valid_answers = %w(y n)
         answer = @io.gets.chomp.downcase until valid_answers.include? answer
-        answer == 'y' ? 4 : 3
+        answer == 'y'
       end
 
       def display_board(board)

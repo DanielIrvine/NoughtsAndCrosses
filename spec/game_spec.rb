@@ -7,13 +7,13 @@ module NoughtsAndCrosses
   describe Game do
   
    it "can create a human and a computer player" do
-     game = Game.new(true, false, 3)
+     game = Game.new(true, false, false)
      expect(game.x.kind_of?(HumanPlayer)).to eq true
      expect(game.o.kind_of?(ComputerPlayer)).to eq true
    end
   
    it "can create two computer players" do
-     game = Game.new(false, false, 3)
+     game = Game.new(false, false, false)
      expect(game.x.kind_of?(ComputerPlayer)).to eq true
      expect(game.o.kind_of?(ComputerPlayer)).to eq true
      expect(game.x.mark).to eq 'X'
@@ -21,8 +21,8 @@ module NoughtsAndCrosses
    end
    
    it "creates a board of the right size" do
-     game = Game.new(false, false, 5)
-     expect(game.board.size).to eq 5
+     game = Game.new(false, false, true)
+     expect(game.board.size).to eq 4
    end
   
   end

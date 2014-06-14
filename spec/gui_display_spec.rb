@@ -74,7 +74,7 @@ module NoughtsAndCrosses
       
       it 'prompts the user if the game is 4x4' do
         question[translate(:four_by_four)] = true
-        expect(display.size?).to eq 4
+        expect(display.four_by_four?).to eq true
       end
     
       it "displays an x in the right place when played" do

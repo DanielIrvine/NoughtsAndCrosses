@@ -18,21 +18,16 @@ module NoughtsAndCrosses
         
         @controller = Game.new(human?('X'),
                                human?('O'),
-                               size?)
+                               four_by_four?)
         @window.display_window(@controller.board.size + 1,
                                @controller.board.size,
                                self)
         @timer.use(self)
       end
     
-      def size?
-        result = @dialog.ask(translate(:four_by_four))
-        result ? 4 : 3
+      def four_by_four?
+        @dialog.ask(translate(:four_by_four))
       end
-    
-      #def four_by_four?
-      #  @dialog.ask('Do you want...')
-      #end
       
       def human?(mark)
         @dialog.ask(translate(:human, mark))
