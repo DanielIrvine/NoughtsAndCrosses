@@ -2,16 +2,15 @@ require 'test_question'
 require 'gui_display'
 require 'strings'
 require 'qt'
+require 'qt_helpers'
 
 module NoughtsAndCrosses
   module GUI
     describe Display do
      
-      include Strings
+      include_context :qt
 
-      before(:all) do
-        app = Qt::Application.new(ARGV)
-      end
+      include Strings
 
       let(:question) { TestQuestion.new(
         { translate(:human, 'X') => true,
@@ -29,10 +28,10 @@ module NoughtsAndCrosses
         [0, 1, 4, 2, 8].each do |sq|
           click(sq)
         end
-        expect(has_label_with_text(translate(:winner, 'X'))).to eq true
+        expect(display).to have_label_with_text(translate(:winner, 'X'))
       end
     
-    
+  
       describe 'computer player as x' do
     
         before do
@@ -42,7 +41,7 @@ module NoughtsAndCrosses
         it 'plays X move when timer is fired' do
           display.begin
           emit display.timer.timeout()
-          expect(has_label_with_text('X')).to eq true
+          expect(display).to have_label_with_text('X')
         end
       end
     
@@ -50,9 +49,8 @@ module NoughtsAndCrosses
         display.begin
         [0, 3, 1, 4, 6, 2, 7, 8, 5].each do |sq|
           click(sq)
-          display
         end
-        expect(has_label_with_text(translate(:draw))).to eq true
+        expect(display).to have_label_with_text(translate(:draw))
       end
     
       it 'displays a winning message for o' do
@@ -60,7 +58,7 @@ module NoughtsAndCrosses
         [0, 3, 1, 4, 8, 5].each do |sq|
           click(sq)
         end
-        expect(has_label_with_text(translate(:winner, 'O'))).to eq true
+        expect(display).to have_label_with_text(translate(:winner, 'O'))
       end
     
     
@@ -92,8 +90,8 @@ module NoughtsAndCrosses
         [4, 4].each do |sq|
           click(sq)
         end
-        expect(num_labels_with_text('X')).to eq 1
-        expect(num_labels_with_text('O')).to eq 0
+        expect(display).to have_label_with_text('X')
+        expect(display).to_not have_label_with_text('O')
       end
     
       it 'displays multiple squares' do
@@ -101,8 +99,8 @@ module NoughtsAndCrosses
         [1, 2, 3, 4].each do |sq|
           click(sq) 
         end
-        expect(num_labels_with_text('X')).to eq 2
-        expect(num_labels_with_text('O')).to eq 2
+        expect(display).to have_labels_with_text('X', 'X')
+        expect(display).to have_labels_with_text('O', 'O')
       end
     
       def click(index)
