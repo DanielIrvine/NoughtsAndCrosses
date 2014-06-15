@@ -30,7 +30,7 @@ module NoughtsAndCrosses
     end
   
     def set_next_human_move(square)
-      next_player.next_move = square if next_player.kind_of?(HumanPlayer)
+      next_player.next_move = square
     end
   
     def result_text

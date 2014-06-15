@@ -1,28 +1,32 @@
-require 'test_game_board_widget'
 require 'test_question'
-require 'test_play_timer'
 require 'gui_display'
 require 'strings'
+require 'qt'
 
 module NoughtsAndCrosses
   module GUI
-    describe GUIDisplay do
+    describe Display do
      
       include Strings
 
-      let(:window) { TestGameBoardWidget.new }
+      before(:all) do
+        app = Qt::Application.new(ARGV)
+      end
+
       let(:question) { TestQuestion.new(
         { translate(:human, 'X') => true,
           translate(:human, 'O') => true,
           translate(:four_by_four) => false }) }
-      let(:timer) { TestPlayTimer.new }
-      let(:display) { GUIDisplay.new(window, question, timer) }
+      let(:display) do
+        display = Display.new(question) 
+        display.stub(:show)
+        display
+      end
     
       it 'displays a winning message when game is over' do
         display.begin
         [0, 1, 4, 2, 8].each do |sq|
           click(sq)
-          display.play_turn
         end
         expect(has_label_with_text(translate(:winner, 'X'))).to eq true
       end
@@ -36,7 +40,7 @@ module NoughtsAndCrosses
     
         it 'plays X move when timer is fired' do
           display.begin
-          timer.fire
+          emit display.timer.timeout()
           expect(has_label_with_text('X')).to eq true
         end
       end
@@ -45,7 +49,7 @@ module NoughtsAndCrosses
         display.begin
         [0, 3, 1, 4, 6, 2, 7, 8, 5].each do |sq|
           click(sq)
-          display.play_turn
+          display
         end
         expect(has_label_with_text(translate(:draw))).to eq true
       end
@@ -54,14 +58,13 @@ module NoughtsAndCrosses
         display.begin
         [0, 3, 1, 4, 8, 5].each do |sq|
           click(sq)
-          display.play_turn
         end
         expect(has_label_with_text(translate(:winner, 'O'))).to eq true
       end
     
     
       it "prompts the user if player X is human" do
-        expect(question).to receive(:ask).with(translate(:human, 'X')).and_return(true)
+        question[translate(:human, 'X')] = true
         expect(display.human?('X')).to eq true
       end
     
@@ -80,7 +83,6 @@ module NoughtsAndCrosses
       it "displays an x in the right place when played" do
         display.begin
         click(4)
-        display.play_turn
         expect(square(4).text).to eq 'X'
       end
     
@@ -88,7 +90,6 @@ module NoughtsAndCrosses
         display.begin
         [4, 4].each do |sq|
           click(sq)
-          display.play_turn
         end
         expect(num_labels_with_text('X')).to eq 1
         expect(num_labels_with_text('O')).to eq 0
@@ -98,7 +99,6 @@ module NoughtsAndCrosses
         display.begin
         [1, 2, 3, 4].each do |sq|
           click(sq) 
-          display.play_turn
         end
         expect(num_labels_with_text('X')).to eq 2
         expect(num_labels_with_text('O')).to eq 2
@@ -109,16 +109,18 @@ module NoughtsAndCrosses
       end
     
       def square(index)
-        window.children.find{ |c| c.object_name=="square-#{index}"}
+        display.children.find{ |c| c.object_name=="square-#{index}"}
       end
+
       def has_label_with_text(text)
-        window.children.each do |child|
+        display.children.each do |child|
           return true if child.kind_of?(Qt::Label) && child.text == text
         end
+        false
       end
     
       def num_labels_with_text(text)
-        window.children.count { |child| child.kind_of?(Qt::Label) && child.text == text }
+        display.children.count { |child| child.kind_of?(Qt::Label) && child.text == text }
       end
     end
   end

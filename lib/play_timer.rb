@@ -6,19 +6,15 @@ module NoughtsAndCrosses
     
       slots :play
     
-      def initialize
+      def initialize(parent)
         super(nil)
     
+        @parent = parent
         connect(self, SIGNAL(:timeout), self, SLOT(:play))
       end
     
-      def use(display)
-        @display = display
-        start(1000)
-      end
-    
       def play
-        @display.play_turn
+        @parent.play
       end
     end
   end
