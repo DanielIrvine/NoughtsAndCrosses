@@ -50,10 +50,6 @@ module NoughtsAndCrosses
         create_result_label(rows - 1, cols, CELL_SIZE)
         setLayout(@grid)
         show
-      end
-      
-      def show
-        show
         @timer.start(1000)
       end
       

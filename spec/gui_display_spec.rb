@@ -19,7 +19,8 @@ module NoughtsAndCrosses
           translate(:four_by_four) => false }) }
       let(:display) do
         display = Display.new(question) 
-        display.stub(:show)
+        allow(display).to receive(:show)
+        allow(display).to receive(:start)
         display
       end
     

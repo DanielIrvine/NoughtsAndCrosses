@@ -8,42 +8,42 @@ module NoughtsAndCrosses
     describe '#won' do
   
       it 'returns true for all horizontal wins' do
-        (Board.new 'XXX------').won?.should eq true
-        (Board.new '---XXX---').won?.should eq true
-        (Board.new '------XXX').won?.should eq true
+        expect(Board.new('XXX------').won?).to eq true
+        expect(Board.new('---XXX---').won?).to eq true
+        expect(Board.new('------XXX').won?).to eq true
       end
   
       it 'returns true for all vertical wins' do
-        (Board.new 'X--X--X--').won?.should eq true
-        (Board.new '-X--X--X-').won?.should eq true
-        (Board.new '--X--X--X').won?.should eq true
+        expect(Board.new('X--X--X--').won?).to eq true
+        expect(Board.new('-X--X--X-').won?).to eq true
+        expect(Board.new('--X--X--X').won?).to eq true
       end
   
       it 'returns true for all diagonal wins' do
-        (Board.new 'X---X---X').won?.should eq true
-        (Board.new '--X-X-X--').won?.should eq true
+        expect(Board.new('X---X---X').won?).to eq true
+        expect(Board.new('--X-X-X--').won?).to eq true
       end
   
       it 'returns false for empty board' do
-        Board.with_size(3).won?.should eq false
+        expect(Board.with_size(3).won?).to eq false
       end
   
       it 'returns true for win for O' do
-        (Board.new 'O--O--O--').won?.should eq true
+        expect(Board.new('O--O--O--').won?).to eq true
       end
     end
   
     describe '#played' do
   
       it 'returns false for empty board' do
-        Board.with_size(3).played?(0).should eq false
+        expect(Board.with_size(3).played?(0)).to eq false
       end
     end
   
     describe '#drawn' do
   
       it 'returns false for empty board' do
-        Board.with_size(3).drawn?.should eq false
+        expect(Board.with_size(3).drawn?).to eq false
       end
   
       it 'return true for full board' do
@@ -54,26 +54,26 @@ module NoughtsAndCrosses
     describe '#available_spaces' do
   
       it 'returns nine spaces for empty board' do
-        Board.with_size(3).available_spaces.should eq [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        expect(Board.with_size(3).available_spaces).to eq [0, 1, 2, 3, 4, 5, 6, 7, 8]
       end
   
       it 'returns zero spaces for full board' do
-        (Board.new 'XX000XXX0').available_spaces.should eq []
+        expect(Board.new('XX000XXX0').available_spaces).to eq []
       end
   
       it 'returns three spaces after six moves' do
-        (Board.new 'XX-OO-OX-').available_spaces.should eq [2, 5, 8]
+        expect(Board.new('XX-OO-OX-').available_spaces).to eq [2, 5, 8]
       end
     end
   
     describe '#make_move' do
   
       it 'returns winning board after winning move' do
-        (Board.new 'XX-OO----').make_move(2, 'X').won?.should eq true
+        expect(Board.new('XX-OO----').make_move(2, 'X').won?).to eq true
       end
   
       it 'does not play already played square' do
-        expect((Board.new 'X--------').make_move(0, 'O').mark_at(0)).to eq 'X' 
+        expect(Board.new('X--------').make_move(0, 'O').mark_at(0)).to eq 'X' 
       end
     end
   
