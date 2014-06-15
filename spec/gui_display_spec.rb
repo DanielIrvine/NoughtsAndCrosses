@@ -111,16 +111,6 @@ module NoughtsAndCrosses
         display.children.find{ |c| c.object_name=="square-#{index}"}
       end
 
-      def has_label_with_text(text)
-        display.children.each do |child|
-          return true if child.kind_of?(Qt::Label) && child.text == text
-        end
-        false
-      end
-    
-      def num_labels_with_text(text)
-        display.children.count { |child| child.kind_of?(Qt::Label) && child.text == text }
-      end
     end
   end
 end

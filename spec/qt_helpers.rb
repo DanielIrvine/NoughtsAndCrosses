@@ -13,7 +13,6 @@ RSpec.shared_context :qt do
       widget.children.any? do |child|
         child.kind_of?(Qt::Label) && child.text==expected
       end
-      false
     end
   end
 
