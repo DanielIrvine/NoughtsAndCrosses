@@ -1,6 +1,5 @@
 require 'Qt'
 require 'cell_label'
-require 'play_timer'
 require 'strings'
 require 'game'
 
@@ -11,17 +10,23 @@ module NoughtsAndCrosses
       include Strings
 
       attr_reader :timer
+      slots :play
 
       CELL_SIZE = 150
 
       def initialize(dialog)
         super(nil)
         @dialog = dialog
-        @timer = PlayTimer.new(self)
         @font = Qt::Font.new('Helvetica Neue', 60, 0)
         setWindowTitle('Noughts and Crosses')
+        create_timer
       end
       
+      def create_timer
+        @timer = Qt::Timer.new
+        connect(@timer, SIGNAL(:timeout), self, SLOT(:play))
+      end
+
       def begin
         @game = Game.new(human?('X'),
                          human?('O'),
