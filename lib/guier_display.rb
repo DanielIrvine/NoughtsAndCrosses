@@ -8,49 +8,63 @@ module NoughtsAndCrosses
 
       include Strings
 
+      slots :begin
+      attr_reader :game
+      
       def initialize
         super(nil)
         self.layout = @layout = Qt::VBoxLayout.new
+        @layout.addLayout(@top_box_layout = Qt::HBoxLayout.new)
         create_player_selection('X')
         create_player_selection('O')
         create_board_size_selection
+        create_play_button
       end
 
       def begin
-        show 
+        @game = Game.new(true,
+                         true,
+                         false)
+      end
+
+      def create_play_button
+        @play_button = Qt::PushButton.new(translate(:play), self)
+        @play_button.object_name = 'play_button'
+        connect(@play_button, SIGNAL(:clicked), self, SLOT(:begin))
+        @top_box_layout.addWidget(@play_button)
       end
 
       def create_board_size_selection
-        @layout.addWidget(Qt::Label.new(translate(:board_size)))
-        group = Qt::ButtonGroup.new
-        button = Qt::RadioButton.new(translate(:x3), nil)
-        button.object_name = translate(:x3)
-        button.toggle
-        group.addButton(button) 
-        @layout.addWidget(button)
-        button = Qt::RadioButton.new(translate(:x4), nil)
-        button.object_name = translate(:x4)
-        group.addButton(button) 
-        @layout.addWidget(button)
+        create_buttons(translate(:board_size),
+                       [ { :id => :x3,
+                           :toggle => true },
+                         { :id => :x4 } ])
       end
 
       def create_player_selection(mark)
-        @layout.addWidget(Qt::Label.new(translate(:player_is, mark)))
+        create_buttons( translate(:player_is, mark),
+                       [ { :id => :human_button,
+                            :prefix => mark,
+                            :toggle => true },
+                          { :id => :computer_button,
+                            :prefix => mark } ])
+      end
+
+      def create_buttons(title, buttons)
+        layout = Qt::VBoxLayout.new
+        layout.addWidget(Qt::Label.new(title))
         group = Qt::ButtonGroup.new
-        human = radio_button(:human_button, mark, group)
-        computer = radio_button(:computer_button, mark, group)
-
-        human.toggle
+        buttons.each do |b|
+          label = translate(b[:id])
+          prefix = b[:prefix] || '' 
+          button = Qt::RadioButton.new(label, nil)
+          button.object_name = prefix + label 
+          button.toggle if b[:toggle]
+          group.addButton(button)        
+          layout.addWidget(button)
+        end
+        @top_box_layout.addLayout(layout)
       end
-
-      def radio_button(text, mark, parent)
-        button = Qt::RadioButton.new(translate(text), nil)
-        button.object_name = mark + '-' + translate(text)
-        parent.addButton(button)
-        @layout.addWidget(button)
-        button
-      end
-
     end
   end
 end

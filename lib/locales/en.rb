@@ -12,7 +12,9 @@ module NoughtsAndCrosses
       :computer_button => 'Computer',
       :x3 => '3x3',
       :x4 => '4x4',
-      :player_is => '% is...'
+      :player_is => '% is...',
+      :play => 'Play',
+      :restart => 'Restart',
     }
 
   end

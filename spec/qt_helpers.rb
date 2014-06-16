@@ -34,4 +34,12 @@ RSpec.shared_context :qt do
       end
     end
   end
+
+  RSpec::Matchers.define :have_button_with_text do |expected|
+    match do |widget|
+      widget.children.any? do |child|
+        child.kind_of?(Qt::PushButton) && child.text == expected
+      end
+    end
+  end
 end
