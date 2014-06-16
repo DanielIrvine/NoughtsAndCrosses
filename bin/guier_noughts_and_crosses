@@ -1,0 +1,15 @@
+#! /usr/bin/env ruby
+
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+
+require 'qt'
+require 'guier_display'
+
+app = Qt::Application.new(ARGV)
+module NoughtsAndCrosses
+  module Guier
+    GuierDisplay.new.begin
+  end
+end
+
+app.exec

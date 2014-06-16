@@ -19,7 +19,6 @@ module NoughtsAndCrosses
       let(:display) do
         display = Display.new(question) 
         allow(display).to receive(:show)
-        allow(display).to receive(:start)
         display
       end
     
