@@ -5,14 +5,16 @@ module NoughtsAndCrosses
   module GUI
     class GameBoardWidget < Qt::Widget
     
+      FONT_FAMILY = 'Helvetica Neue'
+
       slots :play
       attr_reader :timer, :game
     
       def initialize(parent, game)
         super(parent)
         @game = game
-        @font = Qt::Font.new('Helvetica Neue', 60, 0)
-        @small_font = Qt::Font.new('Helvetica Neue', 24, 0)
+        @font = Qt::Font.new(FONT_FAMILY, 60, 0)
+        @small_font = Qt::Font.new(FONT_FAMILY, 24, 0)
         self.window_title = 'Noughts and Crosses'
         create_timer
         create_grid
