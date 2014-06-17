@@ -25,6 +25,7 @@ module NoughtsAndCrosses
       def create_timer
         @timer = Qt::Timer.new
         connect(@timer, SIGNAL(:timeout), self, SLOT(:play))
+        @timer.start(1000)
       end
     
       def play
