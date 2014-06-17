@@ -102,6 +102,20 @@ module NoughtsAndCrosses
         emit button.clicked()
         expect(display).to have_child_of_type(NoughtsAndCrosses::GUI::GameBoardWidget)
       end
+
+      it 'only displays one board when play is called mutliple times' do
+        button = find_widget(display, SuperGuiDisplay::PlayButton)
+        emit button.clicked()
+        emit button.clicked()
+        
+        expect(display).to_not have_multiple_children_of_type(NoughtsAndCrosses::GUI::GameBoardWidget)
+      end
+
+      it 'disables play button once game has started' do
+        button = find_widget(display, SuperGuiDisplay::PlayButton)
+        emit button.clicked()
+        expect(button.enabled?).to be false
+      end
     end
   end
 end

@@ -42,11 +42,18 @@ module NoughtsAndCrosses
       end
 
       def begin
+        if @game_widget
+          @layout.remove_widget(@game_widget)
+          @game_widget.parent = nil
+        end
+        toggle_selection_widgets
+
         @game = Game.new(@buttons[XHuman].checked?,
                          @buttons[OHuman].checked?,
                          @buttons[X4].checked?)
 
-        @layout.add_widget(GUI::GameBoardWidget.new(self, @game))
+        @game_widget = GUI::GameBoardWidget.new(self, @game)
+        @layout.add_widget(@game_widget)
       end
 
       def create_play_button
@@ -72,6 +79,12 @@ module NoughtsAndCrosses
                             :toggle => true },
                           { :id => computer,
                             :text => :computer_button } ])
+      end
+      
+      def toggle_selection_widgets
+        self.find_children(Qt::Widget).each do |w|
+          w.enabled = !w.enabled?
+        end
       end
 
       def create_buttons(title, buttons)

@@ -10,7 +10,7 @@ RSpec.shared_context :qt do
     
   RSpec::Matchers.define :have_label_with_text do |expected|
     match do |widget|
-      widget.find_children(Qt::Label).any? do |child|
+      children_of_type(widget, Qt::Label).any? do |child|
         child.text==expected
       end
     end
@@ -18,7 +18,7 @@ RSpec.shared_context :qt do
 
   RSpec::Matchers.define :have_labels_with_text do |*ary|
     match do |widget|
-      widget.find_children(Qt::Label).each do |child|
+      children_of_type(widget, Qt::Label).each do |child|
         if ary.include?(child.text)
           ary.delete(child.text)
         end
@@ -29,7 +29,7 @@ RSpec.shared_context :qt do
 
   RSpec::Matchers.define :have_radio_button do |expected|
     match do |widget|
-      widget.find_children(Qt::RadioButton).any? do |child|
+      children_of_type(widget, Qt::RadioButton).any? do |child|
         child.object_name==expected
       end
     end
@@ -37,7 +37,7 @@ RSpec.shared_context :qt do
 
   RSpec::Matchers.define :have_button_with_text do |expected|
     match do |widget|
-      widget.find_children(Qt::PushButton).any? do |child|
+      children_of_type(widget, Qt::PushButton).any? do |child|
         child.text == expected
       end
     end
@@ -45,7 +45,17 @@ RSpec.shared_context :qt do
 
   RSpec::Matchers.define :have_child_of_type do |expected|
     match do |widget|
-      widget.find_child(expected)
+      children_of_type(widget, expected).any?
     end
+  end
+
+  RSpec::Matchers.define :have_multiple_children_of_type do |expected|
+    match do |widget|
+     children_of_type(widget, expected).length > 1
+    end
+  end
+
+  def children_of_type(widget, type)
+    widget.find_children(type).find_all { |c| c.kind_of?(type) }
   end
 end
