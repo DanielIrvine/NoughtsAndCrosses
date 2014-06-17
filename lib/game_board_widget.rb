@@ -12,9 +12,11 @@ module NoughtsAndCrosses
         super(parent)
         @game = game
         @font = Qt::Font.new('Helvetica Neue', 60, 0)
+        @small_font = Qt::Font.new('Helvetica Neue', 24, 0)
         self.window_title = 'Noughts and Crosses'
         create_timer
         create_grid
+        create_status_label
         create_result_label
       end
     
@@ -29,11 +31,31 @@ module NoughtsAndCrosses
         if @game.game_over?
           draw_result
           self.parent.reset
+        else
+          set_next_status
         end
       end
     
       def set_next_human_move(index)
         @game.set_next_human_move(index)
+      end
+
+      def create_status_label
+        @status = Qt::Label.new
+        set_label_properties(@status, @small_font)
+        @grid.add_widget(@status, @game.board.size, 0, 1, @game.board.size)
+        set_next_status
+      end
+
+      def set_next_status
+        mark = @game.next_player.mark
+        text = "#{mark}'s move: "
+        text += if (@game.next_player.kind_of?(HumanPlayer))
+                  "click a square"
+                else
+                  "thinking..."
+                end
+        @status.text = text
       end
 
       def create_result_label
@@ -42,10 +64,10 @@ module NoughtsAndCrosses
         @grid.add_widget(@result, @game.board.size, 0, 1, @game.board.size)
       end
     
-      def set_label_properties(label)
+      def set_label_properties(label, font = @font)
         label.setAlignment(Qt::AlignCenter)
         label.setSizePolicy(Qt::SizePolicy::MinimumExpanding, Qt::SizePolicy::MinimumExpanding)
-        label.setFont(@font)
+        label.setFont(font)
       end
     
       def create_grid
@@ -72,6 +94,7 @@ module NoughtsAndCrosses
       end
     
       def draw_result
+        @status.hide
         @result.setText(@game.result_text)
       end
     end

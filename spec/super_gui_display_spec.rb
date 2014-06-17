@@ -127,6 +127,30 @@ module NoughtsAndCrosses
         end
         expect(play_button.enabled?).to be true
       end
+
+      it 'displays status message for human x' do
+        play_button = find_widget(display, SuperGuiDisplay::PlayButton)
+        emit play_button.clicked()
+        
+        expect(display).to have_label_with_text("X's move: click a square")
+      end
+
+      it 'display status message for computer x' do
+        find_widget(display, SuperGuiDisplay::XComputer).toggle
+        button = find_widget(display, SuperGuiDisplay::PlayButton)
+        emit button.clicked()
+        expect(display).to have_label_with_text("X's move: thinking...")
+      end
+
+      it 'displays status message for human o' do
+        play_button = find_widget(display, SuperGuiDisplay::PlayButton)
+        emit play_button.clicked()
+        
+        cell_button = find_widget(display, "square-0")
+        cell_button.mousePressEvent(nil)
+        
+        expect(display).to have_label_with_text("O's move: click a square")
+      end
     end
   end
 end
