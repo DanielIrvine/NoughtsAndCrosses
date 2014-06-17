@@ -8,8 +8,6 @@ module NoughtsAndCrosses
       slots :play
       attr_reader :timer
     
-      CELL_SIZE = 150
-    
       def initialize(parent, game)
         super(parent)
         @game = game

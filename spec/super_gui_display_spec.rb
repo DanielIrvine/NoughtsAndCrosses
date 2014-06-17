@@ -102,10 +102,6 @@ module NoughtsAndCrosses
         emit button.clicked()
         expect(display).to have_child_of_type(NoughtsAndCrosses::GUI::GameBoardWidget)
       end
-
-      it 'is at least the width of a 4x4 game' do
-        expect(display.width).to be >= GUI::CellLabel::CELL_SIZE * 4
-      end
     end
   end
 end

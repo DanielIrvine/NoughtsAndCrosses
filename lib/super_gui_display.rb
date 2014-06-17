@@ -9,6 +9,9 @@ module NoughtsAndCrosses
 
     class SuperGuiDisplay < Qt::Widget
 
+      SPACING = 4
+      BOARD_LENGTH = 500
+
       include Strings
 
       slots :begin
@@ -27,13 +30,14 @@ module NoughtsAndCrosses
         @buttons = {}
         self.layout = @layout = Qt::VBoxLayout.new
         self.window_title = 'Noughts and Crosses'
+        @layout.spacing = 8
         @layout.add_layout(@top_box_layout = Qt::HBoxLayout.new)
         @top_box_layout.alignment = Qt::AlignTop
         create_player_selection('X', XHuman, XComputer)
         create_player_selection('O', OHuman, OComputer)
         create_board_size_selection
         create_play_button
-        resize(GUI::CellLabel::CELL_SIZE * 4, GUI::CellLabel::CELL_SIZE * 5)
+        resize(BOARD_LENGTH, BOARD_LENGTH * 1.5) 
         show
       end
 
