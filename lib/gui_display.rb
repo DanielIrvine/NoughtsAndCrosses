@@ -33,6 +33,8 @@ module NoughtsAndCrosses
         @dialog.ask(translate(:human, mark))
       end
       
+      def reset
+      end
     end
   end
 end

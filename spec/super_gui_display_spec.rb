@@ -116,6 +116,17 @@ module NoughtsAndCrosses
         emit button.clicked()
         expect(button.enabled?).to be false
       end
+
+      it 're-enables play button after game has finished' do
+        play_button = find_widget(display, SuperGuiDisplay::PlayButton)
+        emit play_button.clicked()
+
+        [0, 3, 1, 4, 2].each do |sq|
+          cell_button = find_widget(display, "square-#{sq}")
+          cell_button.mousePressEvent(nil)          
+        end
+        expect(play_button.enabled?).to be true
+      end
     end
   end
 end

@@ -6,7 +6,7 @@ module NoughtsAndCrosses
     class GameBoardWidget < Qt::Widget
     
       slots :play
-      attr_reader :timer
+      attr_reader :timer, :game
     
       def initialize(parent, game)
         super(parent)
@@ -26,7 +26,10 @@ module NoughtsAndCrosses
       def play
         board = @game.play_turn!
         display_board(board)
-        draw_result if @game.game_over?
+        if @game.game_over?
+          draw_result
+          self.parent.reset
+        end
       end
     
       def set_next_human_move(index)

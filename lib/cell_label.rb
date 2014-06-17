@@ -13,6 +13,7 @@ module NoughtsAndCrosses
       end
     
       def mousePressEvent(_)
+        return if @parent.game.game_over?
         @parent.set_next_human_move(@index)
         @parent.play
         @parent.play
