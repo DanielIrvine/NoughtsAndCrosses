@@ -3,12 +3,12 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'qt'
-require 'guier_display'
+require 'super_gui_display'
 
 app = Qt::Application.new(ARGV)
 module NoughtsAndCrosses
-  module Guier
-    GuierDisplay.new.begin
+  module SuperGui
+    SuperGuiDisplay.new
   end
 end
 

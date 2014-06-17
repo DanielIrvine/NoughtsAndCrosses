@@ -39,7 +39,7 @@ module NoughtsAndCrosses
     
         it 'plays X move when timer is fired' do
           display.begin
-          emit display.timer.timeout()
+          emit display.board_widget.timer.timeout()
           expect(display).to have_label_with_text('X')
         end
       end
@@ -107,7 +107,7 @@ module NoughtsAndCrosses
       end
     
       def square(index)
-        display.children.find{ |c| c.object_name=="square-#{index}"}
+        find_widget(display, "square-#{index}")
       end
 
     end

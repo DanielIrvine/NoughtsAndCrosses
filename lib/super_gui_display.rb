@@ -1,11 +1,13 @@
+require 'cell_label'
+require 'game_board_widget'
 require 'game'
 require 'qt'
 require 'strings'
 
 module NoughtsAndCrosses
-  module Guier
+  module SuperGui
 
-    class GuierDisplay < Qt::Widget
+    class SuperGuiDisplay < Qt::Widget
 
       include Strings
 
@@ -24,17 +26,23 @@ module NoughtsAndCrosses
         super(nil)
         @buttons = {}
         self.layout = @layout = Qt::VBoxLayout.new
-        @layout.addLayout(@top_box_layout = Qt::HBoxLayout.new)
+        self.window_title = 'Noughts and Crosses'
+        @layout.add_layout(@top_box_layout = Qt::HBoxLayout.new)
+        @top_box_layout.alignment = Qt::AlignTop
         create_player_selection('X', XHuman, XComputer)
         create_player_selection('O', OHuman, OComputer)
         create_board_size_selection
         create_play_button
+        resize(GUI::CellLabel::CELL_SIZE * 4, GUI::CellLabel::CELL_SIZE * 5)
+        show
       end
 
       def begin
         @game = Game.new(@buttons[XHuman].checked?,
                          @buttons[OHuman].checked?,
                          @buttons[X4].checked?)
+
+        @layout.add_widget(GUI::GameBoardWidget.new(self, @game))
       end
 
       def create_play_button
@@ -64,19 +72,20 @@ module NoughtsAndCrosses
 
       def create_buttons(title, buttons)
         layout = Qt::VBoxLayout.new
-        layout.addWidget(Qt::Label.new(title))
+        layout.add_widget(Qt::Label.new(title))
         group = Qt::ButtonGroup.new
         buttons.each do |b|
           label = translate(b[:text])
           button = Qt::RadioButton.new(label, nil)
           button.object_name = b[:id] 
           button.toggle if b[:toggle]
-          group.addButton(button)        
-          layout.addWidget(button)
+          group.add_button(button)        
+          layout.add_widget(button)
           @buttons[b[:id]] = button
         end
-        @top_box_layout.addLayout(layout)
+        @top_box_layout.add_layout(layout)
       end
+
     end
   end
 end
