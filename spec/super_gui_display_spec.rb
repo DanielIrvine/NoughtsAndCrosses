@@ -121,10 +121,7 @@ module NoughtsAndCrosses
         play_button = find_widget(display, SuperGuiDisplay::PlayButton)
         emit play_button.clicked()
 
-        [0, 3, 1, 4, 2].each do |sq|
-          cell_button = find_widget(display, "square-#{sq}")
-          cell_button.mousePressEvent(nil)          
-        end
+        play_until_win
         expect(play_button.enabled?).to be true
       end
 
@@ -150,6 +147,31 @@ module NoughtsAndCrosses
         cell_button.mousePressEvent(nil)
         
         expect(display).to have_label_with_text("O's move: click a square")
+      end
+
+      it 'displays play again status when finished' do
+        play_button = find_widget(display, SuperGuiDisplay::PlayButton)
+        emit play_button.clicked()
+        play_until_win
+        expect(display).to have_label_with_text(translate(:play_again))
+      end
+    
+      it 'can start a second game' do
+        play_button = find_widget(display, SuperGuiDisplay::PlayButton)
+        emit play_button.clicked()
+
+        play_until_win
+        emit play_button.clicked()
+        expect(display).to have_label_with_text("X's move: click a square")
+        expect(display).to_not have_label_with_text('X')
+        expect(display).to_not have_label_with_text('O')
+      end
+
+      def play_until_win
+        [0, 3, 1, 4, 2].each do |sq|
+          cell_button = find_widget(display, "square-#{sq}")
+          cell_button.mousePressEvent(nil)          
+        end
       end
     end
   end

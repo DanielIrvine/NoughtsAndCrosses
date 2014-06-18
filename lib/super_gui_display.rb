@@ -11,6 +11,7 @@ module NoughtsAndCrosses
 
       SPACING = 4
       BOARD_LENGTH = 500
+      FONT = Qt::Font.new(GUI::GameBoardWidget::FONT_FAMILY, 12, 0)
 
       include Strings
 
@@ -37,13 +38,15 @@ module NoughtsAndCrosses
         create_player_selection('O', OHuman, OComputer)
         create_board_size_selection
         create_play_button
+        create_play_again_label
         resize(BOARD_LENGTH, BOARD_LENGTH * 1.5) 
         show
       end
 
       def begin
         if @game_widget
-          @layout.remove_widget(@game_widget)
+          @game_widget.disconnect_timer
+          @game_widget.close
           @game_widget.parent = nil
         end
         toggle_selection_widgets(false)
@@ -56,6 +59,11 @@ module NoughtsAndCrosses
         @layout.add_widget(@game_widget)
       end
 
+      def create_play_again_label
+        play_again = Qt::Label.new(translate(:play_again))
+        @layout.add_widget(play_again)
+      end
+
       def reset
         toggle_selection_widgets(true)
       end
@@ -63,26 +71,27 @@ module NoughtsAndCrosses
       def create_play_button
         @play_button = Qt::PushButton.new(translate(:play), self)
         @play_button.object_name = PlayButton
+        @play_button.font = FONT
         connect(@play_button, SIGNAL(:clicked), self, SLOT(:begin))
         @top_box_layout.addWidget(@play_button)
       end
 
       def create_board_size_selection
-        create_buttons(translate(:board_size),
-                       [ { :id => X3,
-                           :text => :x3,
-                           :toggle => true },
-                         { :id => X4,
-                           :text => :x4} ])
+        create_choice_buttons(translate(:board_size),
+                           [ { :id => X3,
+                               :text => :x3,
+                               :toggle => true },
+                             { :id => X4,
+                               :text => :x4} ])
       end
 
       def create_player_selection(mark, human, computer)
-        create_buttons( translate(:player_is, mark),
-                       [ { :id => human,
-                           :text => :human_button,
-                            :toggle => true },
-                          { :id => computer,
-                            :text => :computer_button } ])
+        create_choice_buttons( translate(:player_is, mark),
+                            [ { :id => human,
+                                :text => :human_button,
+                                 :toggle => true },
+                               { :id => computer,
+                                 :text => :computer_button } ])
       end
       
       def toggle_selection_widgets(on)
@@ -91,13 +100,16 @@ module NoughtsAndCrosses
         end
       end
 
-      def create_buttons(title, buttons)
+      def create_choice_buttons(title, buttons)
         layout = Qt::VBoxLayout.new
-        layout.add_widget(Qt::Label.new(title))
+        title = Qt::Label.new(title)
+        title.font = FONT
+        layout.add_widget(title)
         group = Qt::ButtonGroup.new
         buttons.each do |b|
           label = translate(b[:text])
           button = Qt::RadioButton.new(label, nil)
+          button.font = FONT
           button.object_name = b[:id] 
           button.toggle if b[:toggle]
           group.add_button(button)        

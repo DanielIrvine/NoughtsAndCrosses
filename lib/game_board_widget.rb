@@ -6,6 +6,8 @@ module NoughtsAndCrosses
     class GameBoardWidget < Qt::Widget
     
       FONT_FAMILY = 'Helvetica Neue'
+      FONT = Qt::Font.new(FONT_FAMILY, 60, 0)
+      SMALL_FONT = Qt::Font.new(FONT_FAMILY, 24, 0)
 
       slots :play
       attr_reader :timer, :game
@@ -13,8 +15,6 @@ module NoughtsAndCrosses
       def initialize(parent, game)
         super(parent)
         @game = game
-        @font = Qt::Font.new(FONT_FAMILY, 60, 0)
-        @small_font = Qt::Font.new(FONT_FAMILY, 24, 0)
         self.window_title = 'Noughts and Crosses'
         create_timer
         create_grid
@@ -28,6 +28,10 @@ module NoughtsAndCrosses
         @timer.start(1000)
       end
     
+      def disconnect_timer
+        disconnect(@timer, SIGNAL(:timeout), self, SLOT(:play))
+      end
+
       def play
         board = @game.play_turn!
         display_board(board)
@@ -45,7 +49,7 @@ module NoughtsAndCrosses
 
       def create_status_label
         @status = Qt::Label.new
-        set_label_properties(@status, @small_font)
+        set_label_properties(@status, SMALL_FONT)
         @grid.add_widget(@status, @game.board.size, 0, 1, @game.board.size)
         set_next_status
       end
@@ -67,7 +71,7 @@ module NoughtsAndCrosses
         @grid.add_widget(@result, @game.board.size, 0, 1, @game.board.size)
       end
     
-      def set_label_properties(label, font = @font)
+      def set_label_properties(label, font = FONT)
         label.setAlignment(Qt::AlignCenter)
         label.setSizePolicy(Qt::SizePolicy::MinimumExpanding, Qt::SizePolicy::MinimumExpanding)
         label.setFont(font)
