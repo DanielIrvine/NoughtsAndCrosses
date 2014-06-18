@@ -11,7 +11,7 @@ RSpec.shared_context :qt do
   RSpec::Matchers.define :have_label_with_text do |expected|
     match do |widget|
       children_of_type(widget, Qt::Label).any? do |child|
-        child.text==expected
+        child.text==expected && !child.hidden?
       end
     end
   end
@@ -19,7 +19,7 @@ RSpec.shared_context :qt do
   RSpec::Matchers.define :have_labels_with_text do |*ary|
     match do |widget|
       children_of_type(widget, Qt::Label).each do |child|
-        if ary.include?(child.text)
+        if ary.include?(child.text) && !child.hidden?
           ary.delete(child.text)
         end
       end

@@ -156,6 +156,11 @@ module NoughtsAndCrosses
         expect(display).to have_label_with_text(translate(:play_again))
       end
     
+      it 'does not display play again status before finishing' do
+        play_button = find_widget(display, SuperGuiDisplay::PlayButton)
+        emit play_button.clicked()
+        expect(display).to_not have_label_with_text(translate(:play_again))
+      end
       it 'can start a second game' do
         play_button = find_widget(display, SuperGuiDisplay::PlayButton)
         emit play_button.clicked()

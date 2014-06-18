@@ -9,9 +9,8 @@ module NoughtsAndCrosses
 
     class SuperGuiDisplay < Qt::Widget
 
-      SPACING = 4
       BOARD_LENGTH = 500
-      FONT = Qt::Font.new(GUI::GameBoardWidget::FONT_FAMILY, 12, 0)
+      TEXT_FONT = Qt::Font.new(GUI::GameBoardWidget::FONT_FAMILY, 12, 0)
 
       include Strings
 
@@ -30,7 +29,7 @@ module NoughtsAndCrosses
         super(nil)
         @buttons = {}
         self.layout = @layout = Qt::VBoxLayout.new
-        self.window_title = 'Noughts and Crosses'
+        self.window_title = translate(:game_title) 
         @layout.spacing = 8
         @layout.add_layout(@top_box_layout = Qt::HBoxLayout.new)
         @top_box_layout.alignment = Qt::AlignTop
@@ -42,13 +41,11 @@ module NoughtsAndCrosses
         resize(BOARD_LENGTH, BOARD_LENGTH * 1.5) 
         show
       end
-
+      
       def begin
-        if @game_widget
-          @game_widget.disconnect_timer
-          @game_widget.close
-          @game_widget.parent = nil
-        end
+        @play_again.hide
+        @game_widget.dispose if @game_widget
+
         toggle_selection_widgets(false)
 
         @game = Game.new(@buttons[XHuman].checked?,
@@ -60,18 +57,26 @@ module NoughtsAndCrosses
       end
 
       def create_play_again_label
-        play_again = Qt::Label.new(translate(:play_again))
-        @layout.add_widget(play_again)
+        @frame = Qt::StackedWidget.new(self)
+        @play_again = Qt::Label.new(translate(:play_again))
+        @play_again.alignment = Qt::AlignCenter
+        @play_again.font = GUI::GameBoardWidget::SMALL_FONT
+        @frame.minimum_height = 50
+        @frame.maximum_height = 50
+        @frame.add_widget(@play_again)
+        @layout.add_widget(@frame)
+        @play_again.hide
       end
 
       def reset
         toggle_selection_widgets(true)
+        @play_again.show
       end
 
       def create_play_button
         @play_button = Qt::PushButton.new(translate(:play), self)
         @play_button.object_name = PlayButton
-        @play_button.font = FONT
+        @play_button.font = TEXT_FONT
         connect(@play_button, SIGNAL(:clicked), self, SLOT(:begin))
         @top_box_layout.addWidget(@play_button)
       end
@@ -103,13 +108,13 @@ module NoughtsAndCrosses
       def create_choice_buttons(title, buttons)
         layout = Qt::VBoxLayout.new
         title = Qt::Label.new(title)
-        title.font = FONT
+        title.font = TEXT_FONT
         layout.add_widget(title)
         group = Qt::ButtonGroup.new
         buttons.each do |b|
           label = translate(b[:text])
           button = Qt::RadioButton.new(label, nil)
-          button.font = FONT
+          button.font = TEXT_FONT
           button.object_name = b[:id] 
           button.toggle if b[:toggle]
           group.add_button(button)        

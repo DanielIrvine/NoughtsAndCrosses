@@ -15,7 +15,8 @@ module NoughtsAndCrosses
       :player_is => '% is...',
       :play => 'Play',
       :restart => 'Restart',
-      :play_again => 'Click Play to play again'
+      :play_again => 'Click Play to play again',
+      :game_title => 'Noughts and Crosses'
     }
 
   end
