@@ -14,9 +14,10 @@ module NoughtsAndCrosses
       :x4 => '4x4',
       :player_is => '% is...',
       :play => 'Play',
-      :restart => 'Restart',
       :play_again => 'Click Play to play again',
-      :game_title => 'Noughts and Crosses'
+      :game_title => 'Noughts and Crosses',
+      :computer_move => "%'s move: thinking...",
+      :human_move => "%'s move: click a square"
     }
 
   end

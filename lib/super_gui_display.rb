@@ -123,7 +123,6 @@ module NoughtsAndCrosses
         end
         @top_box_layout.add_layout(layout)
       end
-
     end
   end
 end

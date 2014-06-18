@@ -3,15 +3,13 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'qt'
-require 'game_board_widget'
 require 'question'
 require 'gui_display'
-require 'play_timer'
 
 app = Qt::Application.new(ARGV)
 module NoughtsAndCrosses
   module GUI
-      Display.new(Question.new, PlayTimer.new).begin
+    Display.new(Question.new).begin
   end
 end
 

@@ -1,10 +1,13 @@
-require 'qt'
 require 'cell_label'
+require 'qt'
+require 'strings'
 
 module NoughtsAndCrosses
   module GUI
     class GameBoardWidget < Qt::Widget
     
+      include Strings
+
       FONT_FAMILY = 'Helvetica Neue'
       FONT = Qt::Font.new(FONT_FAMILY, 60, 0)
       SMALL_FONT = Qt::Font.new(FONT_FAMILY, 24, 0)
@@ -15,7 +18,7 @@ module NoughtsAndCrosses
       def initialize(parent, game)
         super(parent)
         @game = game
-        self.window_title = 'Noughts and Crosses'
+        self.window_title = translate(:game_title) 
         create_timer
         create_grid
         create_status_label
@@ -28,10 +31,6 @@ module NoughtsAndCrosses
         @timer.start(1000)
       end
     
-      def disconnect_timer
-        disconnect(@timer, SIGNAL(:timeout), self, SLOT(:play))
-      end
-
       def play
         board = @game.play_turn!
         display_board(board)
@@ -56,13 +55,12 @@ module NoughtsAndCrosses
 
       def set_next_status
         mark = @game.next_player.mark
-        text = "#{mark}'s move: "
-        text += if (@game.next_player.kind_of?(HumanPlayer))
-                  "click a square"
+        string = if (@game.next_player.kind_of?(HumanPlayer))
+                  :human_move
                 else
-                  "thinking..."
+                  :computer_move
                 end
-        @status.text = text
+        @status.text = translate(string, @game.next_player.mark)
       end
 
       def create_result_label

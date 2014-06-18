@@ -21,14 +21,14 @@ module NoughtsAndCrosses
       end
 
       it 'has a title' do
-        expect(display.window_title).to eq 'Noughts and Crosses'
+        expect(display.window_title).to eq translate(:game_title)
       end
     
       it 'displays player type options' do
-        expect(display).to have_radio_button('XHuman')
-        expect(display).to have_radio_button('XComputer')
-        expect(display).to have_radio_button('OHuman')
-        expect(display).to have_radio_button('OComputer')
+        expect(display).to have_radio_button(SuperGuiDisplay::XHuman)
+        expect(display).to have_radio_button(SuperGuiDisplay::XComputer)
+        expect(display).to have_radio_button(SuperGuiDisplay::OHuman)
+        expect(display).to have_radio_button(SuperGuiDisplay::OComputer)
       end
 
       it 'can set two computer players' do
@@ -129,14 +129,14 @@ module NoughtsAndCrosses
         play_button = find_widget(display, SuperGuiDisplay::PlayButton)
         emit play_button.clicked()
         
-        expect(display).to have_label_with_text("X's move: click a square")
+        expect(display).to have_label_with_text(translate(:human_move, 'X'))
       end
 
       it 'display status message for computer x' do
         find_widget(display, SuperGuiDisplay::XComputer).toggle
         button = find_widget(display, SuperGuiDisplay::PlayButton)
         emit button.clicked()
-        expect(display).to have_label_with_text("X's move: thinking...")
+        expect(display).to have_label_with_text(translate(:computer_move, 'X'))
       end
 
       it 'displays status message for human o' do
@@ -146,7 +146,7 @@ module NoughtsAndCrosses
         cell_button = find_widget(display, "square-0")
         cell_button.mousePressEvent(nil)
         
-        expect(display).to have_label_with_text("O's move: click a square")
+        expect(display).to have_label_with_text(translate(:human_move, 'O'))
       end
 
       it 'displays play again status when finished' do
@@ -161,13 +161,14 @@ module NoughtsAndCrosses
         emit play_button.clicked()
         expect(display).to_not have_label_with_text(translate(:play_again))
       end
+
       it 'can start a second game' do
         play_button = find_widget(display, SuperGuiDisplay::PlayButton)
         emit play_button.clicked()
 
         play_until_win
         emit play_button.clicked()
-        expect(display).to have_label_with_text("X's move: click a square")
+        expect(display).to have_label_with_text(translate(:human_move, 'X'))
         expect(display).to_not have_label_with_text('X')
         expect(display).to_not have_label_with_text('O')
       end

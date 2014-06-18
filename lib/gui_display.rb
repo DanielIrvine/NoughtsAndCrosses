@@ -8,13 +8,16 @@ module NoughtsAndCrosses
   module GUI
     class Display < Qt::Widget
 
-      attr_reader :board_widget
+      BOARD_LENGTH = 500
 
       include Strings
+
+      attr_reader :board_widget
 
       def initialize(dialog)
         super(nil)
         @dialog = dialog
+        resize(BOARD_LENGTH, BOARD_LENGTH * 1.5)
       end
       
       def begin
@@ -22,7 +25,7 @@ module NoughtsAndCrosses
                          human?('O'),
                          four_by_four?)
         @board_widget = GameBoardWidget.new(self, @game)
-
+        show
       end
 
       def four_by_four?
