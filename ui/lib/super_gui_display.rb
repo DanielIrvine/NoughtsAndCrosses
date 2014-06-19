@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'cell_label'
 require 'game_board_widget'
 require 'game'
@@ -112,16 +113,20 @@ module NoughtsAndCrosses
         layout.add_widget(title)
         group = Qt::ButtonGroup.new
         buttons.each do |b|
-          label = translate(b[:text])
-          button = Qt::RadioButton.new(label, nil)
-          button.font = TEXT_FONT
-          button.object_name = b[:id] 
-          button.toggle if b[:toggle]
-          group.add_button(button)        
-          layout.add_widget(button)
-          @buttons[b[:id]] = button
+          layout.add_widget(create_choice(b, group))
         end
         @top_box_layout.add_layout(layout)
+      end
+
+      def create_choice(choice, group)
+        label_text = translate(choice[:text])
+        button = Qt::RadioButton.new(label_text, nil)
+        button.font = TEXT_FONT
+        button.object_name = choice[:id]
+        button.toggle if choice[:toggle]
+        group.add_button(button)
+        @buttons[choice[:id]] = button
+        button
       end
     end
   end

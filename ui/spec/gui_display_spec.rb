@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'test_question'
 require 'gui_display'
 require 'strings'

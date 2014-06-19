@@ -30,7 +30,7 @@ RSpec.shared_context :qt do
   RSpec::Matchers.define :have_radio_button do |expected|
     match do |widget|
       children_of_type(widget, Qt::RadioButton).any? do |child|
-        child.object_name==expected
+        child.object_name == expected
       end
     end
   end

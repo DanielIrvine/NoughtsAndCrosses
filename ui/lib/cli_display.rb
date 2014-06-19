@@ -13,10 +13,10 @@ module NoughtsAndCrosses
       end
 
       def begin
-        @controller = Game.new(human?('X'),
-                               human?('O'),
-                               four_by_four?)
-        display_board(@controller.board)
+        @game = Game.new(human?('X'),
+                         human?('O'),
+                         four_by_four?)
+        display_board(@game.board)
       end
       
       def human?(mark)
@@ -42,19 +42,27 @@ module NoughtsAndCrosses
       end
 
       def prompt_for_move_if_necessary
-        return if !@controller.next_player.kind_of?(HumanPlayer)
+        return if !@game.next_player.kind_of?(HumanPlayer)
         @io.puts translate(:enter_square)
         square = @io.gets.to_i - 1
-        @controller.set_next_human_move(square)
+        @game.set_next_human_move(square)
       end
       
       def exec
-        while !@controller.game_over? 
+        while !@game.game_over? 
           prompt_for_move_if_necessary
-          board = @controller.play_turn!
+          board = @game.play_turn!
           display_board(board)
         end
-        display_result(@controller.result_text)
+        display_result(result_text)
+      end
+
+      def result_text
+        if @game.board.drawn?
+          translate(:draw)
+        else
+          translate(:winner, @game.board.winner)
+        end
       end
     end
   end

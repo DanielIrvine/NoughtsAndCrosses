@@ -10,4 +10,3 @@ RSpec.configure do |conf|
   conf.order = 'random'
 end
 
-require 'qt_helpers'

@@ -1,11 +1,9 @@
 require 'board'
 require 'human_player'
 require 'computer_player'
-require 'strings'
 
 module NoughtsAndCrosses
   class Game
-    include Strings
   
     attr_reader :board
     attr_reader :x, :o
@@ -31,14 +29,6 @@ module NoughtsAndCrosses
   
     def set_next_human_move(square)
       next_player.next_move = square
-    end
-  
-    def result_text
-      if @board.won?
-        translate(:winner, board.winner) 
-      else
-        translate(:draw)
-      end
     end
   
     def build_player(mark, human)

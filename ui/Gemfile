@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+gem 'noughts_and_crosses', :path => '../core'
+gem 'rspec'
+gem 'simplecov'
+gem 'qtbindings'

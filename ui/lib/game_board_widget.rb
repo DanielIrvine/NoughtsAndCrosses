@@ -100,7 +100,15 @@ module NoughtsAndCrosses
     
       def draw_result
         @status.hide
-        @result.setText(@game.result_text)
+        @result.setText(result_text)
+      end
+
+      def result_text
+        if @game.board.drawn?
+          translate(:draw)
+        else
+          translate(:winner, @game.board.winner)
+        end
       end
     end
   end
