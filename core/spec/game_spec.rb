@@ -25,5 +25,13 @@ module NoughtsAndCrosses
      expect(game.board.size).to eq 4
    end
   
+   it 'can play a two human player game' do
+     game = Game.new(true, true, false)
+     [0, 3, 1, 4, 2].each do |sq|
+       game.set_next_human_move(sq)
+       game.play_turn!
+     end
+     expect(game.game_over?).to eq true
+   end
   end
 end
