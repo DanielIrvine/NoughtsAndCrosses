@@ -1,3 +1,4 @@
+require 'board_strings'
 require 'cell_label'
 require 'qt'
 require 'strings'
@@ -6,6 +7,7 @@ module NoughtsAndCrosses
   module GUI
     class GameBoardWidget < Qt::Widget
     
+      include BoardStrings
       include Strings
 
       FONT_FAMILY = 'Helvetica Neue'
@@ -35,7 +37,8 @@ module NoughtsAndCrosses
         board = @game.play_turn!
         display_board(board)
         if @game.game_over?
-          draw_result
+          @status.hide
+          @result.setText(result_text(board))
           self.parent.reset
         else
           set_next_status
@@ -98,18 +101,6 @@ module NoughtsAndCrosses
         end
       end
     
-      def draw_result
-        @status.hide
-        @result.setText(result_text)
-      end
-
-      def result_text
-        if @game.board.drawn?
-          translate(:draw)
-        else
-          translate(:winner, @game.board.winner)
-        end
-      end
     end
   end
 

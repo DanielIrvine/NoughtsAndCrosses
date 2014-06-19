@@ -6,7 +6,7 @@ require 'game_board_widget'
 
 module NoughtsAndCrosses
   module GUI
-    class Display < Qt::Widget
+    class GUIDisplay < Qt::Widget
 
       BOARD_LENGTH = 500
 

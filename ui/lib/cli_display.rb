@@ -1,4 +1,5 @@
 require 'board_io'
+require 'board_strings'
 require 'game'
 require 'strings'
 
@@ -7,6 +8,7 @@ module NoughtsAndCrosses
     class CLIDisplay
 
       include Strings
+      include BoardStrings
 
       def initialize(io)
         @io = io
@@ -54,15 +56,7 @@ module NoughtsAndCrosses
           board = @game.play_turn!
           display_board(board)
         end
-        display_result(result_text)
-      end
-
-      def result_text
-        if @game.board.drawn?
-          translate(:draw)
-        else
-          translate(:winner, @game.board.winner)
-        end
+        display_result(result_text(board))
       end
       
     end
