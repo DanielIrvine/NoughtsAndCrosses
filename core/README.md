@@ -75,15 +75,15 @@ Squares are referenced with a single index number. For a 3x3 board, these number
 
 You can determine if the game is over by calling the `game_over?` method.
 
-   puts 'Game over!' if game.game_over?
+    puts 'Game over!' if game.game_over?
 
 Once over, you can determine if the game was drawn or who the winner was, if it was won:
 
-   if game.board.drawn?
-      puts "It's a draw!"
-   else
-      puts "#{game.board.winner} wins!"
-   end
+    if game.board.drawn?
+       puts "It's a draw!"
+    else
+       puts "#{game.board.winner} wins!"
+    end
 
 ## Contributing
 
