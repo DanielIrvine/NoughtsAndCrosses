@@ -38,7 +38,7 @@ Instantiate a `Game` instance like this:
 X always plays first, O always plays second. Play alternates until the game is
 over.
 
-If the next player is a `ComputerPlayer`, you can simply call `play_turn!' to make a move.
+If the next player is a `ComputerPlayer`, you can simply call `play_turn!` to make a move.
 
     game.play_turn!
 
@@ -63,12 +63,17 @@ Objects of type `HumanPlayer` and `ComputerPlayer` may be returned from this met
 
 Squares are referenced with a single index number. For a 3x3 board, these numbers run 0 to 8, and for a 4x4 board, these numbers run 0 to 15.
 
-    ` 0 | 1 | 2`
-    `---|---|---`
+     0 | 1 | 2
      3 | 4 | 5
-    `---|---|---`
      6 | 7 | 8
 
+#### Retrieving current board state
+
+Use the `game.board.mark_at(sq)` method to determine the current mark at a square.
+
+    (0..8).each do |sq|
+       draw_mark(sq, game.board.mark_at(sq))
+    end
 
 
 #### Game over
