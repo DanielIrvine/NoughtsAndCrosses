@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'cell_label'
 require 'game_board_widget'
 require 'game'

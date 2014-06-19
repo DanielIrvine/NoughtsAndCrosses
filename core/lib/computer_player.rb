@@ -18,10 +18,6 @@ module NoughtsAndCrosses
                        @mark, @opponent_mark)[:best_move]
     end
     
-    def make_random_move(board)
-      board.make_move(board.available_spaces.sample, @mark)
-    end
-  
     def make_best_move(board, depth, alpha, beta, mark, opponent_mark)
       return { score: 0, best_move: board } if depth == 0
       return { score: score(board, mark, depth),

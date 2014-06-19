@@ -3,6 +3,8 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'qt'
+require 'rubygems'
+require 'bundler/setup'
 require 'super_gui_display'
 
 app = Qt::Application.new(ARGV)

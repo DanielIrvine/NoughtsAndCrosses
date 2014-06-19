@@ -64,6 +64,7 @@ module NoughtsAndCrosses
           translate(:winner, @game.board.winner)
         end
       end
+      
     end
   end
 end
