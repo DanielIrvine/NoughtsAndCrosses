@@ -68,6 +68,7 @@ Squares are referenced with a single index number. For a 3x3 board, these number
     6 | 7 | 8
 
 And for a 4x4 board, these numbers run 0 to 15.
+
      0 |  1 |  2 |  3
      4 |  5 |  6 |  7
      8 |  9 | 10 | 11
