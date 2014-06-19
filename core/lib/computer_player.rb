@@ -11,18 +11,11 @@ module NoughtsAndCrosses
     end
   
     def make_move(board)
-      moves_to_win = board.size * 2 - 3
-      random_play_limit = board.available_spaces.length - moves_to_win
-      random_play_cap = [11, random_play_limit].max
-      if(board.available_spaces.length > random_play_cap)
-        make_random_move(board)
-      else
         make_best_move(board,
                        [board.available_spaces.length, 7].min,
                        -INF,
                        INF,
                        @mark, @opponent_mark)[:best_move]
-      end
     end
     
     def make_random_move(board)

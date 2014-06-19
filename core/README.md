@@ -63,10 +63,10 @@ Objects of type `HumanPlayer` and `ComputerPlayer` may be returned from this met
 
 Squares are referenced with a single index number. For a 3x3 board, these numbers run 0 to 8, and for a 4x4 board, these numbers run 0 to 15.
 
-     0 | 1 | 2
-    ---|---|---
+    ` 0 | 1 | 2`
+    `---|---|---`
      3 | 4 | 5
-    ---|---|---
+    `---|---|---`
      6 | 7 | 8
 
 
