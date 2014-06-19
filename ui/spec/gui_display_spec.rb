@@ -7,7 +7,7 @@ require 'qt_helpers'
 
 module NoughtsAndCrosses
   module GUI
-    describe Display do
+    describe GUIDisplay do
      
       include_context :qt
 
@@ -18,7 +18,7 @@ module NoughtsAndCrosses
           translate(:human, 'O') => true,
           translate(:four_by_four) => false }) }
       let(:display) do
-        display = Display.new(question) 
+        display = GUIDisplay.new(question) 
         allow(display).to receive(:show)
         display
       end

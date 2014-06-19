@@ -2,6 +2,8 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
+require 'rubygems'
+require 'bundler/setup'
 require 'qt'
 require 'question'
 require 'gui_display'
@@ -9,7 +11,7 @@ require 'gui_display'
 app = Qt::Application.new(ARGV)
 module NoughtsAndCrosses
   module GUI
-    Display.new(Question.new).begin
+    GUIDisplay.new(Question.new).begin
   end
 end
 

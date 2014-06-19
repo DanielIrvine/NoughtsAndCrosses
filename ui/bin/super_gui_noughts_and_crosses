@@ -9,8 +9,8 @@ require 'super_gui_display'
 
 app = Qt::Application.new(ARGV)
 module NoughtsAndCrosses
-  module SuperGui
-    SuperGuiDisplay.new
+  module SuperGUI
+    SuperGUIDisplay.new
   end
 end
 

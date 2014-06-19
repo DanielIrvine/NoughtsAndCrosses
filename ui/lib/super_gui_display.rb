@@ -5,9 +5,9 @@ require 'qt'
 require 'strings'
 
 module NoughtsAndCrosses
-  module SuperGui
+  module SuperGUI
 
-    class SuperGuiDisplay < Qt::Widget
+    class SuperGUIDisplay < Qt::Widget
 
       BOARD_LENGTH = 500
       TEXT_FONT = Qt::Font.new(GUI::GameBoardWidget::FONT_FAMILY, 12, 0)

@@ -17,6 +17,7 @@ module NoughtsAndCrosses
       def initialize(dialog)
         super(nil)
         @dialog = dialog
+        @layout = Qt::VBoxLayout.new(self)
         resize(BOARD_LENGTH, BOARD_LENGTH * 1.5)
       end
       
@@ -25,6 +26,9 @@ module NoughtsAndCrosses
                          human?('O'),
                          four_by_four?)
         @board_widget = GameBoardWidget.new(self, @game)
+        @board_widget.setSizePolicy(Qt::SizePolicy::Expanding,
+                                    Qt::SizePolicy::Expanding)
+        @layout.add_widget(@board_widget)
         show
       end
 
