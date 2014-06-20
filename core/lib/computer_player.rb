@@ -19,9 +19,8 @@ module NoughtsAndCrosses
     end
     
     def make_best_move(board, depth, alpha, beta, mark, opponent_mark)
-      return { score: 0, best_move: board } if depth == 0
       return { score: score(board, mark, depth),
-               best_move: board } if board.game_over?
+               best_move: board } if board.game_over? || depth == 0
   
       best_move = nil
       board.available_spaces.shuffle.each do |sp|
@@ -43,8 +42,9 @@ module NoughtsAndCrosses
   
     def score(board, player, depth)
       return 0 if board.drawn?
-      return depth if board.winner == player
-      -depth
+      score = depth + 1
+      return score if board.winner == player
+      -score
     end
   end
 end
