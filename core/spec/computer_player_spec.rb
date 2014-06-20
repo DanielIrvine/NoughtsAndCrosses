@@ -48,7 +48,7 @@ module NoughtsAndCrosses
       expect(computer.make_move(board).mark_at(6)).to eq 'X'
     end
 
-    it 'should play the correct last move' do
+    it 'should play a block when opponent could win on last space' do
       board = Board.new('XOX-O-OXX')
       computer = ComputerPlayer.new('O', 'X')
       expect(computer.make_move(board).mark_at(5)).to eq 'O'
