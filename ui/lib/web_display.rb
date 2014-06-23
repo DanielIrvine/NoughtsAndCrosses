@@ -18,10 +18,10 @@ module NoughtsAndCrosses
 
         board_str = path.last
         
-        return show('Invalid board', ERROR) if !Board.valid_board_str(board_str)
+        return show(translate(:invalid_board), ERROR) if !Board.valid_board_str(board_str)
 
-        game = Game.new(human?(path[0]),
-                        human?(path[1]), 
+        game = Game.new(human?(path[1]),
+                        human?(path[2]), 
                         board: board_str)
         
         page = ''
@@ -78,7 +78,7 @@ module NoughtsAndCrosses
 
       def add_result(game)
         if game.board.drawn?
-          translate(:drawn)
+          translate(:draw)
         else
           translate(:winner, game.board.winner)
         end
@@ -87,7 +87,7 @@ module NoughtsAndCrosses
       def show(page, status = OK)
         ['200',
          {'Content-Type' => 'text/html'},
-         page ]
+         [page] ]
       end
 
       def create_link(game, board_str)

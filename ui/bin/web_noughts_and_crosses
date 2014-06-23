@@ -1,0 +1,14 @@
+#! /usr/bin/env ruby
+
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+
+require 'rubygems'
+require 'bundler/setup'
+require 'rack'
+require 'web_display'
+
+module NoughtsAndCrosses
+  module Web
+    Rack::Handler::WEBrick.run WebDisplay.new
+  end
+end

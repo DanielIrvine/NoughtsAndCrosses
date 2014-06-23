@@ -17,7 +17,8 @@ module NoughtsAndCrosses
       :play_again => 'Click Play to play again',
       :game_title => 'Noughts and Crosses',
       :computer_move => "%'s move: thinking...",
-      :human_move => "%'s move: click a square"
+      :human_move => "%'s move: click a square",
+      :invalid_board => 'Invalid board'
     }
 
   end
