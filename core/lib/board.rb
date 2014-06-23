@@ -3,12 +3,26 @@ module NoughtsAndCrosses
   
     attr_reader :size
     UNPLAYED_SQUARE = '-'
-  
+    VALID_MARKS = %w{X O -} 
+    
     def initialize(board, size = nil)
       @board = board
       @size = size || Math.sqrt(board.length).to_i
     end
   
+    def self.valid_board_str(board_str)
+      valid_size(board_str) && all_valid_marks(board_str)
+    end
+
+    def self.all_valid_marks(board_str)
+      board_str.split('').all?{|sq| VALID_MARKS.include?(sq) }
+    end
+
+    def self.valid_size(board_str)
+      size = Math.sqrt(board_str.length)
+      size.to_i == size
+    end
+
     def self.with_size(size)
       str = ''
       (size*size).times { str << UNPLAYED_SQUARE }
@@ -86,6 +100,10 @@ module NoughtsAndCrosses
 
     def winning_combos
       winning_rows + winning_columns + winning_diagonals
+    end
+
+    def to_s
+      @board
     end
   end
 end
