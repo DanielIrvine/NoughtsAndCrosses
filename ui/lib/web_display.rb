@@ -1,5 +1,6 @@
-require 'game'
 require 'board'
+require 'game'
+require 'erb'
 require 'strings'
 
 module NoughtsAndCrosses
@@ -23,22 +24,33 @@ module NoughtsAndCrosses
         game = Game.new(human?(path[1]),
                         human?(path[2]), 
                         board: board_str)
-        
-        page = ''
+       
+        title = translate(:game_title)
+
         if(!game.game_over? && game.next_player.kind_of?(ComputerPlayer))
           new_board = game.next_player.make_move(game.board)
-          link = refresh_link(game, new_board.to_s)
+          next_move = create_link(game, new_board.to_s)
         end
-        page += add_header(game, link)
+        
+        rows = []
+        cur_row = []
+        cur_col = 0
         game.board.all_indexes.each do |sq|
-          page += "<p>#{process_square(sq, game)}</p>"
+          cur_row << process_square(sq, game)
+          if(cur_row.length == game.board.size)
+            rows << cur_row
+            cur_row = []
+          end
         end
 
         if game.game_over?
-          page += "<p>#{add_result(game)}</p>"
+          result = result_text(game)
         else
-          page += "<p>#{add_play_turn(game)}</p>"
+          next_turn = play_turn_text(game)
         end
+
+        file = File.dirname(__FILE__) + '/game.html.erb'
+        page = ERB.new(File.read(file)).result(binding)
 
         show(page)
       end
@@ -59,16 +71,7 @@ module NoughtsAndCrosses
         end
       end
 
-      def add_header(game, extra = nil)
-       "<html><head><title>#{translate(:game_title)}</title>#{extra}</head>"
-      end
-      
-      def refresh_link(game, board_str)
-        link = create_link(game, board_str)
-        "<meta http-equiv=\"refresh\" content=\"1; URL=#{link}\"/>"
-      end
-
-      def add_play_turn(game)
+      def play_turn_text(game)
         if game.next_player.kind_of?(HumanPlayer)
           translate(:human_move, game.next_player.mark)
         else
@@ -76,7 +79,7 @@ module NoughtsAndCrosses
         end
       end
 
-      def add_result(game)
+      def result_text(game)
         if game.board.drawn?
           translate(:draw)
         else

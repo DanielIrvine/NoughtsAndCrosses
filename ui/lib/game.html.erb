@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <style type="text/css">
+      <!--
+      body { align: center; }
+      p { font-family: Helvetica; }
+      table { border: solid; border-width: 1px; }
+      -->
+    </style>
+    <% if !next_move.nil? %>
+      <meta http-equiv="refresh" content="1; URL="<%= next_move %>" />
+    <% end %>
+  </head>
+
+  <body>
+    <table>
+      <% rows.each do |r| %>
+        <tr>
+          <% r.each do |c| %>
+            <td>
+              <%= c %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+    <% if next_turn %><p><%= next_turn %></p><% end %>
+    <% if result %><p><%= result %></p><% end %>
+  </body>
+</html>
+
