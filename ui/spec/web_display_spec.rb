@@ -89,6 +89,11 @@ module NoughtsAndCrosses
         response = display.call(get_request('/ComputerPlayer/HumanPlayer/XOXOXOOXO'))
         expect(response[2].first).to include(translate(:draw))
       end
+
+      it 'does not display any links when the board is complete' do
+        response = display.call(get_request('/HumanPlayer/HumanPlayer/XXXOO----'))
+        expect(response).to_not have_link_to_path('HumanPlayer/HumanPlayer/XXXOOO---')
+      end
     end
   end
 end

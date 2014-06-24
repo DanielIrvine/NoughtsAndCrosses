@@ -61,7 +61,7 @@ module NoughtsAndCrosses
     
       def process_square(sq, game)
         return game.board.mark_at(sq) if game.board.played?(sq)
-        if(game.next_player.kind_of?(HumanPlayer))
+        if(!game.game_over? && game.next_player.kind_of?(HumanPlayer))
           game.set_next_human_move(sq)
           board = game.next_player.make_move(game.board)
           link = create_link(game, board.to_s)
