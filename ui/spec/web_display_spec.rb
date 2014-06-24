@@ -57,7 +57,7 @@ module NoughtsAndCrosses
 
       it 'displays board state text in correct order' do
         response = display.call(get_request('/HumanPlayer/HumanPlayer/XOX---OXO'))
-        expect(response[2]).to have_ordered_strings(%w{X O X - - - O X O})
+        expect(response[2]).to have_ordered_strings(%w{X O X O X O})
       end
 
       it 'prompts user to make a move' do
@@ -94,6 +94,7 @@ module NoughtsAndCrosses
         response = display.call(get_request('/HumanPlayer/HumanPlayer/XXXOO----'))
         expect(response).to_not have_link_to_path('HumanPlayer/HumanPlayer/XXXOOO---')
       end
+
     end
   end
 end

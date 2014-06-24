@@ -11,11 +11,12 @@ module NoughtsAndCrosses
 
       OK = '200'
       ERROR = '400'
+      START_TEMPLATE = File.dirname(__FILE__) + '/index.html.erb'
     
       def call(env)
         
         path = env['PATH_INFO'].split('/')
-        return show('') if path.empty? 
+        return show(ERB.new(File.read(START_TEMPLATE)).result(binding)) if path.empty? 
 
         board_str = path.last
         
@@ -60,14 +61,12 @@ module NoughtsAndCrosses
       end
     
       def process_square(sq, game)
-        return game.board.mark_at(sq) if game.board.played?(sq)
-        if(!game.game_over? && game.next_player.kind_of?(HumanPlayer))
+        if game.board.played?(sq)
+          { :text => game.board.mark_at(sq) }
+        elsif(!game.game_over? && game.next_player.kind_of?(HumanPlayer))
           game.set_next_human_move(sq)
           board = game.next_player.make_move(game.board)
-          link = create_link(game, board.to_s)
-          "<a href=\"#{link}\">-</a>"
-        else
-          "-"
+          { :link => create_link(game, board.to_s) }
         end
       end
 
