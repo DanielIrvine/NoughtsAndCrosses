@@ -5,18 +5,17 @@
     <title>Noughts and Crosses</title>
     <script>
       <!--
-function go() {
-  form = document.getElementById("game_form")
-  link = '/' + form.x.value + '/' + form.o.value + '/' + form.size.value
-  window.location.href = link
-}
+        function go() {
+          form = document.getElementById("game_form")
+          link = '/' + form.x.value + '/' + form.o.value + '/' + form.size.value
+          window.location.href = link
+        }
       -->
     </script>
   </head>
 
   <body>
-
-    <form disabled="true" id="game_form">
+    <form id="game_form">
       <p><%= translate(:player_is, 'X') %></p>
       <p><input type="radio" value="HumanPlayer" name="x" />
       <%= translate(:human_button) %>
@@ -38,7 +37,7 @@ function go() {
       <p><input type="radio" value="----------------" name="size"/>
       <%= translate(:x4) %>
       </p>
-      <p><input type="button" value="Play" onclick="go()"/></p>
+      <p><input type="button" value="<%= translate(:play) %>" onclick="go()"/></p>
     </form>
   </body>
 </html>

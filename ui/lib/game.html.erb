@@ -6,11 +6,9 @@
       <!--
       body { text-align: center; font-family: Helvetica; }
       table td { border: 1px solid black;  }
-      table { width: 600px; height: 600px; table-layout: fixed; }
+      table { width: 600px; height: 600px; table-layout: fixed; margin: auto; }
       td { vertical-align: middle; font-size: 30pt; }
       td a { display: block;  width: 100%; height: 100%;} 
-      .center { margin: auto; }
-
       .status { 
         font-size: 20pt; 
       }
@@ -22,7 +20,7 @@
   </head>
 
   <body>
-    <table class="center">
+    <table>
       <% rows.each do |row| %>
         <tr>
           <% row.each do |sq| %>
@@ -40,7 +38,10 @@
       <% end %>
     </table>
     <% if next_turn %><p class="status"><%= next_turn %></p><% end %>
-    <% if result %><p class="status"><%= result %></p><% end %>
+    <% if result %>
+      <p class="status"><%= result %></p>
+      <p class="status"><a href="/"><%= translate(:play_again_link) %></a></p>
+    <% end %>
   </body>
 </html>
 

@@ -15,6 +15,7 @@ module NoughtsAndCrosses
       :player_is => '% is...',
       :play => 'Play',
       :play_again => 'Click Play to play again',
+      :play_again_link => 'Click to play again',
       :game_title => 'Noughts and Crosses',
       :computer_move => "%'s move: thinking...",
       :human_move => "%'s move: click a square",
