@@ -12,51 +12,63 @@ module NoughtsAndCrosses
       OK = '200'
       ERROR = '400'
       TEMPLATE_DIR = File.dirname(__FILE__) + '/../templates/'
-      START_TEMPLATE = TEMPLATE_DIR + 'index.html.erb'
-      GAME_TEMPLATE = TEMPLATE_DIR + 'game.html.erb'
+      START_TEMPLATE = 'index.html.erb'
+      GAME_TEMPLATE = 'game.html.erb'
+      INVALID_BOARD_TEMPLATE = 'invalid_board.html.erb'
     
       def call(env)
         
         path = env['PATH_INFO'].split('/')
-        return show(ERB.new(File.read(START_TEMPLATE)).result(binding)) if path.empty? 
+        return show(START_TEMPLATE, binding) if path.empty? 
 
         board_str = path.last
         
-        return show(translate(:invalid_board), ERROR) if !Board.valid_board_str(board_str)
+        if !Board.valid_board_str(board_str)
+          return show(INVALID_BOARD_TEMPLATE, binding, ERROR)
+        end
 
+        show(GAME_TEMPLATE, build_game_binding(path))
+      end
+      
+      def build_game_binding(path)
+        
         game = Game.new(human?(path[1]),
                         human?(path[2]), 
-                        board: board_str)
-       
-        title = translate(:game_title)
-
-        if(!game.game_over? && game.next_player.kind_of?(ComputerPlayer))
-          new_board = game.next_player.make_move(game.board)
-          next_move = create_link(game, new_board.to_s)
-        end
-        
-        rows = []
-        cur_row = []
-        cur_col = 0
-        game.board.all_indexes.each do |sq|
-          cur_row << process_square(sq, game)
-          if(cur_row.length == game.board.size)
-            rows << cur_row
-            cur_row = []
-          end
-        end
+                        board: path.last)
 
         if game.game_over?
           result = result_text(game)
         else
           next_turn = play_turn_text(game)
         end
+        
+        rows = build_board_rows_binding(game)
+        
+        new_board = game.play_turn!
+        next_move = create_link(game, new_board)
 
-        page = ERB.new(File.read(GAME_TEMPLATE)).result(binding)
-
-        show(page)
+        binding
       end
-      
+
+      def build_board_rows_binding(game)
+
+        rows = []
+        cur_row = []
+        game.board.all_indexes.each do |sq|
+          cur_row << process_square(sq, game)
+          next if cur_row.length != game.board.size
+
+          rows << cur_row
+          cur_row = []
+        end
+        rows
+      end
+
+      def next_computer_move(game)
+        new_board = game.next_player.make_move(game.board)
+        next_move = create_link(game, new_board.to_s)
+      end
+
       def human?(name)
         name==player_type(HumanPlayer)
       end
@@ -87,10 +99,10 @@ module NoughtsAndCrosses
         end
       end
 
-      def show(page, status = OK)
-        ['200',
+      def show(page, binding, status = OK)
+        [status,
          {'Content-Type' => 'text/html'},
-         [page] ]
+         [ERB.new(File.read(TEMPLATE_DIR + page)).result(binding)] ]
       end
 
       def create_link(game, board_str)

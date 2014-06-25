@@ -47,12 +47,12 @@ module NoughtsAndCrosses
 
       it 'displays error with invalid board size' do
         response = display.call(get_request('/HumanPlayer/HumanPlayer/X--'))
-        expect(response[2]).to include(translate(:invalid_board))
+        expect(response[2].first).to include(translate(:invalid_board))
       end
 
       it 'displays error with invalid board content' do
         response = display.call(get_request('/HumanPlayer/HumanPlayer/ABCDEFGHI'))
-        expect(response[2]).to include(translate(:invalid_board))
+        expect(response[2].first).to include(translate(:invalid_board))
       end
 
       it 'displays board state text in correct order' do
