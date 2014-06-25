@@ -11,7 +11,9 @@ module NoughtsAndCrosses
 
       OK = '200'
       ERROR = '400'
-      START_TEMPLATE = File.dirname(__FILE__) + '/index.html.erb'
+      TEMPLATE_DIR = File.dirname(__FILE__) + '/../templates/'
+      START_TEMPLATE = TEMPLATE_DIR + 'index.html.erb'
+      GAME_TEMPLATE = TEMPLATE_DIR + 'game.html.erb'
     
       def call(env)
         
@@ -50,8 +52,7 @@ module NoughtsAndCrosses
           next_turn = play_turn_text(game)
         end
 
-        file = File.dirname(__FILE__) + '/game.html.erb'
-        page = ERB.new(File.read(file)).result(binding)
+        page = ERB.new(File.read(GAME_TEMPLATE)).result(binding)
 
         show(page)
       end
