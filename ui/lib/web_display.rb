@@ -18,23 +18,27 @@ module NoughtsAndCrosses
     
       def call(env)
         
-        path = env['PATH_INFO'].split('/')
+        path = env['PATH_INFO'] 
         return show(START_TEMPLATE, binding) if path.empty? 
 
-        board_str = path.last
+        path_parts = path.split('/').reject(&:empty?)
         
-        if !Board.valid_board_str(board_str)
+        if invalid_path(path_parts)
           return show(INVALID_BOARD_TEMPLATE, binding, ERROR)
         end
 
-        show(GAME_TEMPLATE, build_game_binding(path))
+        show(GAME_TEMPLATE, build_game_binding(path_parts))
       end
       
+      def invalid_path(path_parts)
+        path_parts.length != 3 || !Board.valid_board_str(path_parts[2])
+      end
+
       def build_game_binding(path)
         
-        game = Game.new(human?(path[1]),
-                        human?(path[2]), 
-                        board: path.last)
+        game = Game.new(human?(path[0]),
+                        human?(path[1]), 
+                        board: path[2])
 
         if game.game_over?
           result = result_text(game)
