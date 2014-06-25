@@ -12,8 +12,6 @@ module NoughtsAndCrosses
       BOARD_LENGTH = 500
       TEXT_FONT = Qt::Font.new(GUI::GameBoardWidget::FONT_FAMILY, 12, 0)
 
-      include Strings
-
       slots :begin
       attr_reader :game
       
@@ -29,7 +27,7 @@ module NoughtsAndCrosses
         super(nil)
         @buttons = {}
         self.layout = @layout = Qt::VBoxLayout.new
-        self.window_title = translate(:game_title) 
+        self.window_title = Strings.translate(:game_title) 
         @layout.spacing = 8
         @layout.add_layout(@top_box_layout = Qt::HBoxLayout.new)
         @top_box_layout.alignment = Qt::AlignTop
@@ -58,7 +56,7 @@ module NoughtsAndCrosses
 
       def create_play_again_label
         @frame = Qt::StackedWidget.new(self)
-        @play_again = Qt::Label.new(translate(:play_again))
+        @play_again = Qt::Label.new(Strings.translate(:play_again))
         @play_again.alignment = Qt::AlignCenter
         @play_again.font = GUI::GameBoardWidget::SMALL_FONT
         @frame.minimum_height = 50
@@ -74,7 +72,7 @@ module NoughtsAndCrosses
       end
 
       def create_play_button
-        @play_button = Qt::PushButton.new(translate(:play), self)
+        @play_button = Qt::PushButton.new(Strings.translate(:play), self)
         @play_button.object_name = PlayButton
         @play_button.font = TEXT_FONT
         connect(@play_button, SIGNAL(:clicked), self, SLOT(:begin))
@@ -82,7 +80,7 @@ module NoughtsAndCrosses
       end
 
       def create_board_size_selection
-        create_choice_buttons(translate(:board_size),
+        create_choice_buttons(Strings.translate(:board_size),
                            [ { :id => X3,
                                :text => :x3,
                                :toggle => true },
@@ -91,7 +89,7 @@ module NoughtsAndCrosses
       end
 
       def create_player_selection(mark, human, computer)
-        create_choice_buttons( translate(:player_is, mark),
+        create_choice_buttons( Strings.translate(:player_is, mark),
                             [ { :id => human,
                                 :text => :human_button,
                                  :toggle => true },
@@ -118,7 +116,7 @@ module NoughtsAndCrosses
       end
 
       def create_choice(choice, group)
-        label_text = translate(choice[:text])
+        label_text = Strings.translate(choice[:text])
         button = Qt::RadioButton.new(label_text, nil)
         button.font = TEXT_FONT
         button.object_name = choice[:id]

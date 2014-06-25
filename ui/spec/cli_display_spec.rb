@@ -7,15 +7,13 @@ module NoughtsAndCrosses
   module CLI
     describe CLIDisplay do
    
-      include Strings
-      
       it 'plays until game over' do
         seq = %w(y y n 1 2 5 3 9) * "\n"
         io = SimplifiedStringIO.new(seq)
         display = CLIDisplay.new(io)
         display.begin
         display.exec
-        expect(io.string.chomp).to end_with(translate(:winner, 'X'))
+        expect(io.string.chomp).to end_with(Strings.translate(:winner, 'X'))
       end
     
       it 'displays an empty square for the empty board' do
@@ -47,8 +45,8 @@ module NoughtsAndCrosses
     
       it 'displays result text' do
         io = double
-        expect(io).to receive(:puts).with(translate(:winner, 'O'))
-        CLIDisplay.new(io).display_result(translate(:winner, 'O'))
+        expect(io).to receive(:puts).with(Strings.translate(:winner, 'O'))
+        CLIDisplay.new(io).display_result(Strings.translate(:winner, 'O'))
       end
     
       describe '#human?' do

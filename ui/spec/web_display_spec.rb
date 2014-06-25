@@ -7,8 +7,6 @@ module NoughtsAndCrosses
   module Web
     describe WebDisplay do
 
-      
-      include Strings
       include_context :rack
 
       let(:display) { WebDisplay.new }
@@ -47,12 +45,12 @@ module NoughtsAndCrosses
 
       it 'displays error with invalid board size' do
         response = display.call(get_request('/HumanPlayer/HumanPlayer/X--'))
-        expect(response[2].first).to include(translate(:invalid_board))
+        expect(response[2].first).to include(Strings.translate(:invalid_board))
       end
 
       it 'displays error with invalid board content' do
         response = display.call(get_request('/HumanPlayer/HumanPlayer/ABCDEFGHI'))
-        expect(response[2].first).to include(translate(:invalid_board))
+        expect(response[2].first).to include(Strings.translate(:invalid_board))
       end
 
       it 'displays board state text in correct order' do
@@ -62,12 +60,12 @@ module NoughtsAndCrosses
 
       it 'prompts user to make a move' do
         response = display.call(get_request('/HumanPlayer/HumanPlayer/XOX---OXO'))
-        expect(response[2].first).to include(translate(:human_move, 'X'))
+        expect(response[2].first).to include(Strings.translate(:human_move, 'X'))
       end
 
       it 'prompts when computer is making a move' do
         response = display.call(get_request('/ComputerPlayer/HumanPlayer/XOX---OXO'))
-        expect(response[2].first).to include(translate(:computer_move, 'X'))
+        expect(response[2].first).to include(Strings.translate(:computer_move, 'X'))
       end
 
       it 'displays no links when computer is making a move' do
@@ -82,12 +80,12 @@ module NoughtsAndCrosses
 
       it 'displays board result when game is over' do
         response = display.call(get_request('/ComputerPlayer/HumanPlayer/XXXOO----'))
-        expect(response[2].first).to include(translate(:winner, 'X'))
+        expect(response[2].first).to include(Strings.translate(:winner, 'X'))
       end
 
       it 'displays board result when game is drawn' do
         response = display.call(get_request('/ComputerPlayer/HumanPlayer/XOXOXOOXO'))
-        expect(response[2].first).to include(translate(:draw))
+        expect(response[2].first).to include(Strings.translate(:draw))
       end
 
       it 'does not display any links when the board is complete' do

@@ -10,8 +10,6 @@ module NoughtsAndCrosses
 
       BOARD_LENGTH = 500
 
-      include Strings
-
       attr_reader :board_widget
 
       def initialize(dialog)
@@ -33,11 +31,11 @@ module NoughtsAndCrosses
       end
 
       def four_by_four?
-        @dialog.ask(translate(:four_by_four))
+        @dialog.ask(Strings.translate(:four_by_four))
       end
       
       def human?(mark)
-        @dialog.ask(translate(:human, mark))
+        @dialog.ask(Strings.translate(:human, mark))
       end
       
       def reset

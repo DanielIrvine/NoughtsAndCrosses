@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html>
   <head>
-    <title><%= translate(:game_title) %></title>
+    <title><%= Strings.translate(:game_title) %></title>
     <link rel="stylesheet" type="text/css" href="/public/styles.css">
     <% if !next_move.nil? %>
       <meta http-equiv="refresh" content="1; URL=<%= next_move %>" />
@@ -29,7 +29,7 @@
     <% if next_turn %><p class="status"><%= next_turn %></p><% end %>
     <% if result %>
       <p class="status"><%= result %></p>
-      <p class="status"><a href="/"><%= translate(:play_again_link) %></a></p>
+      <p class="status"><a href="/"><%= Strings.translate(:play_again_link) %></a></p>
     <% end %>
   </body>
 </html>

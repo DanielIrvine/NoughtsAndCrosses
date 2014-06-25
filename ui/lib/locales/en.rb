@@ -1,5 +1,5 @@
 module NoughtsAndCrosses
-  module Strings
+  class Strings
 
     STRINGS = {
       :four_by_four => 'Do you want to play a 4x4 game? Choose no for a 3x3 game.',

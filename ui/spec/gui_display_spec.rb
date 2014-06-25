@@ -11,12 +11,10 @@ module NoughtsAndCrosses
      
       include_context :qt
 
-      include Strings
-
       let(:question) { TestQuestion.new(
-        { translate(:human, 'X') => true,
-          translate(:human, 'O') => true,
-          translate(:four_by_four) => false }) }
+        { Strings.translate(:human, 'X') => true,
+          Strings.translate(:human, 'O') => true,
+          Strings.translate(:four_by_four) => false }) }
       let(:display) do
         display = GUIDisplay.new(question) 
         allow(display).to receive(:show)
@@ -28,14 +26,14 @@ module NoughtsAndCrosses
         [0, 1, 4, 2, 8].each do |sq|
           click(sq)
         end
-        expect(display).to have_label_with_text(translate(:winner, 'X'))
+        expect(display).to have_label_with_text(Strings.translate(:winner, 'X'))
       end
     
   
       describe 'computer player as x' do
     
         before do
-          question[translate(:human, 'X')] = false
+          question[Strings.translate(:human, 'X')] = false
         end
     
         it 'plays X move when timer is fired' do
@@ -50,7 +48,7 @@ module NoughtsAndCrosses
         [0, 3, 1, 4, 6, 2, 7, 8, 5].each do |sq|
           click(sq)
         end
-        expect(display).to have_label_with_text(translate(:draw))
+        expect(display).to have_label_with_text(Strings.translate(:draw))
       end
     
       it 'displays a winning message for o' do
@@ -58,24 +56,24 @@ module NoughtsAndCrosses
         [0, 3, 1, 4, 8, 5].each do |sq|
           click(sq)
         end
-        expect(display).to have_label_with_text(translate(:winner, 'O'))
+        expect(display).to have_label_with_text(Strings.translate(:winner, 'O'))
       end
     
     
       it "prompts the user if player X is human" do
-        question[translate(:human, 'X')] = true
+        question[Strings.translate(:human, 'X')] = true
         expect(display.human?('X')).to eq true
       end
     
       it 'displays a 4x4 board' do
-        question[translate(:four_by_four)] = true
+        question[Strings.translate(:four_by_four)] = true
         display.begin
         click(15)
         expect(square(15).text).to eq 'X'
       end
       
       it 'prompts the user if the game is 4x4' do
-        question[translate(:four_by_four)] = true
+        question[Strings.translate(:four_by_four)] = true
         expect(display.four_by_four?).to eq true
       end
     

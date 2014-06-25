@@ -2,7 +2,7 @@
 <html>
 
   <head>
-    <title><%= translate(:game_title) %></title>
+    <title><%= Strings.translate(:game_title) %></title>
     <script>
       <!--
         function go() {
@@ -20,34 +20,35 @@
     <form id="game_form">
       <div id="grid"> 
         <div class="cell">
-          <p><%= translate(:player_is, 'X') %></p>
+          <p><%= Strings.translate(:player_is, 'X') %></p>
           <p><input type="radio" value="HumanPlayer" name="x" checked="true" />
-          <%= translate(:human_button) %>
+          <%= Strings.translate(:human_button) %>
           </p>
           <p><input type="radio" value="ComputerPlayer" name="x" />
-          <%= translate(:computer_button) %>
+          <%= Strings.translate(:computer_button) %>
           </p>
         </div>
         <div class="cell">
-          <p><%= translate(:player_is, 'O') %></p>
+          <p><%= Strings.translate(:player_is, 'O') %></p>
           <p><input type="radio" value="HumanPlayer" name="o" checked="true" />
-          <%= translate(:human_button) %>
+          <%= Strings.translate(:human_button) %>
           </p>
           <p><input type="radio" value="ComputerPlayer" name="o" checked="true" />
-          <%= translate(:computer_button) %>
+          <%= Strings.translate(:computer_button) %>
           </p>
         </div>
         <div class="cell">
-          <p><%= translate(:board_size) %></p>
+          <p><%= Strings.translate(:board_size) %></p>
           <p><input type="radio" value="---------" name="size" checked="true" />
-          <%= translate(:x3) %>
+          <%= Strings.translate(:x3) %>
           </p>
           <p><input type="radio" value="----------------" name="size"/>
-          <%= translate(:x4) %>
+          <%= Strings.translate(:x4) %>
           </p>
         </div>
         <div class="cell">
-          <p><input type="button" autofocus value="<%= translate(:play) %>" onclick="go()"
+          <p><input type="button" autofocus 
+          value="<%= Strings.translate(:play) %>" onclick="go()"
           default /></p>
         </div>
     </div>
