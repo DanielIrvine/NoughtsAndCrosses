@@ -9,6 +9,14 @@ require 'web_display'
 
 module NoughtsAndCrosses
   module Web
-    Rack::Handler::WEBrick.run WebDisplay.new
+    app = Rack::Builder.app do
+      map "/public" do
+        path = File.dirname(__FILE__) + '/../public/'
+        run Rack::Directory.new(path)
+      end
+      run WebDisplay.new
+    end
+    Rack::Handler::WEBrick.run app
   end
 end
+

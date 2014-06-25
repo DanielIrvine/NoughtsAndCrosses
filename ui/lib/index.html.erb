@@ -12,32 +12,45 @@
         }
       -->
     </script>
+
+    <link rel="stylesheet" type="text/css" href="/public/styles.css">
   </head>
 
   <body>
     <form id="game_form">
-      <p><%= translate(:player_is, 'X') %></p>
-      <p><input type="radio" value="HumanPlayer" name="x" />
-      <%= translate(:human_button) %>
-      </p>
-      <p><input type="radio" value="ComputerPlayer" name="x" />
-      <%= translate(:computer_button) %>
-      </p>
-      <p><%= translate(:player_is, 'O') %></p>
-      <p><input type="radio" value="HumanPlayer" name="o" />
-      <%= translate(:human_button) %>
-      </p>
-      <p><input type="radio" value="ComputerPlayer" name="o"/>
-      <%= translate(:computer_button) %>
-      </p>
-      <p><%= translate(:board_size) %></p>
-      <p><input type="radio" value="---------" name="size"/>
-      <%= translate(:x3) %>
-      </p>
-      <p><input type="radio" value="----------------" name="size"/>
-      <%= translate(:x4) %>
-      </p>
-      <p><input type="button" value="<%= translate(:play) %>" onclick="go()"/></p>
+      <div id="grid"> 
+        <div class="cell">
+          <p><%= translate(:player_is, 'X') %></p>
+          <p><input type="radio" value="HumanPlayer" name="x" checked="true" />
+          <%= translate(:human_button) %>
+          </p>
+          <p><input type="radio" value="ComputerPlayer" name="x" />
+          <%= translate(:computer_button) %>
+          </p>
+        </div>
+        <div class="cell">
+          <p><%= translate(:player_is, 'O') %></p>
+          <p><input type="radio" value="HumanPlayer" name="o" checked="true" />
+          <%= translate(:human_button) %>
+          </p>
+          <p><input type="radio" value="ComputerPlayer" name="o" checked="true" />
+          <%= translate(:computer_button) %>
+          </p>
+        </div>
+        <div class="cell">
+          <p><%= translate(:board_size) %></p>
+          <p><input type="radio" value="---------" name="size" checked="true" />
+          <%= translate(:x3) %>
+          </p>
+          <p><input type="radio" value="----------------" name="size"/>
+          <%= translate(:x4) %>
+          </p>
+        </div>
+        <div class="cell">
+          <p><input type="button" autofocus value="<%= translate(:play) %>" onclick="go()"
+          default /></p>
+        </div>
+    </div>
     </form>
   </body>
 </html>
