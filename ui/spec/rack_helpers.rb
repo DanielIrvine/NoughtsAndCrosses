@@ -26,9 +26,10 @@ RSpec.shared_context :rack do
     end
   end
 
-  def get_request(path)
+  def get_request(path, method = 'GET', content = nil)
     {'PATH_INFO' => path,
      'QUERY_STRING' => '',
-     'REQUEST_METHOD' => 'GET' }
+     'REQUEST_METHOD' => method,
+     'rack.request.query_hash' => content}
   end
 end

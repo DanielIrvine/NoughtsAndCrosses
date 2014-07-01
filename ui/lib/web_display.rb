@@ -10,7 +10,7 @@ module NoughtsAndCrosses
       
       OK = '200'
       ERROR = '400'
-      TEMPLATE_DIR = File.dirname(__FILE__) + '/../templates/'
+      TEMPLATE_DIR = File.dirname(__FILE__) + '/../templates/web/'
       START_TEMPLATE = 'index.html.erb'
       GAME_TEMPLATE = 'game.html.erb'
       INVALID_BOARD_TEMPLATE = 'invalid_board.html.erb'
