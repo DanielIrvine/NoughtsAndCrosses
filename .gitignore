@@ -1,4 +1,4 @@
 *.swp
 coverage
 .DS_Store
-
+capybara-*.html

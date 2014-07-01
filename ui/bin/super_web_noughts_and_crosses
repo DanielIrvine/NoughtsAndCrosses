@@ -1,0 +1,22 @@
+#! /usr/bin/env ruby
+
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+
+require 'rubygems'
+require 'bundler/setup'
+require 'rack'
+require 'super_web_display'
+
+module NoughtsAndCrosses
+  module SuperWeb
+    app = Rack::Builder.app do
+      map "/public" do
+        path = File.dirname(__FILE__) + '/../public/'
+        run Rack::Directory.new(path)
+      end
+      run SuperWebDisplay.new
+    end
+    Rack::Handler::WEBrick.run app
+  end
+end
+
