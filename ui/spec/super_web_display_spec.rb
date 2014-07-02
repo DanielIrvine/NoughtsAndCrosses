@@ -26,6 +26,7 @@ module NoughtsAndCrosses
         visit url
         click_button('Play')
         expect(page).to have_content "X's turn"
+
       end
 
       it 'provides json for an empty board' do
@@ -36,9 +37,16 @@ module NoughtsAndCrosses
 
       it 'provides links to next squares' do
         result = display.call(get_request('state/HumanPlayer/HumanPlayer/---------'))
-        state = JSON.parse(result[2][0])
+        state = JSON.parse(body_of(result))
         expect(state['board'][0][0]).to eq({ 'link' => '/HumanPlayer/HumanPlayer/X--------' })
         expect(state['board'][2][2]).to eq({ 'link' => '/HumanPlayer/HumanPlayer/--------X' })
+      end
+
+      it 'provides next computer move' do
+        result = display.call(get_request('state/HumanPlayer/ComputerPlayer/X--------'))
+        state = JSON.parse(body_of(result))
+
+        expect(state['next_move']).to eq '/HumanPlayer/ComputerPlayer/X---O----'
       end
     end
   end

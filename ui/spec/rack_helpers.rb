@@ -1,6 +1,5 @@
 RSpec.shared_context :rack do
 
-
   RSpec::Matchers.define :have_link_to_path do |expected|
     match do |actual|
       /href="(.)*#{expected}"/.match(actual[2].flatten.first)
@@ -31,5 +30,9 @@ RSpec.shared_context :rack do
      'QUERY_STRING' => '',
      'REQUEST_METHOD' => method,
      'rack.request.query_hash' => content}
+  end
+
+  def body_of(result)
+    result[2][0]
   end
 end

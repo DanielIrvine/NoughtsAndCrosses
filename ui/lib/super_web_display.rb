@@ -12,13 +12,15 @@ module NoughtsAndCrosses
 
       def call(env)
         @path = env['PATH_INFO'].split('/').reject(&:empty?)
-        return show(START_TEMPLATE, binding) if @path.empty?
 
-        if @path[0]=='state'
+        case @path[0]
+        when 'state' then 
           state = build_state(game_state_url_segment)
           show_json(state) 
-        else
+        when 'game' then
           show(GAME_TEMPLATE, binding)
+        else
+          show(START_TEMPLATE, binding)
         end
       end
 

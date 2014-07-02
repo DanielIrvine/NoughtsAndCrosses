@@ -16,7 +16,7 @@
             <td>
                 <% if !sq.nil? %>
                   <% if !sq[:link].nil? %>
-                    <a href="<%= sq[:link] %>"></a>
+                    <a href="game/<%= sq[:link] %>"></a>
                   <% else %>
                       <%= sq[:text] %>
                   <% end %>
@@ -27,7 +27,7 @@
       <% end %>
     </table>
     <% if next_turn %><p class="status"><%= next_turn %></p><% end %>
-    <% if result %>
+    <% if game_over %>
       <p class="status"><%= result %></p>
       <p class="status"><a href="/"><%= Strings.translate(:play_again_link) %></a></p>
     <% end %>

@@ -2,7 +2,9 @@ require 'board'
 require 'game'
 require 'game_strings'
 require 'erb'
+require 'ostruct'
 require 'strings'
+require 'game_state'
 
 module NoughtsAndCrosses
   module Web
@@ -19,22 +21,21 @@ module NoughtsAndCrosses
       end
 
       def call(env)
-        
-        path = env['PATH_INFO'].split('/').reject(&:empty?)
-
-        return show(START_TEMPLATE, binding) if path.empty?
-
-        if invalid_path(path)
-          return show(INVALID_BOARD_TEMPLATE, binding, ERROR)
+      
+        route, state = env['PATH_INFO'].split('/', 2).reject(&:empty?)
+        case route
+        when 'game' then
+          game_state = GameState.new(state)
+          if game_state.valid?
+            show(GAME_TEMPLATE, build_game_binding(game_state.path_segments))
+          else
+            show(INVALID_BOARD_TEMPLATE, binding, ERROR)
+          end
+        else
+          show(START_TEMPLATE, binding)
         end
-
-        show(GAME_TEMPLATE, build_game_binding(path))
       end
       
-      def invalid_path(path)
-        path.length != 3 || !Board.valid_board_str(path[2])
-      end
-
       def build_state(path)
 
         game = Game.new(human?(path[0]),
@@ -47,14 +48,14 @@ module NoughtsAndCrosses
           next_turn = GameStrings.play_turn_text(game)
         end
         
-        rows = build_board_rows(game)
         old_board = game.board
         new_board = game.play_turn!
         next_move = create_link(game, new_board) if new_board != old_board
 
         { :result => result,
+          :game_over => game.game_over?,
           :next_turn => next_turn,
-          :board => rows,
+          :board => build_board_rows(game),
           :new_board => new_board,
           :next_move => next_move }
       end
@@ -83,7 +84,7 @@ module NoughtsAndCrosses
       end
 
       def human?(name)
-        name==player_type(HumanPlayer)
+        HumanPlayer.name.end_with?(name)
       end
     
       def process_square(sq, game)

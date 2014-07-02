@@ -4,6 +4,16 @@
   <head>
     <title><%= Strings.translate(:game_title) %></title>
     <link rel="stylesheet" type="text/css" href="/public/styles.css">
+    <script>
+      <!--
+      function go() {
+        form = document.getElementById("game_form")
+        link = '/' + form.x.value + '/' + form.o.value + '/' + form.size.value
+        window.location.href = link
+      }
+      -->
+    </script>
+
   </head>
 
   <body>
@@ -38,7 +48,8 @@
         </div>
         <div class="cell">
           <p><input type="submit" autofocus 
-          value="<%= Strings.translate(:play) %>"
+          value="<%= Strings.translate(:play) %>" 
+          onclick="go()"
           default /></p>
         </div>
     </div>
