@@ -1,3 +1,4 @@
+require 'game_state'
 require 'web_display'
 require 'strings'
 require 'json'
@@ -11,21 +12,17 @@ module NoughtsAndCrosses
       end
 
       def call(env)
-        @path = env['PATH_INFO'].split('/').reject(&:empty?)
 
-        case @path[0]
+        route, state = env['PATH_INFO'].split('/', 2).reject(&:empty?)
+        case route 
         when 'state' then 
-          state = build_state(game_state_url_segment)
-          show_json(state) 
+          game_state = Web::GameState.new(state)
+          show_json(build_state(game_state.build))
         when 'game' then
           show(GAME_TEMPLATE, binding)
         else
           show(START_TEMPLATE, binding)
         end
-      end
-
-      def game_state_url_segment
-        @path.drop(1)
       end
 
       def show_json(obj)

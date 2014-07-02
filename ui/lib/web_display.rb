@@ -27,7 +27,7 @@ module NoughtsAndCrosses
         when 'game' then
           game_state = GameState.new(state)
           if game_state.valid?
-            show(GAME_TEMPLATE, build_game_binding(game_state.path_segments))
+            show(GAME_TEMPLATE, build_game_binding(game_state.build))
           else
             show(INVALID_BOARD_TEMPLATE, binding, ERROR)
           end
@@ -36,11 +36,7 @@ module NoughtsAndCrosses
         end
       end
       
-      def build_state(path)
-
-        game = Game.new(human?(path[0]),
-                        human?(path[1]), 
-                        board: path[2])
+      def build_state(game)
 
         if game.game_over?
           result = GameStrings.result_text(game.board)
@@ -83,10 +79,6 @@ module NoughtsAndCrosses
         next_move = create_link(game, new_board.to_s)
       end
 
-      def human?(name)
-        HumanPlayer.name.end_with?(name)
-      end
-    
       def process_square(sq, game)
         if game.board.played?(sq)
           { :text => game.board.mark_at(sq) }
