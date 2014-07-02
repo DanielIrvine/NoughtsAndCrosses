@@ -10,13 +10,13 @@
 
   <body>
     <table>
-      <% rows.each do |row| %>
+      <% board.each do |row| %>
         <tr>
           <% row.each do |sq| %>
             <td>
                 <% if !sq.nil? %>
                   <% if !sq[:link].nil? %>
-                    <a href="<%= sq[:link] %>"> </a>
+                    <a href="<%= sq[:link] %>"></a>
                   <% else %>
                       <%= sq[:text] %>
                   <% end %>

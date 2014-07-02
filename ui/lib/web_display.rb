@@ -10,11 +10,14 @@ module NoughtsAndCrosses
       
       OK = '200'
       ERROR = '400'
-      TEMPLATE_DIR = File.dirname(__FILE__) + '/../templates/web/'
       START_TEMPLATE = 'index.html.erb'
       GAME_TEMPLATE = 'game.html.erb'
       INVALID_BOARD_TEMPLATE = 'invalid_board.html.erb'
     
+      def initialize
+        @template_dir = File.dirname(__FILE__) + '/../templates/web/'
+      end
+
       def call(env)
         
         path = env['PATH_INFO'].split('/').reject(&:empty?)
@@ -32,8 +35,8 @@ module NoughtsAndCrosses
         path.length != 3 || !Board.valid_board_str(path[2])
       end
 
-      def build_game_binding(path)
-        
+      def build_state(path)
+
         game = Game.new(human?(path[0]),
                         human?(path[1]), 
                         board: path[2])
@@ -44,16 +47,23 @@ module NoughtsAndCrosses
           next_turn = GameStrings.play_turn_text(game)
         end
         
-        rows = build_board_rows_binding(game)
-        
+        rows = build_board_rows(game)
         old_board = game.board
         new_board = game.play_turn!
         next_move = create_link(game, new_board) if new_board != old_board
 
-        binding
+        { :result => result,
+          :next_turn => next_turn,
+          :board => rows,
+          :new_board => new_board,
+          :next_move => next_move }
       end
 
-      def build_board_rows_binding(game)
+      def build_game_binding(path)
+        OpenStruct.new(build_state(path)).instance_eval{binding}
+      end
+
+      def build_board_rows(game)
 
         rows = []
         cur_row = []
@@ -90,7 +100,7 @@ module NoughtsAndCrosses
       def show(page, binding, status = OK)
         [status,
          {'Content-Type' => 'text/html'},
-         [ERB.new(File.read(TEMPLATE_DIR + page)).result(binding)] ]
+         [ERB.new(File.read(@template_dir + page)).result(binding)] ]
       end
 
       def create_link(game, board_str)

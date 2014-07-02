@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title><%= Strings.translate(:game_title) %></title>
+    <link rel="stylesheet" type="text/css" href="/public/styles.css">
+  </head>
+
+  <body>
+    <form id="game_form" method="post" action="game">
+      <div id="grid"> 
+        <div class="cell">
+          <p><%= Strings.translate(:player_is, 'X') %></p>
+          <p><input type="radio" value="HumanPlayer" name="x" checked="true" />
+          <%= Strings.translate(:human_button) %>
+          </p>
+          <p><input type="radio" value="ComputerPlayer" name="x" />
+          <%= Strings.translate(:computer_button) %>
+          </p>
+        </div>
+        <div class="cell">
+          <p><%= Strings.translate(:player_is, 'O') %></p>
+          <p><input type="radio" value="HumanPlayer" name="o" checked="true" />
+          <%= Strings.translate(:human_button) %>
+          </p>
+          <p><input type="radio" value="ComputerPlayer" name="o" checked="true" />
+          <%= Strings.translate(:computer_button) %>
+          </p>
+        </div>
+        <div class="cell">
+          <p><%= Strings.translate(:board_size) %></p>
+          <p><input type="radio" value="3" name="size" checked="true" />
+          <%= Strings.translate(:x3) %>
+          </p>
+          <p><input type="radio" value="4" name="size"/>
+          <%= Strings.translate(:x4) %>
+          </p>
+        </div>
+        <div class="cell">
+          <p><input type="submit" autofocus 
+          value="<%= Strings.translate(:play) %>"
+          default /></p>
+        </div>
+    </div>
+    </form>
+  </body>
+</html>

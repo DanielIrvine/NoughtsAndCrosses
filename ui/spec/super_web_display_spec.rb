@@ -11,7 +11,8 @@ module NoughtsAndCrosses
   module SuperWeb
     describe SuperWebDisplay, :js => true, :type => :feature do
 
-      let(:server) { Capybara::Server.new(SuperWebDisplay.new).boot }
+      let(:display) { SuperWebDisplay.new }
+      let(:server) { Capybara::Server.new(display).boot }
       let(:url) { "http://localhost:#{server.port}/" }
 
       include_context :rack 
@@ -21,9 +22,23 @@ module NoughtsAndCrosses
         expect(page).to have_content 'Board size is...'
       end
 
+      xit 'shows a blank board when game it submitted' do
+        visit url
+        click_button('Play')
+        expect(page).to have_content "X's turn"
+      end
 
-      it 'shows a blank board when game it submitted' do
-        
+      it 'provides json for an empty board' do
+        result = display.call(get_request('state/HumanPlayer/HumanPlayer/---------'))
+
+        expect(result[1]['Content-Type']).to eq 'application/json'
+      end
+
+      it 'provides links to next squares' do
+        result = display.call(get_request('state/HumanPlayer/HumanPlayer/---------'))
+        state = JSON.parse(result[2][0])
+        expect(state['board'][0][0]).to eq({ 'link' => '/HumanPlayer/HumanPlayer/X--------' })
+        expect(state['board'][2][2]).to eq({ 'link' => '/HumanPlayer/HumanPlayer/--------X' })
       end
     end
   end

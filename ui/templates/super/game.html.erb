@@ -2,35 +2,17 @@
 <html>
   <head>
     <title><%= Strings.translate(:game_title) %></title>
-    <link rel="stylesheet" type="text/css" href="/public/styles.css">
-    <% if !next_move.nil? %>
-      <meta http-equiv="refresh" content="1; URL=<%= next_move %>" />
-    <% end %>
+    <link rel="stylesheet" type="text/css" href="/public/styles.css" />
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="public/game.js"></script>
   </head>
 
-  <body>
-    <table>
-      <% rows.each do |row| %>
-        <tr>
-          <% row.each do |sq| %>
-            <td>
-                <% if !sq.nil? %>
-                  <% if !sq[:link].nil? %>
-                    <a href="<%= sq[:link] %>"> </a>
-                  <% else %>
-                      <%= sq[:text] %>
-                  <% end %>
-                <% end %>
-            </td>
-          <% end %>
-        </tr>
-      <% end %>
+  <body onload="onload();">
+    <table id="board">
+      <tbody />
     </table>
-    <% if next_turn %><p class="status"><%= next_turn %></p><% end %>
-    <% if result %>
-      <p class="status"><%= result %></p>
-      <p class="status"><a href="/"><%= Strings.translate(:play_again_link) %></a></p>
-    <% end %>
+    <div id="state" />
+      <!-- TODO    <p class="status"><a href="/"><%= Strings.translate(:play_again_link) %></a></p> -->
   </body>
 </html>
 
