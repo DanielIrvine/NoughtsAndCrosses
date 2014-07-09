@@ -27,4 +27,10 @@ describe("game", function(){
   it("displays already played squares for a computer move", function() {
     expect(convertBoard({board: "X", next_move: "computer"})).toEqual(["X"]);
   });
+
+  it("should make an AJAX request for a computer url", function() {
+    spyOn($, "ajax");
+    parse({board:"-", next_move: "computer"});
+    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/best_move?board=-");
+  });
 });

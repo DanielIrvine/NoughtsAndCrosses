@@ -1,3 +1,8 @@
+function parse(json)
+{
+  $.ajax({url:"/best_move?board=-"});
+}
+
 function convertBoard(json)
 {
   var createLinks = json.next_move != "computer";
