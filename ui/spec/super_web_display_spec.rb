@@ -1,18 +1,30 @@
 require 'capybara'
 require 'capybara/poltergeist'
+require 'capybara/webkit'
 require 'capybara/rspec'
 require 'spec_helper'
 require 'super_web_display'
 require 'rack_helpers'
+require 'rack'
 
 Capybara.javascript_driver = :poltergeist
+#Capybara.javascript_driver = :webkit
 
 module NoughtsAndCrosses
   module SuperWeb
     describe SuperWebDisplay, :js => true, :type => :feature do
 
+      let(:app) {
+        app = Rack::Builder.app do
+          map "/public" do
+            path = File.dirname(__FILE__) + '/../public/'
+            run Rack::Directory.new(path)
+          end
+          run SuperWebDisplay.new
+        end
+      }
       let(:display) { SuperWebDisplay.new }
-      let(:server) { Capybara::Server.new(display).boot }
+      let(:server) { Capybara::Server.new(app).boot }
       let(:url) { "http://localhost:#{server.port}/" }
 
       include_context :rack 
@@ -22,8 +34,11 @@ module NoughtsAndCrosses
         expect(page).to have_content 'Board size is...'
       end
 
-      xit 'shows a blank board when game it submitted' do
+      it 'shows a blank board when game it submitted' do
         visit url
+
+        p page.evaluate_script("document.getElementById['grid'].innerHTML")
+
         click_button('Play')
         expect(page).to have_content "X's turn"
 

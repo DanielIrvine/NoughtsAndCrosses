@@ -5,9 +5,11 @@
     <title><%= Strings.translate(:game_title) %></title>
     <link rel="stylesheet" type="text/css" href="/public/styles.css">
     <script>
+      NaughtsAndCrosses(
       <!--
       function go() {
         form = document.getElementById("game_form")
+        //window.location.href = form.elements['x'].item(0).value
         link = 'game/' + form.x.value + '/' + form.o.value + '/' + form.size.value
         window.location.href = link
       }
@@ -16,11 +18,11 @@
   </head>
 
   <body>
-    <form id="game_form" method="post">
+    <form id="game_form">
       <div id="grid"> 
         <div class="cell">
           <p><%= Strings.translate(:player_is, 'X') %></p>
-          <p><input type="radio" value="HumanPlayer" name="x" checked="true" />
+          <p><input id="x" type="radio" value="HumanPlayer" name="x" checked="true" />
           <%= Strings.translate(:human_button) %>
           </p>
           <p><input type="radio" value="ComputerPlayer" name="x" />
@@ -32,7 +34,7 @@
           <p><input type="radio" value="HumanPlayer" name="o" checked="true" />
           <%= Strings.translate(:human_button) %>
           </p>
-          <p><input type="radio" value="ComputerPlayer" name="o" checked="true" />
+          <p><input type="radio" value="ComputerPlayer" name="o" />
           <%= Strings.translate(:computer_button) %>
           </p>
         </div>

@@ -9,20 +9,18 @@ module NoughtsAndCrosses
 
       def initialize
         @template_dir = File.dirname(__FILE__) + '/../templates/super/'
+
+        @routes = { 'state' => -> (state) { provide_state(state) },
+                    'game'  => -> (state) { start_game(state) } }
       end
 
-      def call(env)
+      def provide_state(state)
+        game_state = Web::GameState.new(state)
+        show_json(build_state(game_state.build))
+      end
 
-        route, state = env['PATH_INFO'].split('/', 2).reject(&:empty?)
-        case route 
-        when 'state' then 
-          game_state = Web::GameState.new(state)
-          show_json(build_state(game_state.build))
-        when 'game' then
-          show(GAME_TEMPLATE, binding)
-        else
-          show(START_TEMPLATE, binding)
-        end
+      def start_game(_)
+        show(GAME_TEMPLATE, binding)
       end
 
       def show_json(obj)

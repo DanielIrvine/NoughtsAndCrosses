@@ -18,21 +18,27 @@ module NoughtsAndCrosses
     
       def initialize
         @template_dir = File.dirname(__FILE__) + '/../templates/web/'
+
+        @routes =  { 'game' => -> (state) { play_game(state) } }
       end
 
       def call(env)
+        route, state = env['PATH_INFO'].split('/', 3).reject(&:empty?)
       
-        route, state = env['PATH_INFO'].split('/', 2).reject(&:empty?)
-        case route
-        when 'game' then
-          game_state = GameState.new(state)
-          if game_state.valid?
-            show(GAME_TEMPLATE, build_game_binding(game_state.build))
-          else
-            show(INVALID_BOARD_TEMPLATE, binding, ERROR)
-          end
+        p env['PATH_INFO']
+        if @routes.has_key?(route)
+          @routes[route].call(state)
         else
           show(START_TEMPLATE, binding)
+        end
+      end
+
+      def play_game(state)
+        game_state = GameState.new(state)
+        if game_state.valid?
+          show(GAME_TEMPLATE, build_game_binding(game_state.build))
+        else
+          show(INVALID_BOARD_TEMPLATE, binding, ERROR)
         end
       end
       
