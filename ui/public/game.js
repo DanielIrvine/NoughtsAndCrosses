@@ -1,9 +1,5 @@
 function parse(json)
 {
-}
-
-function parse(json, callback)
-{
   convertBoard(json).forEach(function(sq, i) {
     var sqid = "#sq-" + i;
     var elem = $(sqid).find('a');
@@ -19,9 +15,23 @@ function parse(json, callback)
   // TODO: set status text
   if(json.next_move == "computer")
   {
-    $.ajax({url: "/best_move?board=-",
-            success: callback });
+    get_and_play_computer_move("-");
   }
+}
+
+function get_and_play_computer_move(board, auto_play_callback)
+{
+  if(typeof auto_play_callback === "undefined") 
+  {
+    auto_play_callback = function(result) { play_computer_move(result) };
+  }
+    $.ajax({url: "/best_move?board=" + board,
+            success: auto_play_callback });
+}
+
+function play_computer_move(move) {
+    // TODO: call make_move(result, board) after time period
+  make_move(move.best_move, move.board);
 }
 
 function convertToLink(sq, board)
@@ -29,15 +39,14 @@ function convertToLink(sq, board)
   return "make_move(" + sq + "'" + board + "');";
 }
 
-function make_move(sq, board)
+function make_move(sq, board, parse_callback)
 {
-  $.ajax({url: "/make_move?sq=" + sq + "&board=" + board,
-          success: function(response) 
+  if (typeof parse_callback === "undefined") 
   {
-    parse(response, function(response) {
-      make_move(response.best_move, response.board);
-    });
-  } });
+    parse_callback = function(result) { parse(result); };
+  }
+  $.ajax({url: "/make_move?sq=" + sq + "&board=" + board,
+          success: parse_callback});
 }
 
 function convertBoard(json)

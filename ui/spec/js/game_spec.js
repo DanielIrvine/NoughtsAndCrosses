@@ -28,14 +28,13 @@ describe("game", function(){
     expect(convertBoard({board: "X", next_move: "computer"})).toEqual([{text:"X"}]);
   });
 
-  it("makes an AJAX request for a computer url", function() {
+  it("makes an AJAX request for a computer player", function() {
+    var bestMoveCall = null;
     spyOn($, "ajax").andCallFake(function(opts){
-      opts.success();
+      if (!bestMoveCall) bestMoveCall = opts.url;
     });
-    var callback = jasmine.createSpy();
-    parse({board:"-", next_move: "computer"}, callback);
-    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/best_move?board=-");
-    expect(callback).toHaveBeenCalled();
+    parse({board:"-", next_move: "computer"});
+    expect(bestMoveCall).toEqual("/best_move?board=-");
   });
 
   it("makes an AJAX request for a human move", function() {
@@ -44,10 +43,19 @@ describe("game", function(){
     expect($.ajax.callCount).toEqual(0);
   });
 
-  xit("makes an AJAX request when a square is clicked", function() {
+  it("makes an AJAX request when a square is clicked", function() {
     spyOn($, "ajax");
     make_move(1, "---");
     expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/make_move?sq=1&board=---");
+  });
+
+  it("calls parse function when make_move returns", function() {
+    spyOn($, "ajax").andCallFake(function(opts){
+      opts.success();
+    });
+    var callback = jasmine.createSpy();
+    make_move(0, "---", callback);
+    expect(callback).toHaveBeenCalled();
   });
 
   it("sets square content when parsing json", function() {
