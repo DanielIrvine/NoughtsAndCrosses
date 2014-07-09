@@ -1,22 +1,30 @@
 describe("game", function(){
 
   it("converts a string to an array of HTML segments", function() {
-    expect(convert_board({board:"-"})).toEqual(
+    expect(convertBoard({board:"-"})).toEqual(
       ["make_move?sq=0&board=-"])
   });
 
   it("converts all squares", function() {
-    expect(convert_board({board:"---"})).toEqual(
+    expect(convertBoard({board:"---"})).toEqual(
       ["make_move?sq=0&board=---",
       "make_move?sq=1&board=---",
       "make_move?sq=2&board=---"])
   });
 
   it("displays X", function() {
-    expect(convert_board({board:"X"})).toEqual(["X"])
+    expect(convertBoard({board:"X"})).toEqual(["X"])
   });
 
   it("displays O", function() {
-    expect(convert_board({board: "O"})).toEqual(["O"]);
+    expect(convertBoard({board: "O"})).toEqual(["O"]);
+  });
+
+  it("does not display links for a computer move", function() {
+    expect(convertBoard({board: "-", next_move: "computer"})).toEqual([""]);
+  });
+
+  it("displays already played squares for a computer move", function() {
+    expect(convertBoard({board: "X", next_move: "computer"})).toEqual(["X"]);
   });
 });

@@ -1,14 +1,22 @@
-function convert_board(json)
+function convertBoard(json)
 {
-  var squares = json.board.split('');
-  var result = [];
-  for(var i = 0; i < squares.length; ++i)
-  {
-    if(squares[i] == '-') {
-      result[i] = "make_move?sq=" + i + "&board=" + json.board;
-    } else {
-      result[i] = squares[i];
-    }
+  var createLinks = json.next_move != "computer";
+  return json.board.split('').map(function(sq, i) {
+    return createSquare(sq, i, json.board, createLinks);
+  });
+}
+
+function createSquare(sq, i, board, createLinks)
+{
+  if(sq == '-') {
+    return createLinks ? createLink(i, board) : "";
   }
-  return result;
+  else {
+    return sq;
+  }
+}
+
+function createLink(sq, board)
+{
+  return "make_move?sq=" + sq + "&board=" + board;
 }
