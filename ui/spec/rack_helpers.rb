@@ -26,9 +26,11 @@ RSpec.shared_context :rack do
   end
 
   def get_request(path, method = 'GET', content = nil)
-    {'PATH_INFO' => path,
-     'QUERY_STRING' => '',
+    components = path.split('?')
+    {'PATH_INFO' => components[0] || '',
+     'QUERY_STRING' => components.length == 1 ? '' : components[1], 
      'REQUEST_METHOD' => method,
+     'rack.input' => StringIO,
      'rack.request.query_hash' => content}
   end
 

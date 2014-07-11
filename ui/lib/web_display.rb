@@ -24,8 +24,7 @@ module NoughtsAndCrosses
 
       def call(env)
         route, state = env['PATH_INFO'].split('/', 3).reject(&:empty?)
-      
-        p env['PATH_INFO']
+        p state
         if @routes.has_key?(route)
           @routes[route].call(state)
         else

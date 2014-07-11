@@ -4,21 +4,10 @@
   <head>
     <title><%= Strings.translate(:game_title) %></title>
     <link rel="stylesheet" type="text/css" href="/public/styles.css">
-    <script>
-      NaughtsAndCrosses(
-      <!--
-      function go() {
-        form = document.getElementById("game_form")
-        //window.location.href = form.elements['x'].item(0).value
-        link = 'game/' + form.x.value + '/' + form.o.value + '/' + form.size.value
-        window.location.href = link
-      }
-      -->
-    </script>
   </head>
 
   <body>
-    <form id="game_form">
+    <form action="game"> 
       <div id="grid"> 
         <div class="cell">
           <p><%= Strings.translate(:player_is, 'X') %></p>
@@ -40,17 +29,17 @@
         </div>
         <div class="cell">
           <p><%= Strings.translate(:board_size) %></p>
-          <p><input type="radio" value="---------" name="size" checked="true" />
+          <p><input type="radio" value="3" name="size" checked="true" />
           <%= Strings.translate(:x3) %>
           </p>
-          <p><input type="radio" value="----------------" name="size"/>
+          <p><input type="radio" value="4" name="size"/>
           <%= Strings.translate(:x4) %>
           </p>
         </div>
         <div class="cell">
-          <p><input type="button" autofocus 
-          value="<%= Strings.translate(:play) %>" onclick="go()"
-          default /></p>
+          <p><input type="submit" autofocus default
+          value="<%= Strings.translate(:play) %>"
+          </p>
         </div>
     </div>
     </form>

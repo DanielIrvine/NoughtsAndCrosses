@@ -2,14 +2,14 @@ describe("game", function(){
 
   it("converts an empty square to a link", function() {
     expect(convertBoard({board:"-"})).toEqual(
-      [{text:"", link:true}])
-  });
+      [{link:true}])
+  );
 
   it("converts all squares", function() {
     expect(convertBoard({board:"---"})).toEqual(
-      [{text:"", link:true},
-      {text:"", link:true},
-      {text:"", link:true}])
+      [{link:true},
+      {link:true},
+      {link:true}])
   });
 
   it("displays X", function() {
@@ -20,24 +20,16 @@ describe("game", function(){
     expect(convertBoard({board: "O"})).toEqual([{text:"O"}]);
   });
 
-  it("does not display links for a computer move", function() {
-    expect(convertBoard({board: "-", next_move: "computer"})).toEqual([{text:""}]);
-  });
-
-  it("displays already played squares for a computer move", function() {
-    expect(convertBoard({board: "X", next_move: "computer"})).toEqual([{text:"X"}]);
-  });
-
   it("makes an AJAX request for a computer player", function() {
     var bestMoveCall = null;
     spyOn($, "ajax").andCallFake(function(opts){
       if (!bestMoveCall) bestMoveCall = opts.url;
     });
-    parse({board:"-", next_move: "computer"});
-    expect(bestMoveCall).toEqual("/best_move?board=-");
+    parse({board:"-", next_move: "computer", x: "ComputerPlayer", o: "HumanPlayer" });
+    expect(bestMoveCall).toEqual("/make_move?sq=&board=-&x=ComputerPlayer&o=HumanPlayer");
   });
 
-  it("makes an AJAX request for a human move", function() {
+  it("does not make an AJAX request for a human player", function() {
     spyOn($, "ajax");
     parse({board:"-"});
     expect($.ajax.callCount).toEqual(0);
@@ -45,8 +37,8 @@ describe("game", function(){
 
   it("makes an AJAX request when a square is clicked", function() {
     spyOn($, "ajax");
-    make_move(1, "---");
-    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/make_move?sq=1&board=---");
+    make_move(1, "---", "HumanPlayer", "HumanPlayer");
+    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/make_move?sq=1&board=---&x=HumanPlayer&o=HumanPlayer");
   });
 
   it("calls parse function when make_move returns", function() {
@@ -54,7 +46,7 @@ describe("game", function(){
       opts.success();
     });
     var callback = jasmine.createSpy();
-    make_move(0, "---", callback);
+    make_move(0, "---", "HumanPlayer", "HumanPlayer", callback);
     expect(callback).toHaveBeenCalled();
   });
 
@@ -81,6 +73,20 @@ describe("game", function(){
     setFixtures('<div id="sq-0"><a/></div>');
     parse({board:"-"});
     parse({board:"X"});
+    $('#sq-0').find('a').trigger('click');
+    expect($.ajax.callCount).toEqual(0);
+  });
+
+  it("displays status text", function() {
+    setFixtures('<div id="status" />');
+    parse({board:"XXOOOXXOX", status_text: "It's a draw!"});
+    expect($('#status')).toHaveText("It's a draw!");
+  });
+
+  it("has no links if game is finished", function() {
+    spyOn($, "ajax");
+    setFixtures('<div id="sq-0"><a/></div>');
+    parse({board:"-", finished: true});
     $('#sq-0').find('a').trigger('click');
     expect($.ajax.callCount).toEqual(0);
   });

@@ -3,16 +3,22 @@
   <head>
     <title><%= Strings.translate(:game_title) %></title>
     <link rel="stylesheet" type="text/css" href="/public/styles.css" />
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="/public/jquery-2.1.1.min.js"></script>
     <script src="/public/game.js"></script>
   </head>
-
-  <body>
+  <body onload='parse(<%= initial_json %>);'>
     <table id="board">
-      <tbody />
+      <% (0...board_size).each do |row| %>
+        <tr>
+          <% (0...board_size).each do |col| %>
+            <td id="sq-<%= row*board_size + col %>">
+              <a />
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
     </table>
-    <div id="state" />
-      <!-- TODO    <p class="status"><a href="/"><%= Strings.translate(:play_again_link) %></a></p> -->
+    <p id="status" />
   </body>
 </html>
 

@@ -8,7 +8,7 @@
       <!--
       function go() {
         form = document.getElementById("game_form")
-        link = '/' + form.x.value + '/' + form.o.value + '/' + form.size.value
+        link = 'game/' + form.x.value + '/' + form.o.value + '/' + form.size.value
         window.location.href = link
       }
       -->
@@ -39,15 +39,15 @@
         </div>
         <div class="cell">
           <p><%= Strings.translate(:board_size) %></p>
-          <p><input type="radio" value="3" name="size" checked="true" />
+          <p><input type="radio" value="---------" name="size" checked="true" />
           <%= Strings.translate(:x3) %>
           </p>
-          <p><input type="radio" value="4" name="size"/>
+          <p><input type="radio" value="----------------" name="size"/>
           <%= Strings.translate(:x4) %>
           </p>
         </div>
         <div class="cell">
-          <p><input type="submit" autofocus 
+          <p><input type="button" autofocus 
           value="<%= Strings.translate(:play) %>" 
           onclick="go()"
           default /></p>
