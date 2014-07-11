@@ -37,7 +37,7 @@ describe("game", function(){
 
   it("makes an AJAX request when a square is clicked", function() {
     spyOn($, "ajax");
-    NoughtsAndCrosses.Game.make_move(1, "---", "HumanPlayer", "HumanPlayer");
+    NoughtsAndCrosses.Game.makeMove(1, "---", "HumanPlayer", "HumanPlayer");
     expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/make_move?sq=1&board=---&x=HumanPlayer&o=HumanPlayer");
   });
 
@@ -46,7 +46,7 @@ describe("game", function(){
       opts.success();
     });
     var callback = jasmine.createSpy();
-    NoughtsAndCrosses.Game.make_move(0, "---", "HumanPlayer", "HumanPlayer", callback);
+    NoughtsAndCrosses.Game.makeMove(0, "---", "HumanPlayer", "HumanPlayer", callback);
     expect(callback).toHaveBeenCalled();
   });
 
