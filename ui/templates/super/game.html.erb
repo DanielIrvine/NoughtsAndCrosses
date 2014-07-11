@@ -6,7 +6,7 @@
     <script src="/public/jquery-2.1.1.min.js"></script>
     <script src="/public/game.js"></script>
   </head>
-  <body onload='parse(<%= initial_json %>);'>
+  <body>
     <table id="board">
       <% (0...board_size).each do |row| %>
         <tr>

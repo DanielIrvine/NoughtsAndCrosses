@@ -12,6 +12,7 @@ module NoughtsAndCrosses
         @routes = { 
                     'game'  => -> (request) { start_game(request) },
                     'make_move' => -> (request) { make_move(request) },
+                    'get_board' => -> (request) { initial_board(request) },
         }
       end
 
@@ -32,14 +33,13 @@ module NoughtsAndCrosses
       end
 
       def start_game(request)
-        board_size = request.params["size"].to_i
-        game = {}
-        game[:board] = '-' * board_size * board_size
-        game[:x] = request.params['x']
-        game[:o] = request.params['o']
-        game[:next_move] = "computer" if game[:x] == "ComputerPlayer"
-        initial_json = JSON.generate(game)
+        board_size = request["size"].to_i
         show(GAME_TEMPLATE, binding)
+      end
+
+      def initial_board(request)
+        game = Web::GameState.initial_board(request).build
+        show_json(game)
       end
 
       def make_move(request)
@@ -50,7 +50,7 @@ module NoughtsAndCrosses
         end
         game.play_turn!
 
-        show_json(create_json(game))
+        show_json(game)
       end
 
       def create_json(game)
@@ -70,13 +70,13 @@ module NoughtsAndCrosses
           result[:status_text] = GameStrings.play_turn_text(game)
         end
 
-        result
+        JSON.generate(result)
       end
 
       def show_json(obj)
         [ OK,
           {'Content-Type' => 'application/json'},
-          [JSON.generate(obj)] ]
+          [create_json(obj)] ]
       end
 
       def player_name(player)

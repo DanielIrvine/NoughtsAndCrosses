@@ -38,14 +38,10 @@ NoughtsAndCrosses.Game = function() {
     $('#status').append(text);
   }
 
-  var makeMove = function(sq, board, x, o, parseCallback)
+  var makeMove = function(sq, board, x, o)
   {
-    if (typeof parseCallback === "undefined") 
-    {
-      parseCallback = function(result) { parse(result); };
-    }
     $.ajax({url: "/make_move?sq=" + sq + "&board=" + board + "&x=" + x + "&o=" + o,
-      success: parseCallback});
+      success: parse});
   }
 
   var convertBoard = function(json)
@@ -55,13 +51,26 @@ NoughtsAndCrosses.Game = function() {
     });
   }
 
+  var start = function(context)
+  {
+    var argsLocation = context.location.href.indexOf('?');
+    var args = context.location.href.slice(argsLocation + 1);
+    $.ajax({url: "/get_board?" + args,
+            success: parse});
+  };
+
   var oPublic =
   {
     convertBoard: convertBoard,
     parse: parse,
-    makeMove: makeMove
+    makeMove: makeMove,
+    start: start
   };
 
   return oPublic;
 
 }();
+
+$(document).ready(function() {
+  NoughtsAndCrosses.Game.start(window);
+});

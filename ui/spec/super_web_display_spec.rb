@@ -43,6 +43,14 @@ module NoughtsAndCrosses
         expect(json_from(result)['o']).to eq('ComputerPlayer')
 
       end
+
+      it 'responds to a get_board request' do
+        result = display.call(get_request('/get_board?x=ComputerPlayer&o=HumanPlayer&board=3'))
+        expect(json_from(result)['x']).to eq('ComputerPlayer')
+        expect(json_from(result)['o']).to eq('HumanPlayer')
+        expect(json_from(result)['board']).to eq('---------')
+        expect(json_from(result)['next_move']).to eq('computer')
+      end
     end
   end
 end

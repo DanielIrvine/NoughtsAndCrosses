@@ -41,15 +41,6 @@ describe("game", function(){
     expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/make_move?sq=1&board=---&x=HumanPlayer&o=HumanPlayer");
   });
 
-  it("calls parse function when make_move returns", function() {
-    spyOn($, "ajax").andCallFake(function(opts){
-      opts.success();
-    });
-    var callback = jasmine.createSpy();
-    NoughtsAndCrosses.Game.makeMove(0, "---", "HumanPlayer", "HumanPlayer", callback);
-    expect(callback).toHaveBeenCalled();
-  });
-
   it("sets square content when parsing json", function() {
     setFixtures('<div id="sq-0"><a/></div>'+
                 '<div id="sq-1"><a/></div>'+
@@ -89,5 +80,12 @@ describe("game", function(){
     NoughtsAndCrosses.Game.parse({board:"-", finished: true});
     $('#sq-0').find('a').trigger('click');
     expect($.ajax.callCount).toEqual(0);
+  });
+
+  it("makes request for initial board when game is started", function() {
+    spyOn($, "ajax");
+    var context = { location: { href: "?args" } };
+    NoughtsAndCrosses.Game.start(context);
+    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/get_board?args");
   });
 });

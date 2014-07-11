@@ -15,10 +15,16 @@ module NoughtsAndCrosses
         GameState.new(path_segments.join('/'))
       end
 
+      def self.initial_board(request)
+        size = request.params["size"].to_i
+        board = '-' * size * size
+        path_segments = [ request.params["x"], request.params["o"], board]
+        GameState.new(path_segments.join('/'))
+      end
+
       def valid?
         @path_segments.length == 3 and Board.valid_board_str(@path_segments[2])
       end
-
 
       def build
         Game.new(human?(player_x),
