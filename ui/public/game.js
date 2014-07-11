@@ -4,9 +4,10 @@ NoughtsAndCrosses.Game = function() {
 
   var parse = function(json)
   {
-    convertBoard(json).forEach(function(sq, i) {
-      setSquareContent(sq, i, json);
-    });
+    var board = convertBoard(json);
+    for(var i = 0; i < board.length; ++i) { 
+      setSquareContent(board[i], i, json);
+    };
 
     if(json.next_move == "computer")
     {
@@ -46,17 +47,20 @@ NoughtsAndCrosses.Game = function() {
 
   var convertBoard = function(json)
   {
-    return json.board.split('').map(function(sq) {
-      return sq == '-' ? {link: true} : {text: sq};
-    });
+    var board = [];
+    for(var i = 0; i < json.board.length; ++i)
+    {
+      var sq = json.board[i];
+      board[i] = sq == '-' ? {link: true} : {text: sq};
+    }
+    return board;
   }
 
   var start = function(context)
   {
     var argsLocation = context.location.href.indexOf('?');
     var args = context.location.href.slice(argsLocation + 1);
-    $.ajax({url: "/get_board?" + args,
-            success: parse});
+    $.ajax({url: "/get_board?" + args, success: parse});
   };
 
   var oPublic =
