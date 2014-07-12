@@ -9,7 +9,7 @@ NoughtsAndCrosses.Game = function() {
       setSquareContent(board[i], i, json);
     };
 
-    if(json.next_move == "computer")
+    if(shouldPlayNextComputerMove(json))
     {
       makeMove('', json.board, json.x, json.o)
     }
@@ -28,6 +28,11 @@ NoughtsAndCrosses.Game = function() {
     elem.append(sq.text);
   }
 
+  var shouldPlayNextComputerMove = function(json)
+  {
+    return !json.finished && json.next_move == "computer";
+  }
+  
   var shouldDisplayLink = function(sq, json) 
   {
     return sq.link && !json.finished && json.next_move !== "computer";

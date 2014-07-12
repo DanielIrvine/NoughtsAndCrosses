@@ -88,4 +88,15 @@ describe("game", function(){
     NoughtsAndCrosses.Game.start(context);
     expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/get_board?args");
   });
+
+  it("does not make request if the next player is computer but the game is finished", function() {
+    spyOn($, "ajax");
+    NoughtsAndCrosses.Game.parse({board:"XXXOO----",
+      x:"HumanPlayer",
+      o:"ComputerPlayer",
+      next_move:"computer",
+      finished:true
+    });
+    expect($.ajax.callCount).toEqual(0);
+  });
 });
