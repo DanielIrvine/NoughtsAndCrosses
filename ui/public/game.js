@@ -11,7 +11,9 @@ NoughtsAndCrosses.Game = function() {
 
     if(shouldPlayNextComputerMove(json))
     {
-      makeMove('', json.board, json.x, json.o)
+      setTimeout(function(){
+        makeMove('', json.board, json.x, json.o);
+      }, 1000);
     }
     setStatusText(json.status_text);
   }

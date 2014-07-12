@@ -21,11 +21,13 @@ describe("game", function(){
   });
 
   it("makes an AJAX request for a computer player", function() {
+    jasmine.Clock.useMock();
     var bestMoveCall = null;
     spyOn($, "ajax").andCallFake(function(opts){
       if (!bestMoveCall) bestMoveCall = opts.url;
     });
     NoughtsAndCrosses.Game.parse({board:"-", next_move: "computer", x: "ComputerPlayer", o: "HumanPlayer" });
+    jasmine.Clock.tick(1000);
     expect(bestMoveCall).toEqual("/make_move?sq=&board=-&x=ComputerPlayer&o=HumanPlayer");
   });
 
