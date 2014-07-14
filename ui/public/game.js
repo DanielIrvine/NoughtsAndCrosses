@@ -1,4 +1,4 @@
-var NoughtsAndCrosses = NoughtsAndCrosses || {};
+var NoughtsAndCrosses = {};
 
 NoughtsAndCrosses.Game = function() {
 
