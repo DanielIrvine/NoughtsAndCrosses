@@ -5,5 +5,5 @@ gem 'simplecov'
 gem 'qtbindings'
 gem 'rack'
 
-gem 'capybara'
+
 
