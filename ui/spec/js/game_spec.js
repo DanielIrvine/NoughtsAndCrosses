@@ -28,7 +28,7 @@ describe("game", function(){
     });
     NoughtsAndCrosses.Game.parse({board:"-", next_move: "computer", x: "ComputerPlayer", o: "HumanPlayer" });
     jasmine.Clock.tick(1000);
-    expect(bestMoveCall).toEqual("/make_move?sq=&board=-&x=ComputerPlayer&o=HumanPlayer");
+    expect(bestMoveCall).toContain("/make_move?sq=&board=-&x=ComputerPlayer&o=HumanPlayer");
   });
 
   it("does not make an AJAX request for a human player", function() {
@@ -40,7 +40,7 @@ describe("game", function(){
   it("makes an AJAX request when a square is clicked", function() {
     spyOn($, "ajax");
     NoughtsAndCrosses.Game.makeMove(1, "---", "HumanPlayer", "HumanPlayer");
-    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/make_move?sq=1&board=---&x=HumanPlayer&o=HumanPlayer");
+    expect($.ajax.mostRecentCall.args[0]["url"]).toContain("/make_move?sq=1&board=---&x=HumanPlayer&o=HumanPlayer");
   });
 
   it("sets square content when parsing json", function() {
@@ -86,8 +86,8 @@ describe("game", function(){
 
   it("makes request for initial board when game is started", function() {
     spyOn($, "ajax");
-    var context = { location: { href: "?args" } };
-    NoughtsAndCrosses.Game.start(context);
+    spyOn(NoughtsAndCrosses.Game, "getCurrentUrl").andReturn("?args");
+    NoughtsAndCrosses.Game.start();
     expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/get_board?args");
   });
 
@@ -100,5 +100,19 @@ describe("game", function(){
       finished:true
     });
     expect($.ajax.callCount).toEqual(0);
+  });
+
+  it("starts at location using existing path", function() {
+    spyOn($, "ajax");
+    spyOn(NoughtsAndCrosses.Game, "getCurrentUrl").andReturn("http://test/test/game?args");
+    NoughtsAndCrosses.Game.start();
+    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://test/test/get_board?args");
+  });
+
+  it("makes move at location using existing path", function() {
+    spyOn($, "ajax");
+    spyOn(NoughtsAndCrosses.Game, "getCurrentUrl").andReturn("http://test/test/game?args");
+    NoughtsAndCrosses.Game.makeMove(1, "-", "HumanPlayer", "ComputerPlayer");
+    expect($.ajax.mostRecentCall.args[0]["url"]).toContain("http://test/test/make_move?");
   });
 });

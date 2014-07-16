@@ -48,7 +48,9 @@ NoughtsAndCrosses.Game = function() {
 
   var makeMove = function(sq, board, x, o)
   {
-    $.ajax({url: "/make_move?sq=" + sq + "&board=" + board + "&x=" + x + "&o=" + o,
+    var url = oPublic.getCurrentUrl();
+    var newUrl = urlRoot(url) + "/make_move?sq=" + sq + "&board=" + board + "&x=" + x + "&o=" + o;
+    $.ajax({url: newUrl,
       success: parse});
   };
 
@@ -63,11 +65,23 @@ NoughtsAndCrosses.Game = function() {
     return board;
   };
 
-  var start = function(context)
+  var start = function()
   {
-    var argsLocation = context.location.href.indexOf('?');
-    var args = context.location.href.slice(argsLocation + 1);
-    $.ajax({url: "/get_board?" + args, success: parse});
+    var url = oPublic.getCurrentUrl();
+    var argsLocation = url.indexOf('?');
+    var args = url.slice(argsLocation + 1);
+    var newUrl = urlRoot(url) + "/get_board?" + args;
+    $.ajax({url: newUrl, success: parse});
+  };
+
+  var getCurrentUrl = function() {
+    return window.location.href;
+  };
+
+  var urlRoot = function(url)
+  {
+    var rootLocation = url.lastIndexOf('/');
+    return rootLocation === -1 ? '' : url.slice(0, rootLocation);
   };
 
   var oPublic =
@@ -75,7 +89,8 @@ NoughtsAndCrosses.Game = function() {
     convertBoard: convertBoard,
     parse: parse,
     makeMove: makeMove,
-    start: start
+    start: start,
+    getCurrentUrl: getCurrentUrl
   };
 
   return oPublic;
@@ -83,5 +98,5 @@ NoughtsAndCrosses.Game = function() {
 }();
 
 $(document).ready(function() {
-  NoughtsAndCrosses.Game.start(window);
+  NoughtsAndCrosses.Game.start();
 });
