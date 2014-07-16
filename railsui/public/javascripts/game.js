@@ -6,6 +6,7 @@ NoughtsAndCrosses.Game = function() {
   {
     var board = convertBoard(json);
     for(var i = 0; i < board.length; ++i) { 
+      alert(board[i].link);
       setSquareContent(board[i], i, json);
     }
 
