@@ -13,7 +13,7 @@ NoughtsAndCrosses.Game = function() {
     if(shouldPlayNextComputerMove(json))
     {
       setTimeout(function(){
-        makeMove('', json.board, json.x, json.o);
+        makeMove('', json.id);
       }, 1000);
     }
     setStatusText(json.status_text);
@@ -26,7 +26,7 @@ NoughtsAndCrosses.Game = function() {
     elem.empty();
     elem.off('click');
     if (shouldDisplayLink(sq, json)) {
-      elem.on('click', function(){makeMove(i, json.board, json.x, json.o);}); 
+      elem.on('click', function(){makeMove(i, json.id);}); 
     }
     elem.append(sq.text);
   };
@@ -47,10 +47,10 @@ NoughtsAndCrosses.Game = function() {
     $('#status').append(text);
   };
 
-  var makeMove = function(sq, board, x, o)
+  var makeMove = function(sq, id)
   {
     var url = oPublic.getCurrentUrl();
-    var newUrl = urlRoot(url) + "/make_move?sq=" + sq + "&board=" + board + "&x=" + x + "&o=" + o;
+    var newUrl = urlRoot(url) + "/make_move?sq=" + sq + "&id=" + id;
     $.ajax({url: newUrl,
       success: parse});
   };
