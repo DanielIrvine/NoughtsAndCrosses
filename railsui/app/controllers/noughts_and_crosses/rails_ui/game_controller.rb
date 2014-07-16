@@ -15,6 +15,7 @@ module NoughtsAndCrosses
 
       def game
       
+        @board_size =3 
       end
     end
   end
