@@ -1,0 +1,36 @@
+<form action="game"> 
+  <div id="grid"> 
+    <div class="cell">
+      <p><%= NoughtsAndCrosses::Strings.translate(:player_is, 'X') %></p>
+      <p><input id="x" type="radio" value="HumanPlayer" name="x" checked="true" />
+      <%= NoughtsAndCrosses::Strings.translate(:human_button) %>
+      </p>
+      <p><input type="radio" value="ComputerPlayer" name="x" />
+      <%= NoughtsAndCrosses::Strings.translate(:computer_button) %>
+      </p>
+    </div>
+    <div class="cell">
+      <p><%= NoughtsAndCrosses::Strings.translate(:player_is, 'O') %></p>
+      <p><input type="radio" value="HumanPlayer" name="o" checked="true" />
+      <%= NoughtsAndCrosses::Strings.translate(:human_button) %>
+      </p>
+      <p><input type="radio" value="ComputerPlayer" name="o" />
+      <%= NoughtsAndCrosses::Strings.translate(:computer_button) %>
+      </p>
+    </div>
+    <div class="cell">
+      <p><%= NoughtsAndCrosses::Strings.translate(:board_size) %></p>
+      <p><input type="radio" value="3" name="size" checked="true" />
+      <%= NoughtsAndCrosses::Strings.translate(:x3) %>
+      </p>
+      <p><input type="radio" value="4" name="size"/>
+      <%= NoughtsAndCrosses::Strings.translate(:x4) %>
+      </p>
+    </div>
+    <div class="cell">
+      <p><input type="submit" autofocus default
+      value="<%= NoughtsAndCrosses::Strings.translate(:play) %>"
+      </p>
+    </div>
+  </div>
+</form>

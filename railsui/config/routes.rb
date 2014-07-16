@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
-  get 'game/index'
 
-  get 'game/get_board'
-
-  get 'game/make_move'
-
-  get 'index/get_board'
-
-  get 'index/make_move'
+  namespace :noughts_and_crosses do
+    namespace :rails_ui do
+      get 'game/index'
+      get 'game/game'
+      get 'game/get_board'
+      get 'game/make_move'
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

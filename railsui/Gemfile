@@ -8,5 +8,5 @@ gem 'railties'
 gem 'jquery-rails'
 gem 'unicorn'
 gem 'rspec-rails'
-
-
+gem 'noughts_and_crosses', :path => '../core'
+gem 'noughts_and_crosses_ui_core', :path => '../ui_core'
