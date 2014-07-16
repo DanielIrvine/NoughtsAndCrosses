@@ -26,9 +26,9 @@ describe("game", function(){
     spyOn($, "ajax").andCallFake(function(opts){
       if (!bestMoveCall) bestMoveCall = opts.url;
     });
-    NoughtsAndCrosses.Game.parse({board:"-", next_move: "computer", id: "123"});
+    NoughtsAndCrosses.Game.parse({board:"-", next_move: "computer"});
     jasmine.Clock.tick(1000);
-    expect(bestMoveCall).toContain("/make_move?sq=&id=123");
+    expect(bestMoveCall).toContain("/make_move?sq=");
   });
 
   it("does not make an AJAX request for a human player", function() {
@@ -39,8 +39,8 @@ describe("game", function(){
 
   it("makes an AJAX request when a square is clicked", function() {
     spyOn($, "ajax");
-    NoughtsAndCrosses.Game.makeMove(1, "123");
-    expect($.ajax.mostRecentCall.args[0]["url"]).toContain("/make_move?sq=1&id=123");
+    NoughtsAndCrosses.Game.makeMove(1);
+    expect($.ajax.mostRecentCall.args[0]["url"]).toContain("/make_move?sq=1");
   });
 
   it("sets square content when parsing json", function() {
@@ -110,7 +110,7 @@ describe("game", function(){
   it("makes move at location using existing path", function() {
     spyOn($, "ajax");
     spyOn(NoughtsAndCrosses.Game, "getCurrentUrl").andReturn("http://test/test/game?args");
-    NoughtsAndCrosses.Game.makeMove(1, "123");
+    NoughtsAndCrosses.Game.makeMove(1);
     expect($.ajax.mostRecentCall.args[0]["url"]).toContain("http://test/test/make_move?");
   });
 });
