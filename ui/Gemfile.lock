@@ -7,6 +7,7 @@ PATH
   remote: ../ui_core
   specs:
     noughts_and_crosses_ui_core (0.0.1)
+      noughts_and_crosses
 
 GEM
   remote: https://rubygems.org/

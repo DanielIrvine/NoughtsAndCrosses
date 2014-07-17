@@ -1,6 +1,7 @@
 require 'web_display'
 require 'strings'
 require 'json'
+require 'json_game'
 
 module NoughtsAndCrosses
   module SuperWeb

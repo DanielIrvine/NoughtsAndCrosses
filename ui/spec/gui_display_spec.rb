@@ -101,6 +101,15 @@ module NoughtsAndCrosses
         expect(display).to have_labels_with_text('O', 'O')
       end
     
+      it 'cannot play when game is over' do
+        display.begin
+        [0, 1, 3, 2, 7].each do |sq|
+          click(sq)
+        end
+        click(4)
+        expect(square(4).text).to eq ''
+      end
+
       def click(index)
         square(index).mousePressEvent(nil)
       end

@@ -1,11 +1,11 @@
 var NoughtsAndCrosses = {};
 
-NoughtsAndCrosses.Game = function() {
+NoughtsAndCrosses.Game = function () {
 
-  var parse = function(json)
-  {
+  var parse = function (json){
     var board = convertBoard(json);
-    for(var i = 0; i < board.length; ++i) { 
+    var i;
+    for(i = 0; i < board.length; ++i) { 
       setSquareContent(board[i], i, json);
     }
 
@@ -48,7 +48,7 @@ NoughtsAndCrosses.Game = function() {
 
   var makeMove = function(sq, board, x, o)
   {
-    var url = oPublic.getCurrentUrl();
+    var url = getCurrentUrl();
     var newUrl = urlRoot(url) + "/make_move?sq=" + sq + "&board=" + board + "&x=" + x + "&o=" + o;
     $.ajax({url: newUrl,
       success: parse});
@@ -67,7 +67,7 @@ NoughtsAndCrosses.Game = function() {
 
   var start = function()
   {
-    var url = oPublic.getCurrentUrl();
+    var url = getCurrentUrl();
     var argsLocation = url.indexOf('?');
     var args = url.slice(argsLocation + 1);
     var newUrl = urlRoot(url) + "/get_board?" + args;
