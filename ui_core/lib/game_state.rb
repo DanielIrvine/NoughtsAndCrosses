@@ -10,15 +10,15 @@ module NoughtsAndCrosses
         @path_segments = path.split('/')
       end
 
-      def self.with_request(request)
-        path_segments = [ request.params["x"], request.params["o"], request.params["board"] ]
+      def self.with_params(params)
+        path_segments = [ params[:x], params[:o], params[:board] ]
         GameState.new(path_segments.join('/'))
       end
 
-      def self.initial_board(request)
-        size = request.params["size"].to_i
+      def self.initial_board(params)
+        size = params[:size].to_i
         board = '-' * size * size
-        path_segments = [ request.params["x"], request.params["o"], board]
+        path_segments = [ params[:x], params[:o], board]
         GameState.new(path_segments.join('/'))
       end
 
