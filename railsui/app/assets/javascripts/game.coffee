@@ -1,6 +1,6 @@
 class @Game
 
-  constructor: (@dom = $(document.body)) ->
+  constructor: (@dom = $(document.body), @url = '') ->
 
   convert_square: (square) ->
     if square == "-" then {link: true} else {text: square}
@@ -22,7 +22,23 @@ class @Game
   parse: (json) ->
     @set_square(sq, i, json.finished) for sq, i in @convert_board(json)
     @set_status(json.status_text)
-    @make_move('') if json.next_move == "computer"
+    setTimeout (=> @make_move('')), 1000 if @should_play_next_computer_move(json)
+
+  should_play_next_computer_move: (json) ->
+    json.next_move == "computer" && !json.finished
 
   make_move: (sq) ->
-    $.ajax { url: "/make_move?sq=" + sq }
+    @parse_ajax "/make_move?sq=" + sq
+
+  start: ->
+    @parse_ajax "/get_board?" + @url_args()
+
+  parse_ajax: (action) ->
+    $.ajax { url: @url_root() + action, success: (json) => @parse(json) }
+
+  url_args: ->
+    @url.split('?')[1]
+
+  url_root: ->
+    loc = @url.lastIndexOf('/')
+    if loc == -1 then '' else @url.slice(0, loc)

@@ -68,3 +68,27 @@ describe "Game", ->
     $('#sq-0', body).find('a').trigger('click')
     expect($.ajax.callCount).toEqual 0
 
+  it "makes request for initial board when game is started", ->
+    spyOn($, "ajax")
+    game = new Game('', "?args")
+    game.start()
+    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual "/get_board?args"
+
+  it "does not make a request if the next player is computer and the game is finished", ->
+    spyOn($, "ajax")
+    jasmine.Clock.useMock()
+    new Game().parse {board:"XXXOO----", next_move: "computer", finished: true}
+    jasmine.Clock.tick(1000)
+    expect($.ajax.callCount).toEqual 0
+
+  it "starts at location using existing path", ->
+    spyOn($, "ajax")
+    game = new Game('', "http://test/test/game?args")
+    game.start()
+    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual "http://test/test/get_board?args"
+
+  it "makes move at location using existing path", ->
+    spyOn($, "ajax")
+    game = new Game('', "http://test/test/game?args")
+    game.make_move(1)
+    expect($.ajax.mostRecentCall.args[0]["url"]).toContain "http://test/test/make_move?"
