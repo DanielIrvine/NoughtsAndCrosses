@@ -38,5 +38,20 @@ describe "Game", ->
       <div id="sq-2"><a/></div></div>')
     new Game(body).parse {board:"X-O"}
     expect($('#sq-0', body).text()).toEqual "X"
-    #expect($('#sq-1').find('a')).toBeEmpty
     expect($('#sq-2', body).text()).toEqual "O"
+
+  it "sets square link when parsing json", ->
+    spyOn($, "ajax")
+    body = $('<div><div id="sq-0"><a/></div>')
+    new Game(body).parse {board:"-"}
+    $('#sq-0', body).find('a').trigger('click')
+    expect($.ajax.callCount).toEqual 1
+
+  it "unsets click handler", ->
+    spyOn($, "ajax")
+    body = $('<div><div id="sq-0"><a/></div>')
+    game = new Game(body)
+    game.parse {board:"-"}
+    game.parse {board:"X"}
+    $('#sq-0', body).find('a').trigger('click')
+    expect($.ajax.callCount).toEqual 0

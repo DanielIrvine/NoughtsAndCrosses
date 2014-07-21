@@ -9,7 +9,12 @@ class @Game
     @convert_square(square) for square in json.board
 
   set_square: (sq, index) ->
-    $("#sq-#{index}", @dom).text sq.text
+    elem = $("#sq-#{index}", @dom).find('a')
+    if sq.link
+      elem.on 'click', => @make_move(index)
+    else
+      elem.off 'click'
+    elem.text sq.text
 
   parse: (json) ->
     @set_square(sq, i) for sq, i in @convert_board(json)
