@@ -55,3 +55,16 @@ describe "Game", ->
     game.parse {board:"X"}
     $('#sq-0', body).find('a').trigger('click')
     expect($.ajax.callCount).toEqual 0
+
+  it "displays status text", ->
+    body = $('<div><div id="status" /></div>')
+    new Game(body).parse {board:"XXOOOXXOX", status_text: "It's a draw!"}
+    expect($('#status', body).text()).toEqual "It's a draw!"
+
+  it "has no links if game is finished", ->
+    spyOn($, "ajax")
+    body = $('<div><div id="sq-0"><a/></div>')
+    new Game(body).parse {board:"-", finished: true}
+    $('#sq-0', body).find('a').trigger('click')
+    expect($.ajax.callCount).toEqual 0
+
