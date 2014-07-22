@@ -86,8 +86,7 @@ describe("game", function(){
 
   it("makes request for initial board when game is started", function() {
     spyOn($, "ajax");
-    spyOn(NoughtsAndCrosses.Game, "getCurrentUrl").andReturn("?args");
-    NoughtsAndCrosses.Game.start();
+    NoughtsAndCrosses.Game.start("?args");
     expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("/get_board?args");
   });
 
@@ -104,14 +103,13 @@ describe("game", function(){
 
   it("starts at location using existing path", function() {
     spyOn($, "ajax");
-    spyOn(NoughtsAndCrosses.Game, "getCurrentUrl").andReturn("http://test/test/game?args");
-    NoughtsAndCrosses.Game.start();
+    NoughtsAndCrosses.Game.start("http://test/test/game?args");
     expect($.ajax.mostRecentCall.args[0]["url"]).toEqual("http://test/test/get_board?args");
   });
 
   it("makes move at location using existing path", function() {
     spyOn($, "ajax");
-    spyOn(NoughtsAndCrosses.Game, "getCurrentUrl").andReturn("http://test/test/game?args");
+    NoughtsAndCrosses.Game.set_url = "http://test/test/game?args";
     NoughtsAndCrosses.Game.makeMove(1, "-", "HumanPlayer", "ComputerPlayer");
     expect($.ajax.mostRecentCall.args[0]["url"]).toContain("http://test/test/make_move?");
   });

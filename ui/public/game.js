@@ -2,6 +2,8 @@ var NoughtsAndCrosses = {};
 
 NoughtsAndCrosses.Game = function () {
 
+  var url = '';
+
   var parse = function (json){
     var board = convertBoard(json);
     var i;
@@ -48,8 +50,7 @@ NoughtsAndCrosses.Game = function () {
 
   var makeMove = function(sq, board, x, o)
   {
-    var url = getCurrentUrl();
-    var newUrl = urlRoot(url) + "/make_move?sq=" + sq + "&board=" + board + "&x=" + x + "&o=" + o;
+    var newUrl = urlRoot() + "/make_move?sq=" + sq + "&board=" + board + "&x=" + x + "&o=" + o;
     $.ajax({url: newUrl,
       success: parse});
   };
@@ -65,38 +66,32 @@ NoughtsAndCrosses.Game = function () {
     return board;
   };
 
-  var start = function()
+  var start = function(root_url)
   {
-    var url = getCurrentUrl();
+    url = root_url;
     var argsLocation = url.indexOf('?');
     var args = url.slice(argsLocation + 1);
-    var newUrl = urlRoot(url) + "/get_board?" + args;
+    var newUrl = urlRoot() + "/get_board?" + args;
     $.ajax({url: newUrl, success: parse});
   };
 
-  var getCurrentUrl = function() {
-    return window.location.href;
-  };
-
-  var urlRoot = function(url)
-  {
+  var urlRoot = function() {
     var rootLocation = url.lastIndexOf('/');
     return rootLocation === -1 ? '' : url.slice(0, rootLocation);
   };
 
-  var oPublic =
-  {
+  return {
     convertBoard: convertBoard,
     parse: parse,
     makeMove: makeMove,
     start: start,
-    getCurrentUrl: getCurrentUrl
+    set_url: function(new_url) {
+      url = new_url;
+    }
   };
-
-  return oPublic;
 
 }();
 
 $(document).ready(function() {
-  NoughtsAndCrosses.Game.start();
+  NoughtsAndCrosses.Game.start(window.location.href);
 });
