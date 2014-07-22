@@ -13,6 +13,8 @@ NoughtsAndCrosses.Game = (function () {
       return rootLocation === -1 ? '' : url.slice(0, rootLocation);
     },
 
+    parse,
+
     makeMove = function (sq, board, x, o) {
       var newUrl = urlRoot() + "/make_move?sq=" + sq + "&board=" + board + "&x=" + x + "&o=" + o;
       $.ajax({url: newUrl,
@@ -52,20 +54,6 @@ NoughtsAndCrosses.Game = (function () {
       return board;
     },
 
-    parse = function (json) {
-      var board = convertBoard(json), i;
-      for (i = 0; i < board.length; i += 1) {
-        setSquareContent(board[i], i, json);
-      }
-
-      if (shouldPlayNextComputerMove(json)) {
-        setTimeout(function () {
-          makeMove('', json.board, json.x, json.o);
-        }, 1000);
-      }
-      setStatusText(json.status_text);
-    },
-
     start = function (root_url) {
       url = root_url;
       var argsLocation = url.indexOf('?'),
@@ -73,6 +61,20 @@ NoughtsAndCrosses.Game = (function () {
         newUrl = urlRoot() + "/get_board?" + args;
       $.ajax({url: newUrl, success: parse});
     };
+
+  parse = function (json) {
+    var board = convertBoard(json), i;
+    for (i = 0; i < board.length; i += 1) {
+      setSquareContent(board[i], i, json);
+    }
+
+    if (shouldPlayNextComputerMove(json)) {
+      setTimeout(function () {
+        makeMove('', json.board, json.x, json.o);
+      }, 1000);
+    }
+    setStatusText(json.status_text);
+  };
 
   return {
     convertBoard: convertBoard,
