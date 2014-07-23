@@ -11,14 +11,14 @@ module NoughtsAndCrosses
       end
 
       def self.with_params(params)
-        path_segments = [ params[:x], params[:o], params[:board] ]
+        path_segments = [ params["x"], params["o"], params["board"] ]
         GameState.new(path_segments.join('/'))
       end
 
       def self.initial_board(params)
-        size = params[:size].to_i
+        size = params["size"].to_i
         board = '-' * size * size
-        path_segments = [ params[:x], params[:o], board]
+        path_segments = [ params["x"], params["o"], board]
         GameState.new(path_segments.join('/'))
       end
 

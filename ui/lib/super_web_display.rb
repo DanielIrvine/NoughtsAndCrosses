@@ -34,12 +34,12 @@ module NoughtsAndCrosses
       end
 
       def initial_board(request)
-        result = Web::JsonGame.get_board(request.params)
+        result = Web::JsonGame.get_board(request.params).create_json
         show_json(result)
       end
 
       def make_move(request)
-        result = Web::JsonGame.make_move_with_params(request.params)
+        result = Web::JsonGame.make_move_with_params(request.params, request.params["sq"]).create_json
         show_json(result)
       end
 

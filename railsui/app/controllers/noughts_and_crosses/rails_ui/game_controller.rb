@@ -1,7 +1,3 @@
-require 'strings'
-require 'game_strings'
-require 'game_state'
-require 'game'
 require 'json_game'
 
 module NoughtsAndCrosses
