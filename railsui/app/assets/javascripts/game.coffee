@@ -22,9 +22,9 @@ class @Game
   parse: (json) ->
     @set_square(sq, i, json.finished) for sq, i in @convert_board(json)
     @set_status(json.status_text)
-    setTimeout (=> @make_move('')), 1000 if @should_play_next_computer_move(json)
+    setTimeout (=> @make_move('')), 1000 if @should_play_computer_move(json)
 
-  should_play_next_computer_move: (json) ->
+  should_play_computer_move: (json) ->
     json.next_move == "computer" && !json.finished
 
   make_move: (sq) ->
