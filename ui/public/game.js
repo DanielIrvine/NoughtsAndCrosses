@@ -80,10 +80,7 @@ NoughtsAndCrosses.Game = (function () {
     convertBoard: convertBoard,
     parse: parse,
     makeMove: makeMove,
-    start: start,
-    set_url: function (new_url) {
-      url = new_url;
-    }
+    start: start
   };
 
 }());
