@@ -4,7 +4,7 @@
     <title><%= NoughtsAndCrosses::Strings.translate(:game_title) %></title>
     <link rel="stylesheet" type="text/css" href="/styles.css" />
     <script src="/javascripts/jquery-2.1.1.min.js"></script>
-    <script src="/javascripts/game.js"></script>
+    <%= javascript_include_tag "application" %>
   </head>
   <body>
     <table id="board">

@@ -42,3 +42,6 @@ class @Game
   url_root: ->
     loc = @url.lastIndexOf('/')
     if loc == -1 then '' else @url.slice(0, loc)
+
+$ ->
+  new Game($(document.body), window.location.href).start()
