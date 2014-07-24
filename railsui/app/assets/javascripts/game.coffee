@@ -10,10 +10,10 @@ class @Game
 
   set_square: (sq, index, finished) ->
     elem = $("#sq-#{index}", @dom).find('a')
+    elem.empty
+    elem.off 'click'
     if sq.link && !finished
       elem.on 'click', => @make_move(index)
-    else
-      elem.off 'click'
     elem.text sq.text
   
   set_status: (status) ->

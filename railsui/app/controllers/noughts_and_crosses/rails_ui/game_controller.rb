@@ -1,4 +1,5 @@
 require 'json_game'
+require 'query_string_game'
 
 module NoughtsAndCrosses
   module RailsUi
@@ -8,16 +9,23 @@ module NoughtsAndCrosses
       end
 
       def get_board
-        game = Web::JsonGame.get_board(params)
-        render :json => game.create_json 
-        save_session(game.result)
+        game = Web::QueryStringGame.new_game(params[:x], params[:o], params[:size].to_i)
+        save_and_render(game)
       end
 
       def make_move
-        game = Web::JsonGame.make_move_with_params(session, params[:sq])
-        json = game.create_json
-        save_session(game.result)
-        render :json => json
+        game = Web::QueryStringGame.next_move(session[:x],
+                                              session[:o],
+                                              session[:board],
+                                              params[:sq])
+        p game.board
+        save_and_render(game)
+      end
+
+      def save_and_render(game)
+        output = Web::JsonOutput.new(game)
+        render :json => output.create_json
+        save_session(output.result)
       end
 
       def game

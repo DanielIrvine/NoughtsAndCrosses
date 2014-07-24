@@ -4,30 +4,12 @@ require 'game_state'
 
 module NoughtsAndCrosses
   module Web
-    class JsonGame
+    class JsonOutput
 
       attr_reader :result
 
       def initialize(game)
         @game = game
-      end
-
-      def self.make_move_with_params(params, sq)
-
-        game = JsonGame.new(GameState.with_params(params).build)
-        game.make_move(sq)
-        game
-      end
-
-      def self.get_board(params)
-        JsonGame.new(GameState.initial_board(params).build)
-      end
-
-      def make_move(sq)
-        if !sq.nil? && !sq.empty?
-          @game.set_next_human_move(sq.to_i)
-        end
-        @game.play_turn!
       end
 
       def create_json
