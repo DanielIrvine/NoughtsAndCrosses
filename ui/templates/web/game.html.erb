@@ -4,7 +4,7 @@
     <title><%= Strings.translate(:game_title) %></title>
     <link rel="stylesheet" type="text/css" href="/public/styles.css">
     <% if !next_move.nil? %>
-      <meta http-equiv="refresh" content="1; URL=<%= next_move %>" />
+      <meta http-equiv="refresh" content="1; URL=/game<%= next_move %>" />
     <% end %>
   </head>
 
@@ -16,7 +16,7 @@
             <td>
                 <% if !sq.nil? %>
                   <% if !sq[:link].nil? %>
-                    <a href="game/<%= sq[:link] %>"></a>
+                    <a href="/game<%= sq[:link] %>"></a>
                   <% else %>
                       <%= sq[:text] %>
                   <% end %>

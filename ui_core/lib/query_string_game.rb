@@ -1,4 +1,5 @@
 require 'game'
+require 'url_encoded_game'
 
 module NoughtsAndCrosses
   module Web
@@ -18,13 +19,9 @@ module NoughtsAndCrosses
       end
 
       def self.build(x, o, board)
-        Game.new(human?(x),
-                 human?(o),
+        Game.new(UrlEncodedGame.human?(x),
+                 UrlEncodedGame.human?(o),
                  board: board)
-      end
-
-      def self.human?(name)
-        HumanPlayer.name.end_with?(name)
       end
     end
   end

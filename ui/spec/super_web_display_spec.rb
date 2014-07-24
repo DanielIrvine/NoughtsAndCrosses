@@ -1,5 +1,5 @@
-require 'game_strings'
 require 'spec_helper'
+require 'game_strings'
 require 'super_web_display'
 require 'rack_helpers'
 require 'rack'

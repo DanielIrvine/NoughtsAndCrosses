@@ -4,7 +4,7 @@ require 'game_strings'
 require 'erb'
 require 'ostruct'
 require 'strings'
-require 'game_state'
+require 'url_encoded_game'
 
 module NoughtsAndCrosses
   module Web
@@ -25,6 +25,10 @@ module NoughtsAndCrosses
       def call(env)
         route, state = env['PATH_INFO'].split('/', 3).reject(&:empty?)
         p state
+        select_route(route, state)
+      end
+
+      def select_route(route, state)
         if @routes.has_key?(route)
           @routes[route].call(state)
         else
@@ -33,7 +37,7 @@ module NoughtsAndCrosses
       end
 
       def play_game(state)
-        game_state = GameState.new(state)
+        game_state = UrlEncodedGame.new(state)
         if game_state.valid?
           show(GAME_TEMPLATE, build_game_binding(game_state.build))
         else

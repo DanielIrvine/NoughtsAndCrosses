@@ -18,13 +18,8 @@ module NoughtsAndCrosses
 
       def call(env)
         request = Rack::Request.new(env)
-
         route = request.path.sub('/','')
-        if(@routes.has_key?(route))
-          @routes[route].call(request)
-        else
-          show(START_TEMPLATE, binding)
-        end
+        select_route(route, request)
       end
       
       def start_game(request)

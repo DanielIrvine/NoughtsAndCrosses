@@ -2,9 +2,7 @@ require 'board'
 
 module NoughtsAndCrosses
   module Web
-    class GameState
-
-      attr_reader :path_segments
+    class UrlEncodedGame
 
       def initialize(path)
         @path_segments = path.split('/')
@@ -15,8 +13,8 @@ module NoughtsAndCrosses
       end
 
       def build
-        Game.new(human?(player_x),
-                 human?(player_o), 
+        Game.new(UrlEncodedGame.human?(player_x),
+                 UrlEncodedGame.human?(player_o), 
                  board: @path_segments[2])
       end
       
@@ -28,7 +26,7 @@ module NoughtsAndCrosses
         @path_segments[1]
       end
 
-      def human?(name)
+      def self.human?(name)
         HumanPlayer.name.end_with?(name)
       end
     
