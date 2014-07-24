@@ -1,7 +1,6 @@
 require 'web_display'
-require 'strings'
-require 'json'
-require 'json_game'
+require 'query_string_game'
+require 'json_output'
 
 module NoughtsAndCrosses
   module SuperWeb
@@ -34,19 +33,25 @@ module NoughtsAndCrosses
       end
 
       def initial_board(request)
-        result = Web::JsonGame.get_board(request.params).create_json
-        show_json(result)
+        game = Web::QueryStringGame.new_game(request.params["x"],
+                                             request.params["o"],
+                                             request.params["size"])
+        show_json(game)
       end
 
       def make_move(request)
-        result = Web::JsonGame.make_move_with_params(request.params, request.params["sq"]).create_json
-        show_json(result)
+        game = Web::QueryStringGame.next_move(request.params["x"],
+                                              request.params["o"],
+                                              request.params["board"],
+                                              request.params["sq"])
+        show_json(game)
       end
 
-      def show_json(json_game)
+      def show_json(game)
+        json = Web::JsonOutput.new(game).create_json
         [ OK,
           {'Content-Type' => 'application/json'},
-          [json_game] ]
+          [json] ]
       end
 
     end

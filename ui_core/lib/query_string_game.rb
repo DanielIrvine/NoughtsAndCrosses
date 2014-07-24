@@ -4,7 +4,7 @@ module NoughtsAndCrosses
   module Web
     class QueryStringGame
       def self.new_game(x, o, size)
-        board = '-' * size * size
+        board = '-' * size.to_i * size.to_i
         build(x, o, board)
       end
 

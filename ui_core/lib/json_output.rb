@@ -1,6 +1,7 @@
 require 'game'
 require 'game_strings'
 require 'game_state'
+require 'json'
 
 module NoughtsAndCrosses
   module Web

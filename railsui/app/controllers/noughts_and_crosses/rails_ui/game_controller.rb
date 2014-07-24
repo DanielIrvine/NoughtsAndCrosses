@@ -1,4 +1,4 @@
-require 'json_game'
+require 'json_output'
 require 'query_string_game'
 
 module NoughtsAndCrosses
@@ -9,7 +9,7 @@ module NoughtsAndCrosses
       end
 
       def get_board
-        game = Web::QueryStringGame.new_game(params[:x], params[:o], params[:size].to_i)
+        game = Web::QueryStringGame.new_game(params[:x], params[:o], params[:size])
         save_and_render(game)
       end
 
