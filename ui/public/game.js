@@ -18,26 +18,26 @@ NoughtsAndCrosses.Game = (function () {
     urlRoot;
 
 
-  urlRoot = function () {
+  function urlRoot() {
     var rootLocation = url.lastIndexOf('/');
     return rootLocation === -1 ? '' : url.slice(0, rootLocation);
   };
 
-  makeMove = function (sq, board, x, o) {
+  function makeMove(sq, board, x, o) {
     var newUrl = urlRoot() + "/make_move?sq=" + sq + "&board=" + board + "&x=" + x + "&o=" + o;
     $.ajax({url: newUrl,
       success: parse});
   };
 
-  shouldPlayNextComputerMove = function (json) {
+  function shouldPlayNextComputerMove(json) {
     return !json.finished && json.next_move === "computer";
   };
 
-  shouldDisplayLink = function (sq, json) {
+  function shouldDisplayLink(sq, json) {
     return sq.link && !json.finished && json.next_move !== "computer";
   };
 
-  setSquareContent = function (sq, i, json) {
+  function setSquareContent(sq, i, json) {
     var sqid = "#sq-" + i,
         elem = $(sqid).find('a');
     elem.empty();
@@ -48,12 +48,12 @@ NoughtsAndCrosses.Game = (function () {
     elem.append(sq.text);
   };
 
-  setStatusText = function (text) {
+  function setStatusText(text) {
     $('#status').empty();
     $('#status').append(text);
   };
 
-  convertBoard = function (json) {
+  function convertBoard(json) {
     var i = 0, board = [], sq;
     for (i = 0; i < json.board.length; i += 1) {
       sq = json.board[i];
@@ -62,7 +62,7 @@ NoughtsAndCrosses.Game = (function () {
     return board;
   };
 
-  start = function (root_url) {
+  function start(root_url) {
     url = root_url;
     var argsLocation = url.indexOf('?'),
         args = url.slice(argsLocation + 1),
@@ -70,7 +70,7 @@ NoughtsAndCrosses.Game = (function () {
     $.ajax({url: newUrl, success: parse});
   };
 
-  parse = function (json) {
+  function parse(json) {
     var board = convertBoard(json), i;
     for (i = 0; i < board.length; i += 1) {
       setSquareContent(board[i], i, json);
@@ -84,7 +84,7 @@ NoughtsAndCrosses.Game = (function () {
     setStatusText(json.status_text);
     };
 
-    return {
+  return {
     convertBoard: convertBoard,
     parse: parse,
     makeMove: makeMove,
