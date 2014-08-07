@@ -1,6 +1,13 @@
 {
   "predef": [
-    "$"
+    "$",
+
+    "describe",
+    "expect",
+    "it",
+    "jasmine",
+    "setFixtures",
+    "spyOn"
   ],
 
   "browser": true,
