@@ -1,6 +1,11 @@
+#= require vendor/URI
+
 class @Game
 
   constructor: (@dom = $(document.body), @url = '') ->
+    uri = new URI(@url)
+    @urlArgs = uri.query()
+    @urlRoot = uri.filename('').query('')
 
   convertSquare: (square) ->
     if square == "-" then {link: true} else {text: square}
@@ -28,17 +33,12 @@ class @Game
     json.next_move == "computer" && !json.finished
 
   makeMove: (sq) ->
-    @parseAjax "/make_move?sq=" + sq
+    @parseAjax "make_move?sq=" + sq
 
   start: ->
-    @parseAjax "/get_board?" + @urlArgs()
+    @parseAjax "get_board?" + @urlArgs
 
   parseAjax: (action) ->
-    $.ajax { url: @urlRoot() + action, success: (json) => @parse(json) }
+    $.ajax { url: @urlRoot + action, success: (json) => @parse(json) }
 
-  urlArgs: ->
-    @url.split('?')[1]
-
-  urlRoot: ->
-    loc = @url.lastIndexOf('/')
-    if loc == -1 then '' else @url.slice(0, loc)
+    

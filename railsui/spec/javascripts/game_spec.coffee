@@ -48,7 +48,7 @@ describe 'Game', ->
 
       it "makes an AJAX request when a square is clicked", ->
         game.makeMove(1)
-        expect(lastUrlCall()).toContain("/make_move?sq=1")
+        expect(lastUrlCall()).toContain("make_move?sq=1")
 
       it "does not make a request if the next player is computer and the game is finished", ->
         game.parse {board:"XXXOO----", next_move: "computer", finished: true}
@@ -94,7 +94,7 @@ describe 'Game', ->
 
       it "makes request for initial board when game is started", ->
         new Game('', "?args").start()
-        expect(lastUrlCall()).toEqual "/get_board?args"
+        expect(lastUrlCall()).toEqual "get_board?args"
 
     describe "url tests", ->
     
@@ -116,5 +116,5 @@ describe 'Game', ->
       spyOn($, "ajax").andCallFake (opts) -> bestMoveCall = opts.url
       new Game().parse {board:"-", next_move: "computer"}
       waitOneSecond()
-      expect(bestMoveCall).toContain("/make_move?sq=")
+      expect(bestMoveCall).toContain("make_move?sq=")
 
