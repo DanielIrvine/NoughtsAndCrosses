@@ -14,7 +14,7 @@ module NoughtsAndCrosses
         if !sq.nil? && !sq.empty?
           game.set_next_human_move(sq.to_i)
         end
-        p game.play_turn!
+        game.play_turn!
         game
       end
 

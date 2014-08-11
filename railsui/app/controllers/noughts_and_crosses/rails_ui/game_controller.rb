@@ -18,7 +18,6 @@ module NoughtsAndCrosses
                                               session[:o],
                                               session[:board],
                                               params[:sq])
-        p game.board
         save_and_render(game)
       end
 
@@ -33,7 +32,7 @@ module NoughtsAndCrosses
       end
 
       def save_session(game)
-        session[:board] = game[:board]
+        session[:board] = game[:board].to_s
         session[:x] = game[:x]
         session[:o] = game[:o]
       end
