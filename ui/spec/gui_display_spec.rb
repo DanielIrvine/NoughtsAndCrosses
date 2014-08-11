@@ -103,11 +103,11 @@ module NoughtsAndCrosses
     
       it 'cannot play when game is over' do
         display.begin
-        [0, 1, 3, 2, 7].each do |sq|
+        [0, 1, 3, 2, 6].each do |sq|
           click(sq)
         end
         click(4)
-        expect(square(4).text).to eq ''
+        expect(square(4).text).to eq nil
       end
 
       def click(index)

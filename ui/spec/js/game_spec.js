@@ -1,4 +1,4 @@
-/*global NoughtsAndCrosses */
+/*global NoughtsAndCrosses: true*/
 describe("game", function () {
 
   "use strict";

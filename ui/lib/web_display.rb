@@ -24,7 +24,6 @@ module NoughtsAndCrosses
 
       def call(env)
         route, state = env['PATH_INFO'].split('/', 3).reject(&:empty?)
-        p state
         select_route(route, state)
       end
 
