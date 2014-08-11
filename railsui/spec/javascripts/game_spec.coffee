@@ -1,94 +1,120 @@
 #= require game
 
 describe "Game", ->
-  it "converts an empty square to a link", ->
-    expect( new Game().convert_board({board:"-"}) ).toEqual([{link:true}])
+  DRAW_STATUS_TEXT = "It's a draw!"
+  LINK = {link: true}
+  SINGLE_SQUARE_BOARD = {board: "-"}
+  SINGLE_SQUARE_PAGE = $('<div><div id="sq-0"><a/></div>')
+  STATUS_ONLY_PAGE = $('<div><div id="status" /></div>')
+  THREE_SQUARE_PAGE = $('<div><div id="sq-0"><a/></div>
+    <div id="sq-1"><a/></div>
+    <div id="sq-2"><a/></div></div>')
+  URL_ROOT = 'http://test/test/'
 
-  it "converts all squares", ->
-    expect( new Game().convert_board({board:"---"}) ).toEqual(
-      [{link:true}, {link:true}, {link:true}])
+  game = undefined
 
-  it "displays X", ->
-    expect( new Game().convert_board({board:"X"}) ).toEqual([{text: "X"}])
+  lastUrlCall = ->
+    $.ajax.mostRecentCall.args[0]["url"]
 
-  it "displays O", ->
-    expect( new Game().convert_board({board:"O"}) ).toEqual([{text: "O"}])
-
-  it "makes an AJAX request for a computer player", ->
-    jasmine.Clock.useMock()
-    bestMoveCall = ''
-    spyOn($, "ajax").andCallFake (opts) -> bestMoveCall = opts.url
-    new Game().parse {board:"-", next_move: "computer"}
+  waitOneSecond = ->
     jasmine.Clock.tick(1000)
-    expect(bestMoveCall).toContain("/make_move?sq=")
 
-  it "does not make an AJAX request for a human player", ->
-    spyOn($, "ajax")
-    new Game().parse {board:"-" }
-    expect($.ajax.callCount).toEqual(0)
-
-  it "makes an AJAX request when a square is clicked", ->
-    spyOn($, "ajax")
-    new Game().make_move(1)
-    expect($.ajax.mostRecentCall.args[0]["url"]).toContain("/make_move?sq=1")
-
-  it "sets square content when parsing json", ->
-    body = $('<div><div id="sq-0"><a/></div>
-      <div id="sq-1"><a/></div>
-      <div id="sq-2"><a/></div></div>')
-    new Game(body).parse {board:"X-O"}
-    expect($('#sq-0', body).text()).toEqual "X"
-    expect($('#sq-2', body).text()).toEqual "O"
-
-  it "sets square link when parsing json", ->
-    spyOn($, "ajax")
-    body = $('<div><div id="sq-0"><a/></div>')
-    new Game(body).parse {board:"-"}
-    $('#sq-0', body).find('a').trigger('click')
-    expect($.ajax.callCount).toEqual 1
-
-  it "unsets click handler", ->
-    spyOn($, "ajax")
-    body = $('<div><div id="sq-0"><a/></div>')
-    game = new Game(body)
-    game.parse {board:"-"}
-    game.parse {board:"X"}
-    $('#sq-0', body).find('a').trigger('click')
-    expect($.ajax.callCount).toEqual 0
-
-  it "displays status text", ->
-    body = $('<div><div id="status" /></div>')
-    new Game(body).parse {board:"XXOOOXXOX", status_text: "It's a draw!"}
-    expect($('#status', body).text()).toEqual "It's a draw!"
-
-  it "has no links if game is finished", ->
-    spyOn($, "ajax")
-    body = $('<div><div id="sq-0"><a/></div>')
-    new Game(body).parse {board:"-", finished: true}
-    $('#sq-0', body).find('a').trigger('click')
-    expect($.ajax.callCount).toEqual 0
-
-  it "makes request for initial board when game is started", ->
-    spyOn($, "ajax")
-    game = new Game('', "?args")
-    game.start()
-    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual "/get_board?args"
-
-  it "does not make a request if the next player is computer and the game is finished", ->
-    spyOn($, "ajax")
+  beforeEach ->
     jasmine.Clock.useMock()
-    new Game().parse {board:"XXXOO----", next_move: "computer", finished: true}
-    jasmine.Clock.tick(1000)
-    expect($.ajax.callCount).toEqual 0
 
-  it "starts at location using existing path", ->
-    spyOn($, "ajax")
-    game = new Game('', "http://test/test/game?args")
-    game.start()
-    expect($.ajax.mostRecentCall.args[0]["url"]).toEqual "http://test/test/get_board?args"
+  describe "stubbed ajax request", ->
+    beforeEach ->
+      spyOn($, "ajax")
 
-  it "makes move at location using existing path", ->
-    spyOn($, "ajax")
-    game = new Game('', "http://test/test/game?args")
-    game.make_move(1)
-    expect($.ajax.mostRecentCall.args[0]["url"]).toContain "http://test/test/make_move?"
+    describe "empty page", ->
+      beforeEach ->
+        game = new Game()
+
+      it "converts an empty square to a link", ->
+        expect(game.convert_board(SINGLE_SQUARE_BOARD)).toEqual([LINK])
+
+      it "converts all squares", ->
+        expect(game.convert_board({board:"---"})).toEqual(LINK for [1..3])
+
+      it "displays X", ->
+        expect(game.convert_board({board:"X"})).toEqual([{text: "X"}])
+
+      it "displays O", ->
+        expect(game.convert_board({board:"O"})).toEqual([{text: "O"}])
+
+      it "does not make an AJAX request for a human player", ->
+        game.parse SINGLE_SQUARE_BOARD 
+        expect($.ajax.callCount).toEqual(0)
+
+      it "makes an AJAX request when a square is clicked", ->
+        game.make_move(1)
+        expect(lastUrlCall()).toContain("/make_move?sq=1")
+
+      it "does not make a request if the next player is computer and the game is finished", ->
+        game.parse {board:"XXXOO----", next_move: "computer", finished: true}
+        waitOneSecond()
+        expect($.ajax.callCount).toEqual 0
+
+    describe "single square page", ->
+      
+      clickSquare = () ->
+        $('#sq-0', SINGLE_SQUARE_PAGE).find('a').trigger('click')
+
+      beforeEach ->
+        game = new Game(SINGLE_SQUARE_PAGE)
+
+      it "sets square link when parsing json", ->
+        game.parse SINGLE_SQUARE_BOARD
+        clickSquare()
+        expect($.ajax.callCount).toEqual 1
+
+      it "unsets click handler", ->
+        game.parse {board:"X"}
+        clickSquare()
+        expect($.ajax.callCount).toEqual 0
+
+      it "has no links if game is finished", ->
+        game.parse {board:"-", finished: true}
+        clickSquare()
+        expect($.ajax.callCount).toEqual 0
+
+    describe "other page elements", ->
+
+      textFor = (elem, page) ->
+        $("#{elem}", page).text()
+
+      it "displays status text", ->
+        new Game(STATUS_ONLY_PAGE).parse {board:"XXOOOXXOX", status_text: DRAW_STATUS_TEXT}
+        expect(textFor('#status', STATUS_ONLY_PAGE)).toEqual DRAW_STATUS_TEXT
+
+      it "sets square content when parsing json", ->
+        new Game(THREE_SQUARE_PAGE).parse {board:"X-O"}
+        expect(textFor('#sq-0', THREE_SQUARE_PAGE)).toEqual "X"
+        expect(textFor('#sq-2', THREE_SQUARE_PAGE)).toEqual "O"
+
+      it "makes request for initial board when game is started", ->
+        new Game('', "?args").start()
+        expect(lastUrlCall()).toEqual "/get_board?args"
+
+    describe "url tests", ->
+    
+      beforeEach ->
+        game = new Game('', URL_ROOT + "game?args")
+
+      it "starts at location using existing path", ->
+        game.start()
+        expect(lastUrlCall()).toEqual URL_ROOT + "get_board?args"
+
+      it "makes move at location using existing path", ->
+        game.make_move(1)
+        expect(lastUrlCall()).toContain URL_ROOT + "make_move?"
+
+  describe "fake ajax request", ->
+
+    it "makes an AJAX request for a computer player", ->
+      bestMoveCall = ''
+      spyOn($, "ajax").andCallFake (opts) -> bestMoveCall = opts.url
+      new Game().parse {board:"-", next_move: "computer"}
+      waitOneSecond()
+      expect(bestMoveCall).toContain("/make_move?sq=")
+
