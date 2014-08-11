@@ -1,6 +1,6 @@
 #= require game
 
-describe "Game", ->
+describe 'Game', ->
   DRAW_STATUS_TEXT = "It's a draw!"
   LINK = {link: true}
   SINGLE_SQUARE_BOARD = {board: "-"}
@@ -31,23 +31,23 @@ describe "Game", ->
         game = new Game()
 
       it "converts an empty square to a link", ->
-        expect(game.convert_board(SINGLE_SQUARE_BOARD)).toEqual([LINK])
+        expect(game.convertBoard(SINGLE_SQUARE_BOARD)).toEqual([LINK])
 
       it "converts all squares", ->
-        expect(game.convert_board({board:"---"})).toEqual(LINK for [1..3])
+        expect(game.convertBoard({board:"---"})).toEqual(LINK for [1..3])
 
       it "displays X", ->
-        expect(game.convert_board({board:"X"})).toEqual([{text: "X"}])
+        expect(game.convertBoard({board:"X"})).toEqual([{text: "X"}])
 
       it "displays O", ->
-        expect(game.convert_board({board:"O"})).toEqual([{text: "O"}])
+        expect(game.convertBoard({board:"O"})).toEqual([{text: "O"}])
 
       it "does not make an AJAX request for a human player", ->
         game.parse SINGLE_SQUARE_BOARD 
         expect($.ajax.callCount).toEqual(0)
 
       it "makes an AJAX request when a square is clicked", ->
-        game.make_move(1)
+        game.makeMove(1)
         expect(lastUrlCall()).toContain("/make_move?sq=1")
 
       it "does not make a request if the next player is computer and the game is finished", ->
@@ -106,7 +106,7 @@ describe "Game", ->
         expect(lastUrlCall()).toEqual URL_ROOT + "get_board?args"
 
       it "makes move at location using existing path", ->
-        game.make_move(1)
+        game.makeMove(1)
         expect(lastUrlCall()).toContain URL_ROOT + "make_move?"
 
   describe "fake ajax request", ->

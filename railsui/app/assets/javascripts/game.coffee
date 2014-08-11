@@ -2,46 +2,43 @@ class @Game
 
   constructor: (@dom = $(document.body), @url = '') ->
 
-  convert_square: (square) ->
+  convertSquare: (square) ->
     if square == "-" then {link: true} else {text: square}
 
-  convert_board: (json) ->
-    @convert_square(square) for square in json.board
+  convertBoard: (json) ->
+    @convertSquare(square) for square in json.board
 
-  set_square: (sq, index, finished) ->
+  setSquare: (sq, index, finished) ->
     elem = $("#sq-#{index}", @dom).find('a')
     elem.empty
     elem.off 'click'
     if sq.link && !finished
-      elem.on 'click', => @make_move(index)
+      elem.on 'click', => @makeMove(index)
     elem.text sq.text
   
-  set_status: (status) ->
+  setStatus: (status) ->
     $("#status", @dom).text status if status
 
   parse: (json) ->
-    @set_square(sq, i, json.finished) for sq, i in @convert_board(json)
-    @set_status(json.status_text)
-    setTimeout (=> @make_move('')), 1000 if @should_play_computer_move(json)
+    @setSquare(sq, i, json.finished) for sq, i in @convertBoard(json)
+    @setStatus(json.status_text)
+    setTimeout (=> @makeMove('')), 1000 if @shouldPlayComputerMove(json)
 
-  should_play_computer_move: (json) ->
+  shouldPlayComputerMove: (json) ->
     json.next_move == "computer" && !json.finished
 
-  make_move: (sq) ->
-    @parse_ajax "/make_move?sq=" + sq
+  makeMove: (sq) ->
+    @parseAjax "/make_move?sq=" + sq
 
   start: ->
-    @parse_ajax "/get_board?" + @url_args()
+    @parseAjax "/get_board?" + @urlArgs()
 
-  parse_ajax: (action) ->
-    $.ajax { url: @url_root() + action, success: (json) => @parse(json) }
+  parseAjax: (action) ->
+    $.ajax { url: @urlRoot() + action, success: (json) => @parse(json) }
 
-  url_args: ->
+  urlArgs: ->
     @url.split('?')[1]
 
-  url_root: ->
+  urlRoot: ->
     loc = @url.lastIndexOf('/')
     if loc == -1 then '' else @url.slice(0, loc)
-
-$ ->
-  new Game($(document.body), window.location.href).start()
