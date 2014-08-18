@@ -43,7 +43,7 @@ describe 'Game', ->
         expect(game.convertBoard({board:"O"})).toEqual([{text: "O"}])
 
       it "does not make an AJAX request for a human player", ->
-        game.parse SINGLE_SQUARE_BOARD 
+        game.parse SINGLE_SQUARE_BOARD
         expect($.ajax.callCount).toEqual(0)
 
       it "makes an AJAX request when a square is clicked", ->
@@ -56,7 +56,7 @@ describe 'Game', ->
         expect($.ajax.callCount).toEqual 0
 
     describe "single square page", ->
-      
+
       clickSquare = () ->
         $('#sq-0', SINGLE_SQUARE_PAGE).find('a').trigger('click')
 
@@ -97,7 +97,7 @@ describe 'Game', ->
         expect(lastUrlCall()).toEqual "get_board?args"
 
     describe "url tests", ->
-    
+
       beforeEach ->
         game = new Game('', URL_ROOT + "game?args")
 

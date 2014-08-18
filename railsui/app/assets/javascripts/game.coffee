@@ -20,7 +20,7 @@ class @Game
     if sq.link && !finished
       elem.on 'click', => @makeMove(index)
     elem.text sq.text
-  
+
   setStatus: (status) ->
     $("#status", @dom).text status if status
 
@@ -40,5 +40,3 @@ class @Game
 
   parseAjax: (action) ->
     $.ajax { url: @urlRoot + action, success: (json) => @parse(json) }
-
-    
