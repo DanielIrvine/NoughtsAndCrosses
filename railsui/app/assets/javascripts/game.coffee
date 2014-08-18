@@ -1,6 +1,8 @@
 #= require vendor/URI
 
-class @Game
+window.NoughtsAndCrosses = {}
+
+class NoughtsAndCrosses.Game
 
   constructor: (@dom = $(document.body), @url = '') ->
     uri = new URI(@url)

@@ -28,7 +28,7 @@ describe 'Game', ->
 
     describe "empty page", ->
       beforeEach ->
-        game = new Game()
+        game = new NoughtsAndCrosses.Game()
 
       it "converts an empty square to a link", ->
         expect(game.convertBoard(SINGLE_SQUARE_BOARD)).toEqual([LINK])
@@ -61,7 +61,7 @@ describe 'Game', ->
         $('#sq-0', SINGLE_SQUARE_PAGE).find('a').trigger('click')
 
       beforeEach ->
-        game = new Game(SINGLE_SQUARE_PAGE)
+        game = new NoughtsAndCrosses.Game(SINGLE_SQUARE_PAGE)
 
       it "sets square link when parsing json", ->
         game.parse SINGLE_SQUARE_BOARD
@@ -84,22 +84,22 @@ describe 'Game', ->
         $("#{elem}", page).text()
 
       it "displays status text", ->
-        new Game(STATUS_ONLY_PAGE).parse {board:"XXOOOXXOX", status_text: DRAW_STATUS_TEXT}
+        new NoughtsAndCrosses.Game(STATUS_ONLY_PAGE).parse {board:"XXOOOXXOX", status_text: DRAW_STATUS_TEXT}
         expect(textFor('#status', STATUS_ONLY_PAGE)).toEqual DRAW_STATUS_TEXT
 
       it "sets square content when parsing json", ->
-        new Game(THREE_SQUARE_PAGE).parse {board:"X-O"}
+        new NoughtsAndCrosses.Game(THREE_SQUARE_PAGE).parse {board:"X-O"}
         expect(textFor('#sq-0', THREE_SQUARE_PAGE)).toEqual "X"
         expect(textFor('#sq-2', THREE_SQUARE_PAGE)).toEqual "O"
 
       it "makes request for initial board when game is started", ->
-        new Game('', "?args").start()
+        new NoughtsAndCrosses.Game('', "?args").start()
         expect(lastUrlCall()).toEqual "get_board?args"
 
     describe "url tests", ->
 
       beforeEach ->
-        game = new Game('', URL_ROOT + "game?args")
+        game = new NoughtsAndCrosses.Game('', URL_ROOT + "game?args")
 
       it "starts at location using existing path", ->
         game.start()
@@ -114,7 +114,7 @@ describe 'Game', ->
     it "makes an AJAX request for a computer player", ->
       bestMoveCall = ''
       spyOn($, "ajax").andCallFake (opts) -> bestMoveCall = opts.url
-      new Game().parse {board:"-", next_move: "computer"}
+      new NoughtsAndCrosses.Game().parse {board:"-", next_move: "computer"}
       waitOneSecond()
       expect(bestMoveCall).toContain("make_move?sq=")
 
