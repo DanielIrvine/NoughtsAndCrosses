@@ -7,18 +7,18 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
-    <table id="board">
+    <table data-id="board">
       <% (0...@board_size).each do |row| %>
         <tr>
           <% (0...@board_size).each do |col| %>
-            <td id="sq-<%= row*@board_size + col %>">
+            <td data-id="sq-<%= row*@board_size + col %>">
               <a />
             </td>
           <% end %>
         </tr>
       <% end %>
     </table>
-    <p id="status" />
+    <p data-id="status" />
   </body>
   <script>
     <!--

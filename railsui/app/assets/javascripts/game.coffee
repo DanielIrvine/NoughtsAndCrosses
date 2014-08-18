@@ -16,7 +16,7 @@ class NoughtsAndCrosses.Game
     @convertSquare(square) for square in json.board
 
   setSquare: (sq, index, finished) ->
-    elem = $("#sq-#{index}", @dom).find('a')
+    elem = $("[data-id='sq-#{index}']", @dom).find('a')
     elem.empty
     elem.off 'click'
     if sq.link && !finished
@@ -24,7 +24,7 @@ class NoughtsAndCrosses.Game
     elem.text sq.text
 
   setStatus: (status) ->
-    $("#status", @dom).text status if status
+    $("[data-id='status']", @dom).text status if status
 
   parse: (json) ->
     @setSquare(sq, i, json.finished) for sq, i in @convertBoard(json)
